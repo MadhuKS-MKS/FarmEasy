@@ -3,9 +3,12 @@ import React, { Component } from "react";
 export default class Prof extends Component {
   render() {
     return (
-      <div class=" mt-5 pt-5 hero-bkg-animated ">
+      <div class=" mt-5 pt-5 pb-5 ">
         <article>
-          <div class="container">
+          <div class="bg"></div>
+          <div class="bg bg2"></div>
+          <div class="bg bg3"></div>
+          <div class="container content">
             {/* <h1 class="text-center">User Profile</h1>
               <p class="lead">Jumbo helper text</p> */}
 
@@ -21,7 +24,7 @@ export default class Prof extends Component {
                         style={{
                           borderRadius: 30 + "px",
                           width: 150 + "px",
-                          height: 150 + "px"
+                          height: 150 + "px",
                         }}
                       />
                     </div>
@@ -118,30 +121,20 @@ export default class Prof extends Component {
                   </div>
                 </div>
               </div>
-
-              {/* <div className="col-md-6">
-                  <div class=" text-left ">
-                    <div class="card-body">
-                      <h4 class="card-title">About</h4>
-                      <p class="card-text">city</p>
-                      <p class="card-text">Streat</p>
-                    </div>
-                  </div>
-                </div> */}
             </div>
-          </div>
-          <div className="">
-            <div className="d-flex justify-content-end">
-              <a
-                type="button"
-                value="Edit"
-                name="Edit"
-                className="btn btn-warning "
-                style={{ width: 10 + "%" }}
-                href="/user/editprofile"
-              >
-                Edit
-              </a>
+            <div className="">
+              <div className="d-flex justify-content-end">
+                <a
+                  type="button"
+                  value="Edit"
+                  name="Edit"
+                  className="btn btn-warning "
+                  style={{ width: 10 + "%" }}
+                  href="/vendor/editprofile"
+                >
+                  Edit
+                </a>
+              </div>
             </div>
           </div>
         </article>

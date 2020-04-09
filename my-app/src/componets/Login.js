@@ -3,11 +3,13 @@ import "./CSS/App.css";
 
 class Login extends Component {
   state = {
-    type: ""
+    username: "",
+    password: "",
+    type: "",
   };
   componentDidMount() {
     this.setState(() => ({
-      type: this.props.match.params
+      type: this.props.match.params,
     }));
   }
   render() {
@@ -24,10 +26,18 @@ class Login extends Component {
     }
     if (type === "user") {
       social = "#ffc312";
-      login = <a href={`/`}>Login</a>;
+      login = (
+        <a href={`/`} style={{ textDecoration: "none" }}>
+          Login
+        </a>
+      );
     } else {
       social = "#49b5e7";
-      login = <a href={`/vendor/Home`}>Lofin</a>;
+      login = (
+        <a href={`/vendor/Home`} style={{ textDecoration: "none" }}>
+          Login
+        </a>
+      );
     }
 
     return (
@@ -103,13 +113,16 @@ class Login extends Component {
                       </div>
 
                       <div className="form-group">
-                        <input
+                        <button
                           type="submit"
                           value="Login"
                           className="btn float-right login_btn btn-block"
-                          style={{ backgroundColor: social }}
-                        />
-                        {login}
+                          style={{
+                            backgroundColor: social,
+                          }}
+                        >
+                          {login}
+                        </button>
                       </div>
                     </form>
                   </div>

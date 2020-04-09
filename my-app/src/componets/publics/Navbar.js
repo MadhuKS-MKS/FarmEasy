@@ -4,12 +4,12 @@ import logo from "../../assets/logo.png";
 
 export default class Navbar extends Component {
   state = {
-    loggedIn: true
+    loggedIn: true,
   };
   render() {
     let cart;
     let profile;
-    if (this.state.loggedIn === true) {
+    if (this.state.loggedIn === false) {
       cart = (
         <ul class="nav navbar-nav navbar-left">
           <li class="dropdown">

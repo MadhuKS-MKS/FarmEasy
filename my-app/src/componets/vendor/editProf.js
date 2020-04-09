@@ -4,7 +4,7 @@ export default class editProf extends Component {
   render() {
     return (
       <div className=" conainer-fluid proftop ">
-        <div className="row m-5  hero-bkg-animated ">
+        <div className="row m-5  hero-bkg-animated " style={{ color: "#fff" }}>
           {" "}
           <legend className="pt-4 title text-dark">
             <center>User profile</center>{" "}

@@ -7,7 +7,6 @@ import Footer from "./componets/publics/Footer";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import AllF from "./componets/vendor/AllF";
-import fRegistration from "./componets/vendor/Registration";
 import FNavbar from "./componets/vendor/FNavbar";
 
 import All from "./componets/publics/All";
@@ -28,6 +27,7 @@ function App() {
   //      users: res.data.items
   //    });
   //  };
+
   return (
     <Router>
       <div className="">
@@ -36,7 +36,7 @@ function App() {
         <Switch>
           {" "}
           <Route exact path={"/Login/:type"} component={Login} />
-          <Route path={"/vendor/fsignup"} component={fRegistration} />
+          {/* <Route path={"/vendor/fsignup"} component={fRegistration} /> */}
         </Switch>
 
         <FNavbar />

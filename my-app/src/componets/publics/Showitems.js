@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 
 export default class Showitems extends Component {
+  componentDidMount = (async) => {
+    this.props.getRepos(this.props.match.params);
+    console.log(this.props.match.params.login);
+  };
   render() {
     return (
       <div>

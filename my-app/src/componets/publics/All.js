@@ -19,33 +19,56 @@ import editProf from "../publics/editProf";
 import Login from "../Login";
 import quickModel from "./quickModel";
 
-function All() {
-  return (
-    <Router>
-      <div className="">
-        <Switch>
-          {" "}
-          {/* <Route exact path={"/Login/:type"} component={Login} /> */}
-          {/* <Route path={"/farmer/fsignup"} component={fRegistration} /> */}
-          <Route path={"/reset"} component={Forgotpasswrd} />
-          <Route path={"/signup/"} component={Registration} />
-        </Switch>
-        <Navbar />
-        <Switch>
-          <Route exact path={"/"} component={Home} />
-          <Route path={"/Contact"} component={Contact} />
-          <Route path={"/Showitems"} component={Showitems} />
-          <Route path={"/user/quickModel"} component={quickModel} />
-          <Route path={"/cart"} component={cart} />
-          <Route path={"/user/userprofile"} component={UserProf} />
+export default class All extends React.Component {
+  state = {
+    users: [],
+    products: [],
+  };
+  getProducts = async () => {
+    // const res = await axios.get(`https://api/v1/products`);
+    // // console.log(res.data);
+    // this.setState({
+    //   user: res.data,
+    // });
+  };
+  render() {
+    return (
+      <Router>
+        <div className="">
+          <Switch>
+            {" "}
+            {/* <Route exact path={"/Login/:type"} component={Login} /> */}
+            {/* <Route path={"/farmer/fsignup"} component={fRegistration} /> */}
+            <Route path={"/reset"} component={Forgotpasswrd} />
+            <Route path={"/signup/"} component={Registration} />
+          </Switch>
+          <Navbar />
+          <Switch>
+            <Route exact path={"/"} component={Home} />
+            <Route path={"/Contact"} component={Contact} />
+            {/* <Route path={"/Showitems"} component={Showitems} /> */}
+            <Route
+              exact
+              path={"/Showitems"}
+              render={(props) => (
+                <Showitems
+                  {...props}
+                  user={this.state.user}
+                  getProducts={this.getProducts}
+                  products={this.state.products}
+                />
+              )}
+            />
+            <Route path={"/user/quickModel"} component={quickModel} />
+            <Route path={"/cart"} component={cart} />
+            <Route path={"/user/userprofile"} component={UserProf} />
 
-          <Route path={"/user/editprofile"} component={editProf} />
-        </Switch>
-      </div>
+            <Route path={"/user/editprofile"} component={editProf} />
+          </Switch>
+        </div>
 
-      {/* <Footer /> */}
-    </Router>
-  );
+        {/* <Footer /> */}
+      </Router>
+    );
+  }
 }
-
-export default All;

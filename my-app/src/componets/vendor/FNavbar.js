@@ -4,7 +4,7 @@ import FHome from "./FHome";
 
 export default class Navbar extends Component {
   state = {
-    loggedIn: true
+    loggedIn: true,
   };
   render() {
     let cart;
@@ -145,7 +145,7 @@ export default class Navbar extends Component {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/farmer/orders">
+                <a className="nav-link" href="/vendor/orders">
                   Orders
                 </a>
               </li>
