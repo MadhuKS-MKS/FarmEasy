@@ -73,7 +73,7 @@ export default function Footer() {
         <div className="credits">
           Designed by{" "}
           <a href="https://bootstrapmade.com/">
-            Maddy<i class="fa fa-heart"></i>
+            Maddy<i className="fa fa-heart"></i>
           </a>
         </div>
       </div>

@@ -7,7 +7,10 @@ class Home extends Component {
       <Fragment>
         <section id="section1" className="" style={{ marginTop: 80 + "px" }}>
           <div className="leftside">
-            <img src="https://images.vexels.com/media/users/3/148171/isolated/preview/b4ad26cf6cc8ad39b0923cf65e1ea540-abstract-rectangle-background-vector-by-vexels.png" />
+            <img
+              src="https://images.vexels.com/media/users/3/148171/isolated/preview/b4ad26cf6cc8ad39b0923cf65e1ea540-abstract-rectangle-background-vector-by-vexels.png"
+              alt=""
+            />
           </div>
           <div className="rightside rollIn animated wow animated">
             <div className="container ">
@@ -19,8 +22,8 @@ class Home extends Component {
             </div>
           </div>
         </section>
-        <div class="area">
-          <ul class="circles">
+        <div className="area">
+          <ul className="circles">
             <li></li>
             <li></li>
             <li></li>
@@ -111,6 +114,7 @@ class Home extends Component {
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
                   className="img1"
+                  alt=""
                 />
 
                 <div className="overlay">
@@ -149,6 +153,7 @@ class Home extends Component {
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
                   className="img1"
+                  alt=""
                 />
                 <div className="overlay">
                   <button
@@ -186,6 +191,7 @@ class Home extends Component {
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
                   className="img1"
+                  alt=""
                 />
                 <div className="overlay">
                   <button
@@ -221,6 +227,7 @@ class Home extends Component {
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
                   className="img1"
+                  alt=""
                 />
                 <div className="overlay">
                   <button
@@ -257,8 +264,8 @@ class Home extends Component {
             role="dialog"
           >
             <div className="modal-dialog">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal">
                   &times;
                 </button>
               </div>
@@ -266,6 +273,7 @@ class Home extends Component {
                 <img
                   src="https://recipes.timesofindia.com/recipes/homemade-chocolate/photo/54407737.cms"
                   className=" mt-2"
+                  alt=""
                 />
               </div>
               <div className="product-big-desc">
@@ -273,8 +281,8 @@ class Home extends Component {
                 <h5>Product code : </h5>
                 <h5>Brand :</h5>
                 <h6>
-                  <a href="#">1 review</a>
-                  <a href="#">View all review</a>
+                  <a href="">1 review</a>
+                  <a href="">View all review</a>
                 </h6>
                 <div className="price">
                   <h4 className="oldprice">

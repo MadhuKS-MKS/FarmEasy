@@ -3,6 +3,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Registration extends Component {
+  state = {
+    // name={},
+  };
   render() {
     return (
       <div className="container mt-5  ">
@@ -11,11 +14,11 @@ class Registration extends Component {
           <div className="jumbotron" id="login-second">
             <div class="page-wrapper p-t-50 p-b-50">
               <div class="wrapper wrapper--w900">
-                <div class="card cardH card-6">
+                <div class="card cardH card-6 bg-dark">
                   <div class="card-heading">
-                    <h2 class="title">Sign Up</h2>
+                    <h2 class="title text-primary ">Sign Up</h2>
                   </div>
-                  <div class="card-body">
+                  <div class="card-body  text-light">
                     <form method="POST">
                       <div class="form-row">
                         <div class="name">Full name</div>
@@ -90,7 +93,7 @@ class Registration extends Component {
                     </form>
                   </div>
                   <div class="card-footer">
-                    <button class="btn btn--radius-2 btn--blue-2" type="submit">
+                    <button class="btn btn--radius-2 btn-success" type="submit">
                       Send Application
                     </button>
                   </div>

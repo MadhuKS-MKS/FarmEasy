@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import logo from "../../assets/logo.png";
-import FHome from "./FHome";
+// import FHome from "./FHome";
 
 export default class Navbar extends Component {
   state = {
     loggedIn: true,
   };
   render() {
-    let cart;
+    // let cart;
     let profile, logout;
     if (this.state.loggedIn === true) {
       profile = (
@@ -46,22 +46,22 @@ export default class Navbar extends Component {
                   src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
                   width="50"
                   height="50"
-                  class="rounded-circle content-center"
+                  className="rounded-circle content-center"
                 />{" "}
                 username
               </a>
 
               <div
-                class="dropdown-menu"
+                className="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                {/* <a class="dropdown-item" href="/farmer/Prof">
+                {/* <a className="dropdown-item" href="/farmer/Prof">
                   Profile
                 </a> */}
-                <a class="dropdown-item" href="/vendor/editProfile">
+                <a className="dropdown-item" href="/vendor/editProfile">
                   Edit Profile
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   <span
                     className="fa fa-sign-out fa-2x"
                     style={{ color: "#f2f2f3  " }}

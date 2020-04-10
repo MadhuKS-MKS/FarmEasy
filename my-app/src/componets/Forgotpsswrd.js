@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import logo from "../assets/logo.jpg";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./CSS/App.css";
 
 class Forgotpasswrd extends Component {

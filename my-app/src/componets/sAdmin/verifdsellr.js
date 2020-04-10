@@ -36,7 +36,7 @@ export default class verifdsellr extends Component {
                           <img
                             src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
                             class="mr-2"
-                            alt="image"
+                            alt=""
                             width="40px"
                           />{" "}
                           David Grey{" "}
@@ -55,7 +55,7 @@ export default class verifdsellr extends Component {
                           <img
                             src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
                             class="mr-2"
-                            alt="image"
+                            alt=""
                             width="40px"
                           />{" "}
                           Stella Johnson{" "}
@@ -73,7 +73,7 @@ export default class verifdsellr extends Component {
                           <img
                             src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
                             class="mr-2"
-                            alt="image"
+                            alt=""
                             width="40px"
                           />{" "}
                           Marina Michel{" "}
@@ -91,7 +91,7 @@ export default class verifdsellr extends Component {
                           <img
                             src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
                             class="mr-2"
-                            alt="image"
+                            alt=""
                             width="40px"
                           />{" "}
                           John Doe{" "}

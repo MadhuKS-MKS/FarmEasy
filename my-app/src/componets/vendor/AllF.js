@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import FHome from "./FHome";
-import fRegistration from "./Registration";
+// import fRegistration from "./Registration";
 import FNavbar from "./FNavbar";
 import addItems from "./addItems";
 import showI from "./ShowI";
@@ -20,7 +20,7 @@ function App() {
 
         <Switch>
           <Route exact path={"/vendor/Home"} component={FHome} />
-          <Route path={"/vendor/fsignup"} component={fRegistration} />
+          {/* <Route path={"/vendor/fsignup"} component={fRegistration} /> */}
           <Route path={"/vendor/addItems"} component={addItems} />
           <Route path={"/vendor/showI"} component={showI} />
           <Route path={"/vendor/Profile"} component={Prof} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 import "../CSS/Home.css";
 import "../CSS/animate.css";
@@ -6,7 +6,7 @@ import "../CSS/App.css";
 
 import Home from "../publics/Home";
 import Navbar from "../publics/Navbar";
-import Footer from "../publics/Footer";
+// import Footer from "../publics/Footer";
 import Contact from "../publics/Contact";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -16,10 +16,10 @@ import Forgotpasswrd from "../Forgotpsswrd";
 import Registration from "./Registration";
 import cart from "./cart";
 import editProf from "../publics/editProf";
-import Login from "../Login";
+import fRegistration from "../vendor/Registration";
 import quickModel from "./quickModel";
 
-export default class All extends React.Component {
+export default class All extends Component {
   state = {
     users: [],
     products: [],
@@ -41,6 +41,7 @@ export default class All extends React.Component {
             {/* <Route path={"/farmer/fsignup"} component={fRegistration} /> */}
             <Route path={"/reset"} component={Forgotpasswrd} />
             <Route path={"/signup/"} component={Registration} />
+            <Route path={"/fsignup"} component={fRegistration} />
           </Switch>
           <Navbar />
           <Switch>
@@ -59,7 +60,11 @@ export default class All extends React.Component {
                 />
               )}
             />
-            <Route path={"/user/quickModel"} component={quickModel} />
+            <Route
+              exact
+              path={"/user/quickModel"}
+              render={() => <quickModel />}
+            />
             <Route path={"/cart"} component={cart} />
             <Route path={"/user/userprofile"} component={UserProf} />
 

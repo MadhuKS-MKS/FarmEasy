@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import logo from "../assets/logo.jpg";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 class Registration extends Component {
   render() {
@@ -88,7 +88,7 @@ class Registration extends Component {
                   </div>
                   <div className="">
                     <div className="d-flex justify-content-center links">
-                      Already have an account?<a href="/Login">Sign In</a>
+                      Already have an account?<a href="/Login/user">Sign In</a>
                     </div>
                     <div className="d-flex justify-content-center">
                       <a href="/reset">Forgot your password?</a>

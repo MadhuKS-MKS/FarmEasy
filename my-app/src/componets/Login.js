@@ -12,8 +12,28 @@ class Login extends Component {
       type: this.props.match.params,
     }));
   }
+  onChange(e) {
+    this.setState({ username: e.target.value });
+    this.setState({ password: e.target.value });
+    // console.log("123");
+  }
+  onSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.username === "") {
+      // this.props.setAlert("Please Enter Something", "light");
+      console.log(this.state.username);
+    } else {
+      console.log(this.state.username);
+
+      // this.props.searchUser(this.state.text);
+      // this.setState({ text: "" });
+    }
+  };
   render() {
+    // console.log(this.props.match.params);
     // const { type } = this.props.match.params;
+    const username = this.state.username;
+    const password = this.state.password;
     const { type } = this.state.type;
     let social = {};
     let signup, login;
@@ -22,22 +42,28 @@ class Login extends Component {
       signup = <a href={`/signup`}>Sign Up</a>;
     } else {
       social = "#49b5e7";
-      signup = <a href={`/vendor/Fsignup`}>Sign Up</a>;
+      signup = <a href={`/fsignup`}>Sign Up</a>;
     }
     if (type === "user") {
-      social = "#ffc312";
-      login = (
-        <a href={`/`} style={{ textDecoration: "none" }}>
-          Login
-        </a>
-      );
+      if (username == "") {
+        social = "#ffc312";
+        login = (
+          <a href={`/`} style={{ textDecoration: "none" }}>
+            Login
+          </a>
+        );
+      } else {
+        console.log("err");
+      }
     } else {
-      social = "#49b5e7";
-      login = (
-        <a href={`/vendor/Home`} style={{ textDecoration: "none" }}>
-          Login
-        </a>
-      );
+      if (username == "") {
+        social = "#49b5e7";
+        login = (
+          <a href={`/vendor/Home`} style={{ textDecoration: "none" }}>
+            Login
+          </a>
+        );
+      }
     }
 
     return (
@@ -80,7 +106,7 @@ class Login extends Component {
                     </div>
                   </div>
                   <div className="card-body">
-                    <form>
+                    <form onSubmit={this.onSubmit}>
                       <div className="input-group form-group">
                         <div className="input-group-prepend">
                           <span
@@ -94,6 +120,8 @@ class Login extends Component {
                           type="text"
                           className="form-control"
                           placeholder="username"
+                          value={this.state.username}
+                          onChange={this.onChange.bind(this)}
                         />
                       </div>
                       <div className="input-group form-group">
@@ -109,6 +137,8 @@ class Login extends Component {
                           type="password"
                           className="form-control"
                           placeholder="password"
+                          value={password}
+                          onChange={this.onChange.bind(this)}
                         />
                       </div>
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export default class Showitems extends Component {
   componentDidMount = (async) => {
-    this.props.getRepos(this.props.match.params);
+    this.props.getProducts(this.props.match.params);
     console.log(this.props.match.params.login);
   };
   render() {
@@ -10,18 +10,18 @@ export default class Showitems extends Component {
       <div>
         <section>
           <div id="portfolio">
-            <div class="container mt-5">
-              <div class="page-title text-center">
+            <div className="container mt-5">
+              <div className="page-title text-center">
                 <h1>Products</h1>
 
-                <hr class="pg-titl-bdr-btm" />
+                <hr className="pg-titl-bdr-btm" />
               </div>
-              <div class="row">
-                <div class="col-lg-12">
+              <div className="row">
+                <div className="col-lg-12">
                   <ul id="portfolio-flters">
                     <li
                       data-filter=".filter-app, .filter-card, .filter-logo, .filter-web"
-                      class="filter-active"
+                      className="filter-active"
                     >
                       All
                     </li>
@@ -33,12 +33,17 @@ export default class Showitems extends Component {
                 </div>
               </div>
 
-              <div class="row" id="portfolio-wrapper" style={{ opacity: 1 }}>
+              <div
+                className="row"
+                id="portfolio-wrapper"
+                style={{ opacity: 1 }}
+              >
                 <div className="card col-lg-2 col-md-2 col-sm-2  animated fadeInUp wow animated ">
                   <div className="product-tops">
                     <img
                       src="https://recipes.timesofindia.com/recipes/homemade-chocolate/photo/54407737.cms"
                       className="img1 mt-2"
+                      alt=""
                     />
 
                     <div className="overlays">
@@ -69,8 +74,12 @@ export default class Showitems extends Component {
                 role="dialog"
               >
                 <div className="modal-dialog">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
+                  <div className="modal-header">
+                    <button
+                      type="button"
+                      className="close"
+                      data-dismiss="modal"
+                    >
                       &times;
                     </button>
                   </div>
@@ -78,6 +87,7 @@ export default class Showitems extends Component {
                     <img
                       src="https://recipes.timesofindia.com/recipes/homemade-chocolate/photo/54407737.cms"
                       className=" mt-2"
+                      alt=""
                     />
                   </div>
                   <div className="product-big-desc">

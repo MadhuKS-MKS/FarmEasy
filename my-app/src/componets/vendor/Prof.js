@@ -3,24 +3,25 @@ import React, { Component } from "react";
 export default class Prof extends Component {
   render() {
     return (
-      <div class=" mt-5 pt-5 pb-5 ">
+      <div className=" mt-5 pt-5 pb-5 ">
         <article>
-          <div class="bg"></div>
-          <div class="bg bg2"></div>
-          <div class="bg bg3"></div>
-          <div class="container content">
-            {/* <h1 class="text-center">User Profile</h1>
-              <p class="lead">Jumbo helper text</p> */}
+          <div className="bg"></div>
+          <div className="bg bg2"></div>
+          <div className="bg bg3"></div>
+          <div className="container content">
+            {/* <h1 className="text-center">User Profile</h1>
+              <p className="lead">Jumbo helper text</p> */}
 
-            <div class="box-body row mt-5">
+            <div className="box-body row mt-5">
               <div className="col-lg-6">
                 <div align="center">
                   <a href="#myModal" data-toggle="modal" data-target="#myModal">
-                    <div class="well form">
+                    <div className="well form">
                       <img
                         src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"
-                        class="img-responsive"
+                        className="img-responsive"
                         id="profile-image1"
+                        alt=""
                         style={{
                           borderRadius: 30 + "px",
                           width: 150 + "px",
@@ -53,7 +54,7 @@ export default class Prof extends Component {
                   </div> */}
               </div>
             </div>
-            <hr class="my-2" />
+            <hr className="my-2" />
             {/* <div className="d-flex justify-content-end showdtl ">
                 <a
                   value="More"
@@ -73,9 +74,9 @@ export default class Prof extends Component {
               <input type="checkbox" name="one" id="item-1" />
               {/* </div> */}
               <div className=" hide ">
-                <div class="card-body row" id="">
+                <div className="card-body row" id="">
                   <div className="col-md-3">
-                    <h4 class="card-title ">Address</h4>
+                    <h4 className="card-title ">Address</h4>
                     <div className="col-md-4">
                       <label name="state">Street</label>
                     </div>
@@ -139,54 +140,54 @@ export default class Prof extends Component {
           </div>
         </article>
 
-        <div id="myModal" class="modal show" role="dialog">
-          <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Change Profile</h4>
+        <div id="myModal" className="modal show" role="dialog">
+          <div className="modal-dialog modal-sm">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Change Profile</h4>
                 <button type="button" className="close" data-dismiss="modal">
                   &times;
                 </button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <form
                   name=""
                   method="post"
                   action="change_pic.php"
                   enctype="multipart/form-data"
                 >
-                  <div class="form-group">
+                  <div className="form-group">
                     <label>Upload Image:</label>
                     <input
                       type="file"
                       name="photo"
-                      class="form-control"
+                      className="form-control"
                       required
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label>User:</label>
                     <input
                       type="text"
                       name="uname"
-                      class="form-control"
+                      className="form-control"
                       value=""
                       required
                     />
                   </div>
 
-                  <div class="modal-footer">
-                    <div class="btn-group">
+                  <div className="modal-footer">
+                    <div className="btn-group">
                       <button
                         type="submit"
                         name="submit"
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                       >
                         Upload
                       </button>
                       <button
                         type="button"
-                        class="btn btn-default"
+                        className="btn btn-default"
                         data-dismiss="modal"
                       >
                         Close
