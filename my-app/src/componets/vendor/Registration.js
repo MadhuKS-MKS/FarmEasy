@@ -6,6 +6,7 @@ class Registration extends Component {
   state = {
     // name={},
   };
+
   render() {
     return (
       <div className="container mt-5  ">
