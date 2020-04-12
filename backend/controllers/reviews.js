@@ -1,20 +1,20 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Review = require("../models/Review");
-const Vendor = require("../models/Vendor");
+const Public = require("../models/Public");
 
 // @desc      Get reviews
 // @route     GET /api/v1/reviews
-// @route     GET /api/v1/bootcamps/:bootcampId/reviews
+// @route     GET /api/v1/products/:productId/reviews
 // @access    Public
 exports.getReviews = asyncHandler(async (req, res, next) => {
-  if (req.params.vendorId) {
-    const reviews = await Review.find({ vendor: req.params.vendorId });
+  if (req.params.productId) {
+    const reviews = await Review.find({ product: req.params.productId });
 
     return res.status(200).json({
       success: true,
       count: reviews.length,
-      data: reviews
+      data: reviews,
     });
   } else {
     res.status(200).json(res.advancedResults);
@@ -22,12 +22,13 @@ exports.getReviews = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get single review
-// @route     GET /api/v1/reviews/:id
+// @route     GET /api/v1/reviews
+// @route     GET /api/v1/products/:productId/reviews/:id
 // @access    Public
 exports.getReview = asyncHandler(async (req, res, next) => {
-  const review = await Review.findById(req.params.id).populate({
-    path: "vendor",
-    select: "name description"
+  const review = await Review.findById(req.params.productId).populate({
+    path: "product",
+    select: "name ",
   });
 
   if (!review) {
@@ -38,30 +39,22 @@ exports.getReview = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: review
+    data: review,
   });
 });
 
 // @desc      Add review
-// @route     POST /api/v1/bootcamps/:bootcampId/reviews
+// @route     POST /api/v1/public/:publicId/reviews
 // @access    Private
 exports.addReview = asyncHandler(async (req, res, next) => {
-  req.body.vendor = req.params.vendorId;
+  req.body.product = req.params.productId;
   req.body.user = req.user.id;
-
-  const vendor = await Vendor.findById(req.params.vendorId);
-
-  if (!vendor) {
-    return next(
-      new ErrorResponse(`No vendor with the id of ${req.params.vendorId}`, 404)
-    );
-  }
 
   const review = await Review.create(req.body);
 
   res.status(201).json({
     success: true,
-    data: review
+    data: review,
   });
 });
 
@@ -84,12 +77,12 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
 
   review = await Review.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
 
   res.status(200).json({
     success: true,
-    data: review
+    data: review,
   });
 });
 
@@ -114,6 +107,6 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    data: {}
+    data: {},
   });
 });

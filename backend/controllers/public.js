@@ -4,39 +4,42 @@ const asyncHandler = require("../middleware/async");
 // const geocoder = require("../utils/geocoder");
 const Public = require("../models/Public");
 
-// @desc      Get all bootcamps
+// @desc      Get all public
 // @route     GET /api/v1/public
 // @access    Public
 exports.getPublics = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
-// @desc      Get single bootcamp
-// @route     GET /api/v1/vendors/:id
+// @desc      Get single public
+// @route     GET /api/v1/public/:id
 // @access    Public
 exports.getPublic = asyncHandler(async (req, res, next) => {
-  const vendor = await Public.findById(req.params.id);
+  const public = await Public.findById(req.params.publicId);
 
-  if (!vendor) {
+  if (!public) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Public not found with id of ${req.params.publicId}`,
+        404
+      )
     );
   }
 
-  res.status(200).json({ success: true, data: vendor });
+  res.status(200).json({ success: true, data: public });
 });
 
-// @desc      Create new bootcamp
-// @route     POST /api/v1/vrndors
+// @desc      Create new public
+// @route     POST /api/v1/public
 // @access    Private
 exports.createPublic = asyncHandler(async (req, res, next) => {
   // Add user to req,body
   req.body.user = req.user.id;
 
-  // Check for published vendor
+  // Check for published public
   const publishPublic = await Public.findOne({ user: req.user.id });
 
-  // If the user is not an admin, they can only add one bootcamp
+  // If the user is not an admin, they can only add one public
   if (publishPublic && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -55,18 +58,21 @@ exports.createPublic = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Update bootcamp
-// @route     PUT /api/v1/bootcamps/:id
+// @route     PUT /api/v1/public/:id
 // @access    Private
 exports.updatePublic = asyncHandler(async (req, res, next) => {
-  let public = await Public.findById(req.params.id);
+  const public = await Public.findById(req.params.publicId);
 
   if (!public) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Public not found with id of ${req.params.publicId}`,
+        404
+      )
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is public owner
   if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -76,23 +82,26 @@ exports.updatePublic = asyncHandler(async (req, res, next) => {
     );
   }
 
-  public = await Public.findOneAndUpdate(req.params.id, req.body, {
+  publics = await Public.findByIdAndUpdate(req.params.publicId, req.body, {
     new: true,
     runValidators: true,
   });
 
-  res.status(200).json({ success: true, data: public });
+  res.status(200).json({ success: true, data: publics });
 });
 
-// @desc      Delete bootcamp
-// @route     DELETE /api/v1/bootcamps/:id
+// @desc      Delete public
+// @route     DELETE /api/v1/public/:id
 // @access    Private
 exports.deletePublic = asyncHandler(async (req, res, next) => {
-  const public = await Vendor.findById(req.params.id);
+  const public = await Vendor.findById(req.params.publicId);
 
   if (!public) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Vendor not found with id of ${req.params.publicId}`,
+        404
+      )
     );
   }
 
@@ -100,7 +109,7 @@ exports.deletePublic = asyncHandler(async (req, res, next) => {
   if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.id} is not authorized to delete this public`,
+        `User ${req.params.publicId} is not authorized to delete this public`,
         401
       )
     );

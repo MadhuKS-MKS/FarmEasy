@@ -4,30 +4,33 @@ const asyncHandler = require("../middleware/async");
 const geocoder = require("../utils/geocoder");
 const Vendor = require("../models/Vendor");
 
-// @desc      Get all bootcamps
+// @desc      Get all vendors
 // @route     GET /api/v1/vendors
 // @access    Public
 exports.getVendors = asyncHandler(async (req, res, next) => {
   res.status(200).json(res.advancedResults);
 });
 
-// @desc      Get single bootcamp
-// @route     GET /api/v1/vendors/:id
+// @desc      Get single vendor
+// @route     GET /api/v1/vendors/:vendorId
 // @access    Public
 exports.getVendor = asyncHandler(async (req, res, next) => {
-  const vendor = await Vendor.findById(req.params.id);
+  const vendor = await Vendor.findById(req.params.vendorId);
 
   if (!vendor) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Vendor not found with id of ${req.params.vendorId}`,
+        404
+      )
     );
   }
 
   res.status(200).json({ success: true, data: vendor });
 });
 
-// @desc      Create new bootcamp
-// @route     POST /api/v1/vrndors
+// @desc      Create new vendor
+// @route     POST /api/v1/vendors
 // @access    Private
 exports.createVendor = asyncHandler(async (req, res, next) => {
   // Add user to req,body
@@ -36,7 +39,7 @@ exports.createVendor = asyncHandler(async (req, res, next) => {
   // Check for published vendor
   const publishedvendor = await Vendor.findOne({ user: req.user.id });
 
-  // If the user is not an admin, they can only add one bootcamp
+  // If the user is not an admin, they can only add one vendor
   if (publishedvendor && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -54,29 +57,32 @@ exports.createVendor = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Update bootcamp
-// @route     PUT /api/v1/bootcamps/:id
+// @desc      Update vendor
+// @route     PUT /api/v1/vendor/:vendorId
 // @access    Private
 exports.updateVendor = asyncHandler(async (req, res, next) => {
-  let vendor = await Vendor.findById(req.params.id);
+  let vendor = await Vendor.findById(req.params.vendorId);
 
   if (!vendor) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Vendor not found with id of ${req.params.vendorId}`,
+        404
+      )
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is vendor owner
   if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.id} is not authorized to update this vendor`,
+        `User ${req.params.vendorId} is not authorized to update this vendor`,
         401
       )
     );
   }
 
-  vendor = await Vendor.findOneAndUpdate(req.params.id, req.body, {
+  vendor = await Vendor.findByIdAndUpdate(req.params.vendorId, req.body, {
     new: true,
     runValidators: true,
   });
@@ -84,23 +90,26 @@ exports.updateVendor = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: vendor });
 });
 
-// @desc      Delete bootcamp
-// @route     DELETE /api/v1/bootcamps/:id
+// @desc      Delete vendor
+// @route     DELETE /api/v1/vendor/:vendorId
 // @access    Private
 exports.deleteVendor = asyncHandler(async (req, res, next) => {
-  const vendor = await Vendor.findById(req.params.id);
+  const vendor = await Vendor.findById(req.params.vendorId);
 
   if (!vendor) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Vendor not found with id of ${req.params.vendorId}`,
+        404
+      )
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is vendor owner
   if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.id} is not authorized to delete this vendor`,
+        `User ${req.params.vendorId} is not authorized to delete this vendor`,
         401
       )
     );
@@ -111,50 +120,26 @@ exports.deleteVendor = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: {} });
 });
 
-// @desc      Get bootcamps within a radius
-// @route     GET /api/v1/bootcamps/radius/:zipcode/:distance
-// @access    Private
-exports.getVendorInRadius = asyncHandler(async (req, res, next) => {
-  const { zipcode, distance } = req.params;
-
-  // Get lat/lng from geocoder
-  const loc = await geocoder.geocode(zipcode);
-  const lat = loc[0].latitude;
-  const lng = loc[0].longitude;
-
-  // Calc radius using radians
-  // Divide dist by radius of Earth
-  // Earth Radius = 3,963 mi / 6,378 km
-  const radius = distance / 3963;
-
-  const vendor = await Vendor.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
-  });
-
-  res.status(200).json({
-    success: true,
-    count: vendor.length,
-    data: vendor,
-  });
-});
-
-// @desc      Upload photo for bootcamp
-// @route     PUT /api/v1/bootcamps/:id/photo
+// @desc      Upload photo for vendor
+// @route     PUT /api/v1/vendor/:vendorId/photo
 // @access    Private
 exports.vendorsPhotoUpload = asyncHandler(async (req, res, next) => {
-  const vendor = await Vendor.findById(req.params.id);
+  const vendor = await Vendor.findById(req.params.vendorId);
 
   if (!vendor) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(
+        `Vendor not found with id of ${req.params.vendorId}`,
+        404
+      )
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is vendor owner
   if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.id} is not authorized to update this bootcamp`,
+        `User ${req.params.vendorId} is not authorized to update this bootcamp`,
         401
       )
     );
@@ -190,7 +175,7 @@ exports.vendorsPhotoUpload = asyncHandler(async (req, res, next) => {
       return next(new ErrorResponse(`Problem with file upload`, 500));
     }
 
-    await Vendor.findByIdAndUpdate(req.params.id, { photo: file.name });
+    await Vendor.findByIdAndUpdate(req.params.vendorId, { photo: file.name });
 
     res.status(200).json({
       success: true,

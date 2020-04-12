@@ -66,7 +66,7 @@ const PublicSchema = new mongoose.Schema(
   }
 );
 
-// Create bootcamp slug from the name
+// Create  slug from the name
 PublicSchema.pre("save", function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
@@ -91,7 +91,7 @@ PublicSchema.pre("save", async function (next) {
   next();
 });
 
-// Cascade delete courses when a bootcamp is deleted
+// Cascade delete order when a public is deleted
 PublicSchema.pre("remove", async function (next) {
   console.log(`Order being removed from list ${this._id}`);
   await this.model("Order").deleteMany({ public: this._id });
@@ -100,7 +100,7 @@ PublicSchema.pre("remove", async function (next) {
 
 // Reverse populate with virtuals
 PublicSchema.virtual("order", {
-  ref: "Order",
+  ref: "Orderlist",
   localField: "_id",
   foreignField: "public",
   justOne: false,

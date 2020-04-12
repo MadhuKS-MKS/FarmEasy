@@ -10,6 +10,11 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add a description"],
   },
+  category: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Category",
+    required: [true, "Please add a category"],
+  },
   rate: {
     type: String,
     required: [true, "Please add rate"],
@@ -72,38 +77,3 @@ ProductSchema.pre("remove", function () {
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
-
-// const mongoose = require("mongoose");
-
-// const ProductSchema = mongoose.Schema({
-//   vendor: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Vendor"
-//   },
-//   itemname: {
-//     type: String,
-//     required: true
-//   },
-//   itemimg: {
-//     data: Buffer,
-//     contentType: String
-//   },
-//   category: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Category"
-//   },
-//   price: {
-//     type: String,
-//     required: true
-//   },
-//   qty: {
-//     type: String,
-//     required: true
-//   },
-//   desc: {
-//     type: String,
-//     required: true
-//   }
-// });
-
-// module.exports = mongoose.model("Product", ProductSchema);

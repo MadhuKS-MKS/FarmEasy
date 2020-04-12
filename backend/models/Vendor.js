@@ -79,22 +79,7 @@ const VendorSchema = new mongoose.Schema(
       type: String,
       default: "no-photo.jpg",
     },
-    // housing: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // jobAssistance: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // jobGuarantee: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // acceptGi: {
-    //   type: Boolean,
-    //   default: false
-    // },
+
     createdAt: {
       type: Date,
       default: Date.now,
@@ -138,7 +123,7 @@ VendorSchema.pre("save", async function (next) {
 
 // Cascade deleted
 VendorSchema.pre("remove", async function (next) {
-  console.log(`Product being removed from bootcamp ${this._id}`);
+  console.log(`Product being removed from Vendor ${this._id}`);
   await this.model("Products").deleteMany({ vendor: this._id });
   next();
 });
@@ -152,54 +137,3 @@ VendorSchema.virtual("products", {
 });
 
 module.exports = mongoose.model("Vendor", VendorSchema);
-
-// const mongoose = require("mongoose");
-
-// const VendorSchema = mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//     unique: true
-//   },
-//   img: {
-//     data: Buffer,
-//     contentType: String
-//   },
-//   dob: {
-//     type: Date
-//   },
-//   gender: {
-//     type: String
-//   },
-//   address: {
-//     type: String
-//   },
-//   country: {
-//     type: String
-//   },
-//   pin: {
-//     type: String
-//   },
-//   phone: {
-//     type: String
-//   },
-//   availtime: {
-//     type: String
-//   },
-//   occupation: {
-//     type: String
-//   },
-//   interest: {
-//     type: String
-//   },
-//   password: {
-//     type: String,
-//     required: true
-//   }
-// });
-
-// module.exports = mongoose.model("Vendor", VendorSchema);

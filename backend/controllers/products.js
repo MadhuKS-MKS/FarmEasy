@@ -4,10 +4,11 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Products = require("../models/Products");
 const Vendor = require("../models/Vendor");
+const Category = require("../models/Category");
 
-// @desc      Get courses
-// @route     GET /api/v1/courses
-// @route     GET /api/v1/bootcamps/:bootcampId/courses
+// @desc      Get products
+// @route     GET /api/v1/products
+// @route     GET /api/v1/vendors/:vendorsId/products
 // @access    Public
 exports.getProducts = asyncHandler(async (req, res, next) => {
   if (req.params.vendorId) {
@@ -23,14 +24,15 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc      Get single course
-// @route     GET /api/v1/courses/:id
+// @desc      Get single product
+// @route     GET api/v1/vendors/:vendorsId/products/:productId
 // @access    Public
 exports.getProduct = asyncHandler(async (req, res, next) => {
-  const product = await Products.findById(req.params.id).populate({
-    path: "vendor",
-    select: "name description",
-  });
+  const product = await Products.findById(req.params.productId)
+    .populate({
+      path: "category",
+    })
+    .populate({ path: "vendor" });
 
   if (!product) {
     return next(
@@ -46,13 +48,13 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Add course
-// @route     POST /api/v1/bootcamps/:bootcampId/courses
+// @route     POST http://localhost:5000/api/v1/vendors/:vendorsId/products
 // @access    Private
 exports.addProduct = asyncHandler(async (req, res, next) => {
-  req.body.vendor = req.params.vendorId;
+  // req.body.vendor = req.params.vendorId;
   req.body.user = req.user.id;
 
-  const vendor = await Vendor.findById(req.params.vendorId);
+  const vendor = await Vendor.findOne({ user: req.user.id });
 
   if (!vendor) {
     return next(
@@ -61,16 +63,19 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is bootcamp owner
-  if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
-        401
-      )
-    );
-  }
+  // Make sure user is product owner
+  // if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
+  //       401
+  //     )
+  //   );
+  // }
 
+  const category = await Category.findById(req.body.category);
+  req.body.vendor = vendor.id;
+  req.body.catname = category.catname;
   const product = await Products.create(req.body);
 
   res.status(200).json({
@@ -80,14 +85,14 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Update course
-// @route     PUT /api/v1/courses/:id
+// @route     PUT http://localhost:5000/api/v1/vendors/:vendorsId/products/:productId
 // @access    Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  let product = await Products.findById(req.params.id);
+  let product = await await Products.findById(req.params.productId);
 
   if (!product) {
     return next(
-      new ErrorResponse(`No Product with the id of ${req.params.id}`),
+      new ErrorResponse(`No Product with the id of ${req.params.productId}`),
       404
     );
   }
@@ -102,7 +107,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     );
   }
 
-  product = await Products.findByIdAndUpdate(req.params.id, req.body, {
+  product = await Products.findByIdAndUpdate(req.params.productId, req.body, {
     new: true,
     runValidators: true,
   });
@@ -114,14 +119,14 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Delete course
-// @route     DELETE /api/v1/courses/:id
+// @route     DELETE http://localhost:5000/api/v1/vendors/:vendorsId/products/:productId
 // @access    Private
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
-  const product = await Products.findById(req.params.id);
+  const product = await Products.findById(req.params.productId);
 
   if (!product) {
     return next(
-      new ErrorResponse(`No Product with the id of ${req.params.id}`),
+      new ErrorResponse(`No Product with the id of ${req.params.productId}`),
       404
     );
   }

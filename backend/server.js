@@ -29,6 +29,7 @@ const users = require("./routes/users");
 const reviews = require("./routes/reviews");
 const public = require("./routes/public");
 const orderlist = require("./routes/orderlist");
+const category = require("./routes/category");
 
 //initialize app with express
 const app = express();
@@ -76,6 +77,8 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
 app.use("/api/v1/reviews", reviews);
 app.use("/api/v1/public", public);
+app.use("/api/v1/orders", orderlist);
+app.use("/api/v1/category", category);
 
 app.use(errorHandler);
 
@@ -89,38 +92,3 @@ process.on("unhandledRejection", (err, promise) => {
   //close server and exit process
   server.close(() => process.exit(1));
 });
-
-// const express = require("express");
-// const connectDB = require("./config/db");
-// // const path = require("path");
-
-// const app = express();
-
-// // Connect Database
-// connectDB();
-
-// // Init Middleware
-// app.use(express.json());
-
-// // Define Routes
-// app.use("/api/users", require("./routes/users"));
-// app.use("/api/auth", require("./routes/auth"));
-// app.use("/api/products", require("./routes/products"));
-// app.use("/api/category", require("./routes/category"));
-
-// app.use("/api/vendors", require("./routes/vendors"));
-// // app.use("/api/profile", require("./routes/profile"));
-
-// // Serve static assets in production
-// // if (process.env.NODE_ENV === "production") {
-// // Set static folder
-// //   app.use(express.static("client/build"));
-
-// //   app.get("*", (req, res) =>
-// //     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
-// //   );
-// // }
-
-// const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

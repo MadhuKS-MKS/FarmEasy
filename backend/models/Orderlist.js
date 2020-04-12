@@ -2,23 +2,27 @@ const mongoose = require("mongoose");
 
 const ProductSchema = new mongoose.Schema({
   title: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+    type: String,
+    trim: true,
+    required: [true, "Please add a course title"],
   },
 
-  price: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+  rate: {
+    type: String,
     required: [true, "Please add rate"],
   },
   qty: {
     type: Number,
     required: [true, "Please add in qty"],
   },
+
   photo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
+    type: String,
     default: "no-photo.jpg",
+  },
+  status: {
+    type: String,
+    enum: ["pending", "orderd"],
   },
   createdAt: {
     type: Date,
