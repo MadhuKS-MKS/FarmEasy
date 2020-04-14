@@ -21,7 +21,7 @@ const advancedResults = require("../middleware/advancedResults");
 const { protect, authorize } = require("../middleware/auth");
 
 // Re-route into other resource routers
-router.use("/:publicId/cart", cartRouter);
+router.use("/cart", cartRouter);
 // router.use("/:publicId/reviews", reviewRouter);
 
 // router.route("/radius/:zipcode/:distance").get(getVendorsInRadius);

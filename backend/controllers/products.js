@@ -153,7 +153,7 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/bootcamps/:id/photo
 // @access    Private
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const product = await Products.findById(req.params.id);
+  const product = await Products.findById(req.params.productId);
 
   if (!product) {
     return next(
@@ -170,52 +170,51 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
       )
     );
   }
+  if (!req.files) {
+    return next(new ErrorResponse(`Please upload a file`, 400));
+  }
+  let file = [];
+  for (let i = 0; i < req.files.files.length; i++) {
+    file[i] = req.files.files[i];
 
-  // if (!req.files) {
-  //   return next(new ErrorResponse(`Please upload a file`, 400));
-  // }
+    // Make sure the image is a photo
+    if (!file[i].mimetype.startsWith("image")) {
+      return next(new ErrorResponse(`Please upload an image file`, 400));
+    }
 
-  // const file = req.files.files;
-  // if (req.files) {
-  //   const file = req.files.filename;
-  //   for (var i = 0; i < 2; i++) {
-  //     file[i].mv(
-  //       `${process.env.FILE_UPLOAD_PATH_ITEMS}/${file[i].name}`,
-  //       async (err) => {
-  //         if (err) {
-  //           res.send(err);
-  //         }
-  //       }
-  //     );
-  //     console.log(file[i]);
-  //   }
-  //   res.send("files uploaded");
-  // }
-  // Make sure the image is a photo
-  // if (!file.mimetype.startsWith("image")) {
-  //   return next(new ErrorResponse(`Please upload an image file`, 400));
-  // }
+    // Check filesize
+    if (file[i].size > process.env.MAX_FILE_UPLOAD) {
+      return next(
+        new ErrorResponse(
+          `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+          400
+        )
+      );
+    }
+    name = file[i].name;
+    // Create custom filename
+    file[i].name = `photo_${product.id}${name}`;
 
-  // Check filesize
-  // if (file.size > process.env.MAX_FILE_UPLOAD) {
-  //   return next(
-  //     new ErrorResponse(
-  //       `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
-  //       400
-  //     )
-  //   );
-  // }
+    file[i].mv(
+      `${process.env.FILE_UPLOAD_PATH}/${file[i].name}`,
+      async (err) => {
+        if (err) {
+          console.error(err);
+          return next(new ErrorResponse(`Problem with file upload`, 500));
+        }
+        await Products.findByIdAndUpdate(req.params.id, {
+          photo: file[i].name,
+        });
+        console.log(file[i].name);
+      }
+    );
+  }
 
-  // Create custom filename
-  // file.name = `photo_${Date.now() + file.name.ext}`;
-
-  // file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-  //   if (err) {
-  //     console.error(err);
-  //     return next(new ErrorResponse(`Problem with file upload`, 500));
-  //   }
-
-  //   await Products.findByIdAndUpdate(req.params.id, { photo: file.name });
+  res.status(200).json({
+    success: true,
+    count: req.files.files.length,
+    data: file,
+  });
 
   //   res.status(200).json({
   //     success: true,

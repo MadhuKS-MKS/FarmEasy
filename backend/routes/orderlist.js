@@ -2,10 +2,11 @@ const express = require("express");
 
 const {
   getOrders,
-  getOrder,
+  getPlacedOrders,
   addCart,
-  updateOrder,
+  placeOrder,
   deleteCart,
+  getPendingOrders,
 } = require("../controllers/orderlist");
 
 const Orders = require("../models/Orderlist");
@@ -25,6 +26,16 @@ router
     getOrders
   )
   .post(protect, authorize("user", "admin"), addCart);
+
+router
+  .route("/orders")
+  .get(protect, authorize("user", "admin"), getPlacedOrders);
+router
+  .route("/pending")
+  .get(protect, authorize("user", "admin"), getPendingOrders);
+router
+  .route("/orders/:orderId")
+  .put(protect, authorize("user", "admin"), placeOrder);
 
 router
   .route("/:orderId")

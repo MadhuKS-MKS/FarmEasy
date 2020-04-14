@@ -6,7 +6,7 @@ const Orders = require("../models/Orderlist");
 const Products = require("../models/Products");
 const Public = require("../models/Public");
 
-// @desc      Get Order
+// @desc      Get pending list
 // @route     GET /api/v1/order
 // @route     GET /api/v1/public/:publicid/orderlist
 // @access    Public
@@ -31,28 +31,52 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc      Get single course
-// @route     GET /api/v1/courses/:id
+// @desc      Get orderd list
+// @route     /api/v1/public/cart/orders/
 // @access    Public
-// exports.getOrder = asyncHandler(async (req, res, next) => {
-//   const order = await Orders.findById(req.params.orderId);
-//   //         .populate({
-//   //     path: "public",
-//   //     select: "name",
-//   //   });
+exports.getPlacedOrders = asyncHandler(async (req, res, next) => {
+  const order = await Orders.find({ status: "orderd" }).populate({
+    path: "public",
+    select: "name location email phone ",
+  });
+  // const orders = await Orders.find({ user: req.user.id });
+  if (order.status == "orderd") {
+    return res.status(200).json({
+      success: true,
+      count: order.length,
+      data: order,
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      count: order.length,
+      data: order,
+    });
+  }
+});
+// @desc      Get orderd list
+// @route     /api/v1/public/cart/pending/
+// @access    Public
+exports.getPendingOrders = asyncHandler(async (req, res, next) => {
+  const order = await Orders.find({ status: "pending" }).populate({
+    path: "public",
+    select: "name location email phone ",
+  });
 
-//   if (!order) {
-//     return next(
-//       new ErrorResponse(`No product with the id of ${req.params.id}`),
-//       404
-//     );
-//   }
-
-//   res.status(200).json({
-//     success: true,
-//     data: order,
-//   });
-// });
+  if (order.status == "pending") {
+    return res.status(200).json({
+      success: true,
+      count: order.length,
+      data: order,
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      count: order.length,
+      data: order,
+    });
+  }
+});
 
 // @desc      Add Cart
 // @route     POST /api/v1/public/:publicId/cart
@@ -60,17 +84,18 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
 exports.addCart = asyncHandler(async (req, res, next) => {
   // req.params
   //  req.user.id;
+  req.body.user = req.user.id;
 
-  const publics = await Public.findById(req.params.publicId);
-  const product = await Products.findById(req.body._id);
-  const { photo, title, rate, stock } = product;
-  const public = req.params.publicId;
+  const publics = await Public.findOne({ user: req.user.id });
   if (!publics) {
     return next(
-      new ErrorResponse(`No Public with the id of ${req.params.publicId}`),
+      new ErrorResponse(`No Public with the id of ${req.user.id}`),
       404
     );
   }
+  const product = await Products.findById(req.body._id);
+  const { photo, title, rate, stock } = product;
+  const public = publics.id;
 
   // Make sure user is public owner
   if (publics.user.toString() !== req.user.id && req.user.role !== "admin") {
@@ -101,62 +126,66 @@ exports.addCart = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc      Update course
-// @route     PUT /api/v1/courses/:id
+// @desc      Update order
+// @route     PUT /api/v1/public/cart/orders/:orderId
 // @access    Private
-// exports.updateOrder = asyncHandler(async (req, res, next) => {
-//   let orders = await Orders.findById(req.params.orderId);
+exports.placeOrder = asyncHandler(async (req, res, next) => {
+  let order = await Orders.findById(req.params.orderId);
 
-//   if (!orders) {
-//     return next(
-//       new ErrorResponse(`No Product with the id of ${req.params.id}`),
-//       404
-//     );
-//   }
+  if (!order) {
+    return next(
+      new ErrorResponse(`No Product with the id of ${req.params.id}`),
+      404
+    );
+  }
 
-//   // Make sure user is course owner
-//   if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
-//     return next(
-//       new ErrorResponse(
-//         `User ${req.user.id} is not authorized to update product ${product._id}`,
-//         401
-//       )
-//     );
-//   }
+  // Make sure user is course owner
+  if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to update product ${order._id}`,
+        401
+      )
+    );
+  }
 
-//   orders = await Orders.findByIdAndUpdate(req.params.orderId, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
+  order = await Orders.findByIdAndUpdate(
+    req.params.orderId,
+    { status: "orderd" },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-//   res.status(200).json({
-//     success: true,
-//     data: product,
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    data: order,
+  });
+});
 
-// @desc      Delete course
-// @route     DELETE /api/v1/courses/:id
+// @desc      Delete cart
+// @route     DELETE /api/v1/cart/orders/:orderId
 // @access    Private
 exports.deleteCart = asyncHandler(async (req, res, next) => {
   const order = await Orders.findById(req.params.orderId);
 
-  // if (!order) {
-  //   return next(
-  //     new ErrorResponse(`No Order with the id of ${req.params.orderId}`),
-  //     404
-  //   );
-  // }
+  if (!order) {
+    return next(
+      new ErrorResponse(`No Order with the id of ${req.params.orderId}`),
+      404
+    );
+  }
 
   // Make sure user is order owner
-  // if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User ${req.user.id} is not authorized to delete product ${order._id}`,
-  //       401
-  //     )
-  //   );
-  // }
+  if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to delete product ${order._id}`,
+        401
+      )
+    );
+  }
 
   await order.remove();
 
