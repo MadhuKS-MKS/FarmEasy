@@ -57,7 +57,7 @@ exports.createPublic = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Update bootcamp
+// @desc      Update public
 // @route     PUT /api/v1/public/:id
 // @access    Private
 exports.updatePublic = asyncHandler(async (req, res, next) => {
@@ -91,7 +91,7 @@ exports.updatePublic = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Delete public
-// @route     DELETE /api/v1/public/:id
+// @route     DELETE /api/v1/public/:publicId
 // @access    Private
 exports.deletePublic = asyncHandler(async (req, res, next) => {
   const public = await Vendor.findById(req.params.publicId);
@@ -105,7 +105,7 @@ exports.deletePublic = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is public owner
   if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -120,8 +120,8 @@ exports.deletePublic = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: {} });
 });
 
-// @desc      Get bootcamps within a radius
-// @route     GET /api/v1/bootcamps/radius/:zipcode/:distance
+// @desc      Get public within a radius
+// @route     GET DELETE /api/v1/public/radius/:zipcode/:distance
 // @access    Private
 exports.getPublicInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
@@ -147,23 +147,23 @@ exports.getPublicInRadius = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Upload photo for bootcamp
-// @route     PUT /api/v1/bootcamps/:id/photo
+// @desc      Upload photo for public
+// @route     PUT /api/v1/public/:publicId/photo
 // @access    Private
 exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
   const public = await Public.findById(req.params.id);
 
   if (!public) {
     return next(
-      new ErrorResponse(`Vendor not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(`public not found with id of ${req.params.id}`, 404)
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is public owner
   if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.id} is not authorized to update this bootcamp`,
+        `User ${req.params.id} is not authorized to update this public`,
         401
       )
     );

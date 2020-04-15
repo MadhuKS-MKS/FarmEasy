@@ -8,6 +8,7 @@ const {
   addCategory,
   deleteCategory,
   getCategoryProduct,
+  updateCategory,
 } = require("../controllers/category");
 const { protect, authorize } = require("../middleware/auth");
 const advancedResults = require("../middleware/advancedResults");
@@ -28,6 +29,7 @@ router
 router
   .route("/:categoryId")
   .get(getCategoryProduct)
+  .put(protect, authorize("admin"), updateCategory)
   .delete(protect, authorize("admin"), deleteCategory);
 
 router.route("/:categoryId/products").get(getCategoryProduct);

@@ -7,7 +7,6 @@ const Products = require("../models/Products");
 const Public = require("../models/Public");
 
 // @desc      Get pending list
-// @route     GET /api/v1/order
 // @route     GET /api/v1/public/:publicid/orderlist
 // @access    Public
 exports.getOrders = asyncHandler(async (req, res, next) => {
@@ -139,7 +138,7 @@ exports.placeOrder = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is course owner
+  // Make sure user is product owner
   if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(

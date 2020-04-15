@@ -47,8 +47,8 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Add course
-// @route     POST http://localhost:5000/api/v1/vendors/:vendorsId/products
+// @desc      Add product
+// @route     POST api/v1/vendors/:vendorsId/products
 // @access    Private
 exports.addProduct = asyncHandler(async (req, res, next) => {
   // req.body.vendor = req.params.vendorId;
@@ -64,14 +64,14 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
   }
 
   // Make sure user is product owner
-  // if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
-  //   return next(
-  //     new ErrorResponse(
-  //       `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
-  //       401
-  //     )
-  //   );
-  // }
+  if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
+        401
+      )
+    );
+  }
 
   const category = await Category.findById(req.body.category);
   req.body.vendor = vendor.id;
@@ -84,8 +84,8 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Update course
-// @route     PUT http://localhost:5000/api/v1/vendors/:vendorsId/products/:productId
+// @desc      Update product
+// @route     PUT /api/v1/vendors/:vendorsId/products/:productId
 // @access    Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   let product = await await Products.findById(req.params.productId);
@@ -97,7 +97,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is course owner
+  // Make sure user is product owner
   if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -118,8 +118,8 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Delete course
-// @route     DELETE http://localhost:5000/api/v1/vendors/:vendorsId/products/:productId
+// @desc      Delete product
+// @route     DELETE /api/v1/vendors/:vendorsId/products/:productId
 // @access    Private
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
   const product = await Products.findById(req.params.productId);
@@ -131,7 +131,7 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is course owner
+  // Make sure user is product owner
   if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -149,8 +149,8 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc      Upload photo for bootcamp
-// @route     PUT /api/v1/bootcamps/:id/photo
+// @desc      Upload photo for product
+// @route     PUT /api/v1/vendors/:vendorsId/products/:productId/photo
 // @access    Private
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
   const product = await Products.findById(req.params.productId);
@@ -161,7 +161,7 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is bootcamp owner
+  // Make sure user is product owner
   if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(

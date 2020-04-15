@@ -6,7 +6,6 @@ const Product = require("../models/Products");
 
 const asyncHandler = require("../middleware/async");
 // @desc      Get products
-// @route     GET /api/v1/products
 // @route     GET /api/v1/category/:categoryId/products/
 // @access    Public
 exports.getCategoryProduct = asyncHandler(async (req, res, next) => {
@@ -21,12 +20,12 @@ exports.getCategoryProduct = asyncHandler(async (req, res, next) => {
       path: "category",
     });
 
-  // if (!product) {
-  //   return next(
-  //     new ErrorResponse(`No product with the id of ${req.params.id}`),
-  //     404
-  //   );
-  // }
+  if (!product) {
+    return next(
+      new ErrorResponse(`No product with the id of ${req.params.id}`),
+      404
+    );
+  }
   res.status(200).json({
     success: true,
     count: product.length,
@@ -35,7 +34,7 @@ exports.getCategoryProduct = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get category
-// @route     GET /api/category
+
 // @route     GET /api/category/
 // @access    Public
 exports.getCategories = asyncHandler(async (req, res, next) => {
@@ -76,6 +75,25 @@ exports.addCategory = asyncHandler(async (req, res, next) => {
   const category = await Category.create(req.body);
 
   res.status(201).json({
+    success: true,
+    data: category,
+  });
+});
+
+// @desc      Update category
+// @route     PUT /api/v1/category/:categoryId
+// @access    Private
+exports.updateCategory = asyncHandler(async (req, res, next) => {
+  const category = await Category.findByIdAndUpdate(
+    req.params.categoryId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
     success: true,
     data: category,
   });
