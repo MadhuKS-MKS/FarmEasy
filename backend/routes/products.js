@@ -27,8 +27,8 @@ router
   .route("/")
   .get(
     advancedResults(Product, {
-      path: "vendor",
-      select: "name description",
+      path: "category",
+      select: "catname",
     }),
     getProducts
   )

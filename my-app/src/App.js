@@ -1,7 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useReducer } from "react";
+
 import Login from "./componets/Login";
 import fRegistration from "./componets/vendor/Registration";
 import "./componets/CSS/Home.css";
+import axios from "axios";
 
 import Footer from "./componets/publics/Footer";
 
@@ -16,26 +18,27 @@ import All from "./componets/publics/All";
 import AHome from "./componets/sAdmin/AHome";
 
 class App extends React.Component {
-  //  state = {
-
-  //    user: {}
-  //  };
-  //  LoginUser = async text => {
-  //    const res = await axios.post(
-  //    ` http://localhost:5000/api/auth/`
-  //    );
-  //    console.log(res.data.items);
-  //    this.setState({
-  //      users: res.data.items
-  //    });
-  //  };
-  // state = {
-  //   alert: null,
-  // };
-  // setAlert = (msg, type) => {
-  //   this.setState({ alert: { msg, type } });
-  //   setTimeout(() => this.setState({ alert: null }), 5000);
-  // };
+  getUser = async (body) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // const body = {};
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        body,
+        config
+      );
+      this.setState({
+        users: res.data.data,
+      });
+      console.log(res.data.data);
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
   render() {
     return (
       <Router>
@@ -45,6 +48,18 @@ class App extends React.Component {
           {/* <div className="jumbotron" style={{ marginBottom: 0 + "px" }}></div> */}
           <Switch>
             <Route exact path={"/Login/:type"} component={Login} />
+            <Route
+              exact
+              path={"/Login/:type"}
+              render={(props) => (
+                <Login
+                  {...props}
+                  // type={this.state.user}
+                  getuser={this.getuser}
+                  user={this.state.user}
+                />
+              )}
+            />
           </Switch>
           <FNavbar />
           <Switch>

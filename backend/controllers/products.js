@@ -196,20 +196,20 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
     file[i].name = `photo_${product.id}${name}`;
 
     file[i].mv(
-      `${process.env.FILE_UPLOAD_PATH}/${file[i].name}`,
+      `${process.env.FILE_UPLOAD_PATH_ITEMS}/${file[i].name}`,
       async (err) => {
         if (err) {
           console.error(err);
           return next(new ErrorResponse(`Problem with file upload`, 500));
         }
-        await Products.findByIdAndUpdate(req.params.id, {
-          photo: file[i].name,
-        });
+
         console.log(file[i].name);
       }
     );
   }
-
+  await Products.findByIdAndUpdate(req.params.id, {
+    photo: file,
+  });
   res.status(200).json({
     success: true,
     count: req.files.files.length,

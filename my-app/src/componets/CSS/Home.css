@@ -1686,9 +1686,12 @@ input.hidden {
 }
 .product-big-img {
   width: 45%;
-  height: auto;
+  height: 300px;
+  /* align-items: center; */
   display: inline-flex;
+
   float: left;
+  padding-right: 20px;
 }
 .product-big-img img {
   width: 100%;
@@ -1699,7 +1702,7 @@ input.hidden {
   height: auto;
   display: inline-block;
   /* float: right; */
-  padding-right: 20px;
+  /* padding-right: ; */
 }
 .product-big-desc h2 {
   margin: 0;

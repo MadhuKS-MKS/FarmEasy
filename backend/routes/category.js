@@ -16,7 +16,13 @@ const Category = require("../models/Category");
 
 router
   .route("/")
-  .get(advancedResults(Category), getCategories)
+  .get(
+    advancedResults(Category, {
+      path: "products",
+      select: "name",
+    }),
+    getCategories
+  )
   .post(protect, authorize("admin"), addCategory);
 
 router

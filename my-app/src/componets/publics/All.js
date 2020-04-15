@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import "../CSS/Home.css";
 import "../CSS/animate.css";
@@ -17,19 +18,31 @@ import Registration from "./Registration";
 import cart from "./cart";
 import editProf from "../publics/editProf";
 import fRegistration from "../vendor/Registration";
-import quickModel from "./quickModel";
+// import quickModel from "./quickModel";
+import ItemsList from "./ItemsList";
 
 export default class All extends Component {
   state = {
     users: [],
     products: [],
   };
-  getProducts = async () => {
-    // const res = await axios.get(`https://api/v1/products`);
-    // // console.log(res.data);
-    // this.setState({
-    //   user: res.data,
-    // });
+  getproducts = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/products/",
+        config
+      );
+      this.setState({
+        products: res.data.data,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
   };
   render() {
     return (
@@ -52,22 +65,17 @@ export default class All extends Component {
               exact
               path={"/Showitems"}
               render={(props) => (
-                <Showitems
+                <ItemsList
                   {...props}
                   user={this.state.user}
-                  getProducts={this.getProducts}
+                  getproducts={this.getproducts}
                   products={this.state.products}
                 />
               )}
             />
-            <Route
-              exact
-              path={"/user/quickModel"}
-              render={() => <quickModel />}
-            />
+
             <Route path={"/cart"} component={cart} />
             <Route path={"/user/userprofile"} component={UserProf} />
-
             <Route path={"/user/editprofile"} component={editProf} />
           </Switch>
         </div>
