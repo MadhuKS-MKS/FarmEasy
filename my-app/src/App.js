@@ -18,7 +18,7 @@ import All from "./componets/publics/All";
 import AHome from "./componets/sAdmin/AHome";
 
 class App extends React.Component {
-  getUser = async (body) => {
+  getuser = async (body) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
