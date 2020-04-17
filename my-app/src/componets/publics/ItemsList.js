@@ -9,11 +9,12 @@ class itemList extends React.Component {
   //   super();
   // }
   componentDidMount = (async) => {
+    this.props.getCategory();
     this.props.getproducts(this.props.match.params);
   };
 
   render() {
-    // console.log(this.props.products);
+    console.log(this.props);
     return (
       <div>
         <section>
@@ -33,14 +34,18 @@ class itemList extends React.Component {
                     >
                       All
                     </li>
+                    {this.props.category.map((category) => (
+                      <li data-filter=".filter-app" key={category._id}>
+                        {category.catname}
+                      </li>
+                    ))}
                     <li data-filter=".filter-app">Sweets</li>
-                    <li data-filter=".filter-card">Juice</li>
+                    {/* <li data-filter=".filter-card">Juice</li>
                     <li data-filter=".filter-logo">Spices</li>
-                    <li data-filter=".filter-web">Other HomeMade</li>
+                    <li data-filter=".filter-web">Other HomeMade</li> */}
                   </ul>
                 </div>
               </div>
-
               <div
                 className="row"
                 id="portfolio-wrapper"

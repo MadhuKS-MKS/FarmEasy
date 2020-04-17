@@ -18,7 +18,7 @@ import All from "./componets/publics/All";
 import AHome from "./componets/sAdmin/AHome";
 
 class App extends React.Component {
-  getuser = async (body) => {
+  getUsers = async (body) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ class App extends React.Component {
                 <Login
                   {...props}
                   // type={this.state.user}
-                  getuser={this.getuser}
+                  getUser={this.getUsers}
                   user={this.state.user}
                 />
               )}
@@ -69,7 +69,7 @@ class App extends React.Component {
 
             <All></All>
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     );

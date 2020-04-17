@@ -32,7 +32,7 @@ router
 
 router
   .route("/")
-  .get(advancedResults(Public, "Products"), getPublics)
+  .get(advancedResults(Public), getPublics)
   .post(protect, authorize("user", "admin"), createPublic);
 
 router

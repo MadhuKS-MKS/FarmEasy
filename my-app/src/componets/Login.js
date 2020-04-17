@@ -1,44 +1,60 @@
 import React, { Component, useState } from "react";
 import "./CSS/App.css";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
+const superagent = require("superagent");
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.getuser = this.getuser.bind(this);
+    this.getUser = this.getUser;
     this.state = {
-      user: [],
+      email: "",
+      password: "",
       type: "",
     };
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
     this.state.type = this.props.match.params;
+    // this.props.getuser();
+  }
+  // handleEmailChange(e) {
+  //   this.setState({
+  //     email: e.target.value,
+  //   });
+  // }
+  // handlePasswordChange(e) {
+  //   this.setState({
+  //     password: e.target.value,
+  //   });
+  // }
+  onChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
-  // const
-  onChange = (e) =>
-    this.setState({
-      user: [{ [e.target.name]: [e.target.value] }],
-    });
-
-  // const
   onSubmit = (e) => {
-    const { email, password } = this.state.user;
     e.preventDefault();
-    if (email === "" || password === "") {
-      // setAlert('Please fill in all fields', 'danger');
-    } else {
-      const body = {
-        email,
-        password,
-      };
-      this.getuser(body);
-    }
+    superagent
+      .post("http://localhost:5000/api/v1/auth/login")
+      .send({ email: this.state.email, password: this.state.password })
+      .end((err, res) => {
+        if (err) {
+          this.setState({ errrorMessage: "Authenticstion Failed" });
+          return;
+        }
+        console.log(res.body);
+      });
   };
+  isAuthenticated() {
+    const token = localStorage.getItem("token");
+    return token && token.length > 10;
+  }
   render() {
-    const { email, password } = this.state.user;
     const type = this.state.type;
     let social = {};
     let signup, login;
@@ -50,36 +66,33 @@ class Login extends Component {
       signup = <a href={`/fsignup`}>Sign Up</a>;
     }
     if (type === "user") {
-      if (email == "") {
+      if (this.state.email == "") {
         social = "#ffc312";
-        // login = (
-        //   <a href={`/`} style={{ textDecoration: "none" }}>
-        //     Login
-        //   </a>
-        // );
       } else {
         console.log("err");
       }
     } else {
-      if (email == "") {
+      if (this.state.email == "") {
         social = "#49b5e7";
-        // login = (
-        //   // <a href={`/vendor/Home`} style={{ textDecoration: "none" }}>
-        //   //   Login
-        //   // </a>
-        // );
       }
     }
 
     return (
       <div className="container logintop ">
+        {/* {this.isAuthenticated ? (
+          <Redirect
+            to={{
+              pathname: "/admin",
+            }}
+          />
+        ) : ( */}
         <div className="">
           {/* <div className="jumbotron col-md-6 col-sm-5 " id="login-first"></div> */}
           <div className="jumbotron " id="login-second">
             <div className="container">
               <div className="d-flex justify-content-center">
-                <div class="area">
-                  <ul class="circles">
+                <div className="area">
+                  <ul className="circles">
                     <li></li>
                     <li></li>
                     <li></li>
@@ -124,9 +137,10 @@ class Login extends Component {
                         <input
                           type="text"
                           className="form-control"
+                          name="email"
                           placeholder="Email"
-                          value={email}
-                          onChange={this.onChange.bind(this)}
+                          value={this.state.email}
+                          onChange={this.onChange}
                         />
                       </div>
                       <div className="input-group form-group">
@@ -141,10 +155,11 @@ class Login extends Component {
                         <input
                           type="password"
                           id="password"
+                          name="password"
                           className="form-control"
                           placeholder="password"
-                          value={password}
-                          onChange={this.onChange.bind(this)}
+                          value={this.state.password}
+                          onChange={this.onChange}
                         />
                       </div>
 
@@ -152,6 +167,7 @@ class Login extends Component {
                         <button
                           type="submit"
                           value="Login"
+                          name="submit"
                           className="btn float-right login_btn btn-block "
                           style={{
                             backgroundColor: social,
@@ -176,6 +192,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
+        // )} // ;
       </div>
     );
   }

@@ -77,6 +77,29 @@ exports.getPendingOrders = asyncHandler(async (req, res, next) => {
   }
 });
 
+// @desc      Get orderd list
+// @route     /api/v1/orders/orderd/
+// @access    Public
+exports.getOrderdOrders = asyncHandler(async (req, res, next) => {
+  const order = await Orders.find({ status: "ordered" }).populate({
+    path: "public",
+    select: "name location email phone ",
+  });
+
+  if (order.status == "pending") {
+    return res.status(200).json({
+      success: true,
+      count: order.length,
+      data: order,
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      count: order.length,
+      data: order,
+    });
+  }
+});
 // @desc      Add Cart
 // @route     POST /api/v1/public/:publicId/cart
 // @access    Private

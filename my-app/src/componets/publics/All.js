@@ -7,7 +7,7 @@ import "../CSS/App.css";
 
 import Home from "../publics/Home";
 import Navbar from "../publics/Navbar";
-// import Footer from "../publics/Footer";
+import Footer from "../publics/Footer";
 import Contact from "../publics/Contact";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -25,8 +25,10 @@ export default class All extends Component {
   state = {
     users: [],
     products: [],
+    category: [],
   };
-  getproducts = async () => {
+
+  getCategory = async () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -34,14 +36,40 @@ export default class All extends Component {
     };
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/v1/products/",
+        "http://localhost:5000/api/v1/category/",
+        config
+      );
+      this.setState({
+        category: res.data.data,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
+
+  getproducts = async (catid) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.get(
+        ` http://localhost:5000/api/v1/category/${catid}/products`,
         config
       );
       this.setState({
         products: res.data.data,
       });
     } catch (err) {
-      console.log("Can't load the items");
+      const res = await axios.get(
+        ` http://localhost:5000/api/v1/products`,
+        config
+      );
+      this.setState({
+        products: res.data.data,
+      });
+      // console.log("Can't load the items");
     }
   };
   render() {
@@ -69,7 +97,9 @@ export default class All extends Component {
                   {...props}
                   user={this.state.user}
                   getproducts={this.getproducts}
+                  getCategory={this.getCategory}
                   products={this.state.products}
+                  category={this.state.category}
                 />
               )}
             />
@@ -80,7 +110,7 @@ export default class All extends Component {
           </Switch>
         </div>
 
-        {/* <Footer /> */}
+        <Footer />
       </Router>
     );
   }

@@ -1,7 +1,18 @@
 import React, { Component } from "react";
 
 export default class Dashboard extends Component {
+  componentDidMount() {
+    this.props.getorders();
+    this.props.getvendors();
+    this.props.getpublic();
+  }
+
   render() {
+    const orders = this.props.orders;
+    const vendors = this.props.vendors;
+    const publics = this.props.publics;
+
+    console.log(this.props);
     return (
       <div className="content-wrapper ">
         <div className="row d-none" id="proBanner"></div>
@@ -23,11 +34,11 @@ export default class Dashboard extends Component {
                           alt="circle-image"
                         /> */}
                 <h4 className="font-weight-normal mb-3">
-                  Total Sold Items{" "}
+                  Total Sold Items
                   <i className="mdi mdi-chart-line mdi-24px float-right"></i>
                 </h4>
-                {/* <h2 className="mb-5">777</h2>
-                        <h6 className="card-text"></h6> */}
+                <h2 className="mb-5">{orders.length}</h2>
+                <h6 className="card-text"></h6>
               </div>
             </div>
           </div>
@@ -43,8 +54,8 @@ export default class Dashboard extends Component {
                   Total Sellers
                   <i className="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                 </h4>
-                {/* <h2 className="mb-5">45,6334</h2>
-                        <h6 className="card-text">Decreased by 10%</h6> */}
+                <h2 className="mb-5">{vendors.length}</h2>
+                <h6 className="card-text"></h6>
               </div>
             </div>
           </div>
@@ -60,8 +71,8 @@ export default class Dashboard extends Component {
                   Total Public Users
                   <i className="mdi mdi-diamond mdi-24px float-right"></i>
                 </h4>
-                {/* <h2 className="mb-5">95,5741</h2>
-                        <h6 className="card-text">Increased by 5%</h6> */}
+                <h2 className="mb-5">{publics.length}</h2>
+                <h6 className="card-text"></h6>
               </div>
             </div>
           </div>
@@ -71,92 +82,43 @@ export default class Dashboard extends Component {
           <div className="col-12 grid-margin">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">Recent Request</h4>
+                <h4 className="card-title">vendors</h4>
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
                       <tr>
-                        <th> Assignee </th>
-                        <th> Profession </th>
-                        <th> Status </th>
+                        <th> Name </th>
+                        <th> Phone </th>
+                        <th> email </th>
 
-                        <th> Doccument ID </th>
+                        <th> Address </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
-                            className="mr-2"
-                            alt=""
-                            width="40px"
-                          />{" "}
-                          David Grey{" "}
-                        </td>
-                        <td> Food </td>
-                        <td>
-                          <label className="badge badge-gradient-success">
-                            DONE
-                          </label>
-                        </td>
+                      {this.props.vendors.map((vendor) => (
+                        <tr key={vendor._id}>
+                          <td>
+                            <img
+                              src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
+                              className="mr-2"
+                              alt=""
+                              width="40px"
+                            />{" "}
+                            {vendor.name}
+                          </td>
+                          <td>{vendor.phone} </td>
+                          <td>
+                            <label
+                              className="badge text-bg"
+                              style={{ fontSize: 14 + "px" }}
+                            >
+                              {vendor.email}
+                            </label>
+                          </td>
 
-                        <td> WD-12345 </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
-                            className="mr-2"
-                            alt=""
-                            width="40px"
-                          />{" "}
-                          Stella Johnson{" "}
-                        </td>
-                        <td> Grossory </td>
-                        <td>
-                          <label className="badge badge-gradient-warning">
-                            PROGRESS
-                          </label>
-                        </td>
-                        <td> WD-12346 </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
-                            className="mr-2"
-                            alt=""
-                            width="40px"
-                          />{" "}
-                          Marina Michel{" "}
-                        </td>
-                        <td> Sweets </td>
-                        <td>
-                          <label className="badge badge-gradient-info">
-                            ON HOLD
-                          </label>
-                        </td>
-                        <td> WD-12347 </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
-                            className="mr-2"
-                            alt=""
-                            width="40px"
-                          />{" "}
-                          John Doe{" "}
-                        </td>
-                        <td> Other </td>
-                        <td>
-                          <label className="badge badge-gradient-danger">
-                            REJECTED
-                          </label>
-                        </td>
-                        <td> WD-12348 </td>
-                      </tr>
+                          <td> {vendor.address} </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -166,72 +128,55 @@ export default class Dashboard extends Component {
         </div>
 
         <div className="row mt-5">
-          <div className="col-md-7 grid-margin stretch-card">
+          <div className="col-md-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title">Project Status</h4>
+                <h4 className="card-title">Order List</h4>
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
                       <tr>
                         <th> # </th>
                         <th> Name </th>
-                        <th> Due Date </th>
-                        <th> Progress </th>
+                        <th> Qty </th>
+                        <th>Price</th>
+                        <th> Status </th>.
                       </tr>
                     </thead>
+
                     <tbody>
-                      <tr>
-                        <td> 1 </td>
-                        <td> Herman Beck </td>
-                        <td> May 15, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-success"
-                              role="progressbar"
-                              style={{ width: 25 + "%" }}
-                              aria-valuenow="25"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 2 </td>
-                        <td> Messsy Adam </td>
-                        <td> Jul 01, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-danger"
-                              role="progressbar"
-                              style={{ width: 75 + "%" }}
-                              aria-valuenow="75"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 3 </td>
-                        <td> John Richards </td>
-                        <td> Apr 12, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-warning"
-                              role="progressbar"
-                              style={{ width: 90 + "%" }}
-                              aria-valuenow="90"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr>
+                      {this.props.orders.map((order) => (
+                        <tr key={order._id}>
+                          <td> # </td>
+                          <td>
+                            {" "}
+                            <div className="card">
+                              {order.title}
+                              <div className="photo">
+                                <img src={order.photo} width="50%" />
+                              </div>
+                            </div>{" "}
+                          </td>
+                          <td> {order.qty} </td>
+                          <td> {order.rate} </td>
+                          <td>
+                            <div className="">
+                              <div
+                                className="progress-bar bg-gradient-success"
+                                role="progressbar"
+                                // style={{ width: 25 + "%" }}
+                                // aria-valuenow="100"
+                                // aria-valuemin="0"
+                                // aria-valuemax="100"
+                              >
+                                {" "}
+                                {order.status}
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                      {/*                       
                       <tr>
                         <td> 4 </td>
                         <td> Peter Meggik </td>
@@ -282,14 +227,14 @@ export default class Dashboard extends Component {
                             ></div>
                           </div>
                         </td>
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-5 grid-margin stretch-card">
+
+            {/* <div className="col-md-5 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title text-white">Todo</h4>
@@ -320,12 +265,8 @@ export default class Dashboard extends Component {
                     <li className="completed">
                       <div className="form-check">
                         <label className="form-check-label">
-                          <input
-                            className="checkbox"
-                            type="checkbox"
-                            checked=""
-                          />{" "}
-                          Call John <i className="input-helper"></i>
+                          <input className="checkbox" type="checkbox" /> Call
+                          John <i className="input-helper"></i>
                         </label>
                       </div>
                       <i className="remove mdi mdi-close-circle-outline"></i>
@@ -351,13 +292,8 @@ export default class Dashboard extends Component {
                     <li className="completed">
                       <div className="form-check">
                         <label className="form-check-label">
-                          <input
-                            className="checkbox"
-                            type="checkbox"
-                            checked=""
-                          />{" "}
-                          Prepare for presentation{" "}
-                          <i className="input-helper"></i>
+                          <input className="checkbox" type="checkbox" /> Prepare
+                          for presentation <i className="input-helper"></i>
                         </label>
                       </div>
                       <i className="remove mdi mdi-close-circle-outline"></i>
@@ -375,6 +311,7 @@ export default class Dashboard extends Component {
                 </div>
               </div>
             </div>
+          </div> */}
           </div>
         </div>
       </div>

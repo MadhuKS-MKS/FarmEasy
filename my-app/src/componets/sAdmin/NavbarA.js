@@ -12,7 +12,7 @@ export default class NavbarA extends Component {
       >
         <ul className="nav">
           <li className="nav-item nav-profile">
-            <a href="#" class="nav-link">
+            <a href="#" className="nav-link">
               <div className="nav-profile-image">
                 <img
                   src="https://www.shareicon.net/data/2016/08/18/813864_people_512x512.png"
@@ -24,19 +24,19 @@ export default class NavbarA extends Component {
               </div>
               <div className="nav-profile-text d-flex flex-column">
                 <span className="font-weight-bold mb-2 text-light">Maddy</span>
-                <span class="text-dark text-small">Project Manager</span>
+                <span className="text-dark text-small">Project Manager</span>
               </div>
-              <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+              <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="/admin/">
-              <span class="menu-title">Dashboard</span>
-              <i class="mdi mdi-home menu-icon"></i>
+          <li className="nav-item ">
+            <a className="nav-link" href="/admin/">
+              <span className="menu-title">Dashboard</span>
+              <i className="mdi mdi-home menu-icon"></i>
             </a>
           </li>
 
-          <li class="nav-item">
+          <li className="nav-item">
             <a
               href="#menu3"
               className="nav-link collapsed"
@@ -54,14 +54,14 @@ export default class NavbarA extends Component {
               aria-labelledby="dropdwn"
             >
               <a
-                href="/admin/verifiedseller"
+                href="/verifiedseller"
                 className="list-group-item"
                 data-parent="#menu3"
               >
                 List Varified Sellers
               </a>
               <a
-                href="/admin/application"
+                href="/application"
                 className="list-group-item"
                 data-parent="#menu3"
               >
@@ -69,25 +69,25 @@ export default class NavbarA extends Component {
               </a>
             </div>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" href="">
-              <span class="menu-title">Buyyers</span>
-              <i class="mdi mdi-chart-bar menu-icon"></i>
-            </Link>
+          <li className="nav-item">
+            <a className="nav-link" href="">
+              <span className="menu-title">Buyyers</span>
+              <i className="mdi mdi-chart-bar menu-icon"></i>
+            </a>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" href="">
-              <span class="menu-title">Order Lists</span>
-              <i class="mdi mdi-table-large menu-icon"></i>
-            </Link>
+          <li className="nav-item">
+            <a className="nav-link" href="">
+              <span className="menu-title">Order Lists</span>
+              <i className="mdi mdi-table-large menu-icon"></i>
+            </a>
           </li>
 
-          <li class="nav-item sidebar-actions">
-            <span class="nav-link">
-              <div class="border-bottom">
-                <h6 class="font-weight-normal mb-3">Projects</h6>
+          <li className="nav-item sidebar-actions">
+            <span className="nav-link">
+              <div className="border-bottom">
+                <h6 className="font-weight-normal mb-3">Projects</h6>
               </div>
-              <button class="btn btn-block btn-lg btn-gradient-primary mt-4">
+              <button className="btn btn-block btn-lg btn-gradient-primary mt-4">
                 + Add a project
               </button>
             </span>

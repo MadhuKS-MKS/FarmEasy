@@ -7,6 +7,7 @@ const {
   placeOrder,
   deleteCart,
   getPendingOrders,
+  getOrderdOrders,
 } = require("../controllers/orderlist");
 
 const Orders = require("../models/Orderlist");
@@ -20,19 +21,18 @@ router
   .route("/")
   .get(
     advancedResults(Orders, {
-      path: "public",
-      select: "title price qty photo",
+      path: "product",
+      select: "title price qty photo ",
     }),
     getOrders
   )
   .post(protect, authorize("user", "admin"), addCart);
 
-router
-  .route("/orders")
-  .get(protect, authorize("user", "admin"), getPlacedOrders);
+router.route("/orders").get(getPlacedOrders);
 router
   .route("/pending")
   .get(protect, authorize("user", "admin"), getPendingOrders);
+
 router
   .route("/orders/:orderId")
   .put(protect, authorize("user", "admin"), placeOrder);

@@ -1697,6 +1697,10 @@ input.hidden {
   width: 100%;
   border: 3px solid #000;
 }
+.modal-dialog {
+  max-width: max-content !important;
+  /* margin: 20px !important; */
+}
 .product-big-desc {
   width: 49%;
   height: auto;
