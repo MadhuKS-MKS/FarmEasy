@@ -3,6 +3,7 @@ import "../CSS/admin.css";
 import NavbarT from "./NavbarT";
 import NavbarA from "./NavbarA";
 import Dashboard from "./Dashboard";
+
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -11,8 +12,7 @@ import {
   // useParams,
   // useRouteMatch
 } from "react-router-dom";
-import verifdsellr from "./verifdsellr";
-import sellerapplication from "./sellrapplication";
+import Category from "./Category";
 
 export default class AHome extends Component {
   state = {
@@ -24,7 +24,7 @@ export default class AHome extends Component {
     publics: [],
   };
 
-  getcategory = async () => {
+  getCategory = async () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -162,36 +162,42 @@ export default class AHome extends Component {
               {/* <!-- partial --> */}
               <div className="main-panel">
                 <Switch>
-                  {/* <Route path={"/admin/"} component={Dashboard}></Route> */}
                   <Route
-                    path={"/admin"}
+                    path={"/category"}
                     render={(props) => (
-                      <Dashboard
+                      <Category
                         {...props}
-                        // getproducts={this.getProducts}
-                        getpublic={this.getpublic}
-                        getorders={this.getorders}
-                        getvendors={this.getvendors}
-                        publics={this.state.publics}
-                        // category={this.state.category}
+                        getcategory={this.getCategory}
+                        category={this.state.category}
                         // user={this.state.user}
-                        orders={this.state.orders}
-                        vendors={this.state.vendors}
                       />
                     )}
                   />
                   <Route
                     exact
-                    path={"/verifiedseller"}
-                    component={verifdsellr}
+                    path={"/admin"}
+                    render={(props) => (
+                      <Dashboard
+                        {...props}
+                        getCategory={this.getCategory}
+                        getusers={this.getusers}
+                        getpublic={this.getpublic}
+                        getorders={this.getorders}
+                        getvendors={this.getvendors}
+                        publics={this.state.publics}
+                        category={this.state.category}
+                        users={this.state.user}
+                        orders={this.state.orders}
+                        vendors={this.state.vendors}
+                      />
+                    )}
                   />
-                  <Route path={"/application"} component={sellerapplication} />
                 </Switch>{" "}
                 {/* <!-- main-panel ends --> */}
                 <footer className="footer">
                   <div className="d-sm-flex justify-content-center justify-content-sm-between">
                     <span className="text-muted text-center text-sm-left d-block d-sm-inline-block">
-                      Copyright © 2017{" "}
+                      Copyright © 2020{" "}
                       {/* <Link to="https://www.bootstrapdash.com/" target="_blank">
                         BootstrapDash
                       </Link> */}

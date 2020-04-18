@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import Category from "./Category";
+import { Redirect, Link } from "react-router-dom";
 
 export default class Dashboard extends Component {
   componentDidMount() {
     this.props.getorders();
     this.props.getvendors();
     this.props.getpublic();
+    this.props.getCategory();
+    this.props.getusers();
   }
 
   render() {
@@ -77,12 +81,13 @@ export default class Dashboard extends Component {
             </div>
           </div>
         </div>
-
-        <div className="row">
+        {/* Vendors List */}
+        <div className="row" id="vendor">
           <div className="col-12 grid-margin">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">vendors</h4>
+
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
@@ -92,6 +97,7 @@ export default class Dashboard extends Component {
                         <th> email </th>
 
                         <th> Address </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -117,6 +123,14 @@ export default class Dashboard extends Component {
                           </td>
 
                           <td> {vendor.address} </td>
+                          <td className="actions" data-th="">
+                            <button className="btn btn-info btn-sm">
+                              <i className="fa fa-edit"></i>
+                            </button>
+                            <button className="btn btn-danger btn-sm">
+                              <i className="fa fa-trash-o"></i>
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -126,12 +140,74 @@ export default class Dashboard extends Component {
             </div>
           </div>
         </div>
+        {/* End of Vendor List */}
+        {/* User List */}
+        <div className="row" id="vendor">
+          <div className="col-12 grid-margin">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">Users</h4>
 
-        <div className="row mt-5">
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th> Name </th>
+                        <th> Phone </th>
+                        <th> email </th>
+
+                        <th> Address </th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.vendors.map((user) => (
+                        <tr key={user._id}>
+                          <td>
+                            <img
+                              src="https://upload.wikimedia.org/wikipedia/commons/6/67/Vector_Face_wearing_Spectacles.png"
+                              className="mr-2"
+                              alt=""
+                              width="40px"
+                            />{" "}
+                            {user.name}
+                          </td>
+                          <td>{user.phone} </td>
+                          <td>
+                            <label
+                              className="badge text-bg"
+                              style={{ fontSize: 14 + "px" }}
+                            >
+                              {user.email}
+                            </label>
+                          </td>
+
+                          <td> {user.address} </td>
+                          <td className="actions" data-th="">
+                            <button className="btn btn-info btn-sm">
+                              <i className="fa fa-edit"></i>
+                            </button>
+                            <button className="btn btn-danger btn-sm">
+                              <i className="fa fa-trash-o"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End of Vendor List */}
+        {/* Order List */}
+        <div className="row mt-5" id="order">
           <div className="col-md-12 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title">Order List</h4>
+
                 <div className="table-responsive">
                   <table className="table">
                     <thead>
@@ -140,7 +216,8 @@ export default class Dashboard extends Component {
                         <th> Name </th>
                         <th> Qty </th>
                         <th>Price</th>
-                        <th> Status </th>.
+                        <th> Status </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
 
@@ -174,146 +251,67 @@ export default class Dashboard extends Component {
                               </div>
                             </div>
                           </td>
+                          <td className="actions" data-th="">
+                            <button className="btn btn-info btn-sm ">
+                              <i className="fa fa-edit"></i>
+                            </button>
+                            <button className="btn btn-danger btn-sm ml-4">
+                              <i className="fa fa-trash-o"></i>
+                            </button>
+                          </td>
                         </tr>
                       ))}
-                      {/*                       
-                      <tr>
-                        <td> 4 </td>
-                        <td> Peter Meggik </td>
-                        <td> May 15, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-primary"
-                              role="progressbar"
-                              style={{ width: 50 + "%" }}
-                              aria-valuenow="50"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 5 </td>
-                        <td> Edward </td>
-                        <td> May 03, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-danger"
-                              role="progressbar"
-                              style={{ width: 35 + "%" }}
-                              aria-valuenow="35"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td> 5 </td>
-                        <td> Ronald </td>
-                        <td> Jun 05, 2015 </td>
-                        <td>
-                          <div className="progress">
-                            <div
-                              className="progress-bar bg-gradient-info"
-                              role="progressbar"
-                              style={{ width: 65 + "%" }}
-                              aria-valuenow="65"
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                        </td>
-                      </tr> */}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-
-            {/* <div className="col-md-5 grid-margin stretch-card">
+          </div>
+        </div>
+        {/* End of Order List */}
+        {/* Category List */}
+        <div className="row mt-5" id="category">
+          <div className="col-6 grid-margin">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title text-white">Todo</h4>
-                <div className="add-items d-flex">
-                  <input
-                    type="text"
-                    className="form-control todo-list-input"
-                    placeholder="What do you need to do today?"
-                  />
-                  <button
-                    className="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"
-                    id="add-task"
-                  >
-                    Add
-                  </button>
+                <h4 className="card-title">Category</h4>{" "}
+                <div className="pull-right mb-2">
+                  <Link to="/category" className="btn btn-danger btn-sm">
+                    <i className="fa fa-plus fa-1x">Add Category</i>
+                  </Link>
                 </div>
-                <div className="list-wrapper">
-                  <ul className="d-flex flex-column-reverse todo-list todo-list-custom">
-                    <li>
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Meeting
-                          with Alisa <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li className="completed">
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Call
-                          John <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Create
-                          invoice <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Print
-                          Statements <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li className="completed">
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Prepare
-                          for presentation <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                    <li>
-                      <div className="form-check">
-                        <label className="form-check-label">
-                          <input className="checkbox" type="checkbox" /> Pick up
-                          kids from school <i className="input-helper"></i>
-                        </label>
-                      </div>
-                      <i className="remove mdi mdi-close-circle-outline"></i>
-                    </li>
-                  </ul>
+                <div className="table-responsive ">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th> Name </th>
+
+                        <th> Action </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.props.category.map((category) => (
+                        <tr key={category._id}>
+                          <td>{category.catname} </td>
+
+                          <td className="actions" data-th="">
+                            <button className="btn btn-info btn-sm mr-4">
+                              <i className="fa fa-edit"></i>
+                            </button>
+                            <button className="btn btn-danger btn-sm">
+                              <i className="fa fa-trash-o"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-          </div> */}
           </div>
         </div>
+        {/* end of category list */}
       </div>
     );
   }

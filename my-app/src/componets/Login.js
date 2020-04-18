@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import "./CSS/App.css";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 const superagent = require("superagent");
 
 class Login extends Component {
@@ -18,25 +18,18 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.state.type = this.props.match.params;
+    this.setState({
+      type: this.props.match.params,
+    });
     // this.props.getuser();
   }
-  // handleEmailChange(e) {
-  //   this.setState({
-  //     email: e.target.value,
-  //   });
-  // }
-  // handlePasswordChange(e) {
-  //   this.setState({
-  //     password: e.target.value,
-  //   });
-  // }
+  // Input on change
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
-
+  // Login
   onSubmit = (e) => {
     e.preventDefault();
     superagent
@@ -44,10 +37,11 @@ class Login extends Component {
       .send({ email: this.state.email, password: this.state.password })
       .end((err, res) => {
         if (err) {
-          this.setState({ errrorMessage: "Authenticstion Failed" });
+          this.setState({ errorMessage: "Authenticstion Failed" });
           return;
         }
-        console.log(res.body);
+        console.log(res.body.token);
+        sessionStorage.setItem("token", res.body.token);
       });
   };
   isAuthenticated() {
@@ -56,6 +50,7 @@ class Login extends Component {
   }
   render() {
     const type = this.state.type;
+    console.log(type.type);
     let social = {};
     let signup, login;
     if (type === "user") {
@@ -65,17 +60,17 @@ class Login extends Component {
       social = "#49b5e7";
       signup = <a href={`/fsignup`}>Sign Up</a>;
     }
-    if (type === "user") {
-      if (this.state.email == "") {
-        social = "#ffc312";
-      } else {
-        console.log("err");
-      }
-    } else {
-      if (this.state.email == "") {
-        social = "#49b5e7";
-      }
-    }
+    // if (type === "user") {
+    //   if (this.state.email == "") {
+    //     social = "#ffc312";
+    //   } else {
+    //     console.log("err");
+    //   }
+    // } else {
+    //   if (this.state.email == "") {
+    //     social = "#49b5e7";
+    //   }
+    // }
 
     return (
       <div className="container logintop ">
@@ -107,7 +102,7 @@ class Login extends Component {
                 </div>
                 <div className="card animated bounce" id="login-card">
                   <div className="card-header">
-                    <h3 className="mt-5">Sign In As </h3>
+                    <h3 className="mt-5">Sign In As {type.type}</h3>
                     <div
                       className="d-flex justify-content-end"
                       id="social_icon"
@@ -192,7 +187,6 @@ class Login extends Component {
             </div>
           </div>
         </div>
-        // )} // ;
       </div>
     );
   }

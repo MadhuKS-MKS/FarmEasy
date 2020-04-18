@@ -24,7 +24,7 @@ export default class NavbarA extends Component {
               </div>
               <div className="nav-profile-text d-flex flex-column">
                 <span className="font-weight-bold mb-2 text-light">Maddy</span>
-                <span className="text-dark text-small">Project Manager</span>
+                <span className="text-dark text-small">Project Head</span>
               </div>
               <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
@@ -37,52 +37,32 @@ export default class NavbarA extends Component {
           </li>
 
           <li className="nav-item">
-            <a
-              href="#menu3"
-              className="nav-link collapsed"
-              data-toggle="collapse"
-              data-parent="#sidebar"
-              aria-expanded="false"
-              id="dropdwn"
-            >
-              <span className="">Seller</span>
-              <i className="mdi mdi-contacts menu-icon"></i>
+            <a className="nav-link" href="/admin#vendor">
+              <span className="menu-title">Sellers</span>
+              <i className="mdi mdi-chart-bar menu-icon"></i>
             </a>
-            <div
-              className="collapse submenu "
-              id="menu3"
-              aria-labelledby="dropdwn"
-            >
-              <a
-                href="/verifiedseller"
-                className="list-group-item"
-                data-parent="#menu3"
-              >
-                List Varified Sellers
-              </a>
-              <a
-                href="/application"
-                className="list-group-item"
-                data-parent="#menu3"
-              >
-                Application Varify
-              </a>
-            </div>
           </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <a className="nav-link" href="/admin#user">
               <span className="menu-title">Buyyers</span>
               <i className="mdi mdi-chart-bar menu-icon"></i>
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
+            <a className="nav-link" href="/admin#category">
+              <span className="menu-title">Category</span>
+              <i className="mdi mdi-chart-bar menu-icon"></i>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/admin#order">
               <span className="menu-title">Order Lists</span>
               <i className="mdi mdi-table-large menu-icon"></i>
             </a>
           </li>
 
-          <li className="nav-item sidebar-actions">
+          {/* <li className="nav-item sidebar-actions">
             <span className="nav-link">
               <div className="border-bottom">
                 <h6 className="font-weight-normal mb-3">Projects</h6>
@@ -91,7 +71,7 @@ export default class NavbarA extends Component {
                 + Add a project
               </button>
             </span>
-          </li>
+          </li> */}
         </ul>
       </nav>
     );

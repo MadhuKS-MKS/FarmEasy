@@ -3,9 +3,13 @@ import logo from "../../assets/logo.png";
 // import FHome from "./FHome";
 
 export default class Navbar extends Component {
-  state = {
-    loggedIn: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: true,
+    };
+  }
+
   render() {
     // let cart;
     let profile, logout;

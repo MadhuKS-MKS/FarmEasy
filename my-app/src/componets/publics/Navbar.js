@@ -9,13 +9,13 @@ export default class Navbar extends Component {
   render() {
     let cart;
     let profile;
-    if (this.state.loggedIn === false) {
+    if (this.state.loggedIn === true) {
       cart = (
-        <ul class="nav navbar-nav navbar-left">
-          <li class="dropdown">
+        <ul className="nav navbar-nav navbar-left">
+          <li className="dropdown">
             <a
               href="#"
-              class="dropdown-toggle"
+              className="dropdown-toggle"
               data-toggle="dropdown"
               role="button"
               aria-expanded="false"
@@ -27,67 +27,75 @@ export default class Navbar extends Component {
                 style={{ color: "#f2f2f3  " }}
               ></span>{" "}
             </a>
-            <ul class="dropdown-menu dropdown-cart" role="menu">
+            <ul className="dropdown-menu dropdown-cart" role="menu">
               <li>
-                <span class="item">
-                  <span class="item-left">
+                <span className="item">
+                  <span className="item-left">
                     <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
+                    <span className="item-info">
                       <span>Item name</span>
                       <span>23$</span>
                     </span>
                   </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs btn-danger pull-right">x</button>
+                  <span className="item-right">
+                    <button className="btn btn-xs btn-danger pull-right">
+                      x
+                    </button>
                   </span>
                 </span>
               </li>
               <li>
-                <span class="item">
-                  <span class="item-left">
+                <span className="item">
+                  <span className="item-left">
                     <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
+                    <span className="item-info">
                       <span>Item name</span>
                       <span>23$</span>
                     </span>
                   </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs btn-danger pull-right">x</button>
+                  <span className="item-right">
+                    <button className="btn btn-xs btn-danger pull-right">
+                      x
+                    </button>
                   </span>
                 </span>
               </li>
               <li>
-                <span class="item">
-                  <span class="item-left">
+                <span className="item">
+                  <span className="item-left">
                     <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
+                    <span className="item-info">
                       <span>Item name</span>
                       <span>23$</span>
                     </span>
                   </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs btn-danger pull-right">x</button>
+                  <span className="item-right">
+                    <button className="btn btn-xs btn-danger pull-right">
+                      x
+                    </button>
                   </span>
                 </span>
               </li>
               <li>
-                <span class="item">
-                  <span class="item-left">
+                <span className="item">
+                  <span className="item-left">
                     <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span class="item-info">
+                    <span className="item-info">
                       <span>Item name</span>
                       <span>23$</span>
                     </span>
                   </span>
-                  <span class="item-right">
-                    <button class="btn btn-xs btn-danger pull-right">x</button>
+                  <span className="item-right">
+                    <button className="btn btn-xs btn-danger pull-right">
+                      x
+                    </button>
                   </span>
                 </span>
               </li>
-              <li class="divider"></li>
+              <li className="divider"></li>
               <li>
                 <a
-                  class="btn btn-success text-center pull-right mt-3 mr-3"
+                  className="btn btn-success text-center pull-right mt-3 mr-3"
                   href="/cart"
                 >
                   View Cart
@@ -134,22 +142,22 @@ export default class Navbar extends Component {
                   src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
                   width="50"
                   height="50"
-                  class="rounded-circle content-center"
+                  className="rounded-circle content-center"
                 />{" "}
                 username
               </a>
 
               <div
-                class="dropdown-menu"
+                className="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                {/* <a class="dropdown-item" href="/farmer/Prof">
+                {/* <a className="dropdown-item" href="/farmer/Prof">
                   Profile
                 </a> */}
-                <a class="dropdown-item" href="/user/editprofile">
+                <a className="dropdown-item" href="/user/editprofile">
                   Edit Profile
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   <span
                     className="fa fa-sign-out fa-2x"
                     style={{ color: "#f2f2f3  " }}

@@ -1,37 +1,48 @@
 import React, { Component } from "react";
 import "../CSS/farm.css";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export default class addItems extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      category: [],
+    };
+  }
+  componentDidMount() {
+    this.props.getCategory();
+  }
   render() {
     return (
       <div className="container itmtop">
         <div className="">
           {/* <div className="jumbotron col-md-6 col-sm-5 " id="login-first"></div> */}
           <div className="jumbotron" id="login-second">
-            <div class="page-wrapper p-t-50 p-b-50">
-              <div class="wrapper wrapper--w900 ">
-                <div class="card cardH card-6 ">
-                  <div class="card-heading m-4">
-                    <h2 class="title text-dark">Add Items</h2>
+            <div className="page-wrapper p-t-50 p-b-50">
+              <div className="wrapper wrapper--w900 ">
+                <div className="card cardH card-6 ">
+                  <div className="card-heading m-4">
+                    <h2 className="title text-dark">Add Items</h2>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <form method="POST">
-                      <div class="form-row frow">
-                        <div class="name">Item Name:</div>
-                        <div class="value">
+                      <div className="form-row frow">
+                        <div className="name">Item Name:</div>
+                        <div className="value">
                           <input
-                            class="input--style-6"
+                            className="input--style-6"
                             type="text"
                             name="iname"
                           />
                         </div>
                       </div>
-                      <div class="form-row frow">
-                        <div class="name">Description:</div>
-                        <div class="value">
-                          <div class="input-group">
+                      <div className="form-row frow">
+                        <div className="name">Description:</div>
+                        <div className="value">
+                          <div className="input-group">
                             <input
-                              class="input--style-6"
+                              className="input--style-6"
                               type="text"
                               name="desc"
                               placeholder=""
@@ -39,12 +50,38 @@ export default class addItems extends Component {
                           </div>
                         </div>
                       </div>
-                      <div class="form-row frow">
-                        <div class="name">Price in Rs:</div>
-                        <div class="value">
-                          <div class="input-group">
+                      <div className="form-row frow">
+                        <div className="name">Select Category:</div>
+                        <Dropdown>
+                          <Dropdown.Toggle
+                            variant="success"
+                            id="dropdown-basic"
+                          >
+                            Category
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            {this.props.category.map((category) => (
+                              <Dropdown.Item key={category._id}>
+                                {category.catname}
+                              </Dropdown.Item>
+                            ))}
+
+                            {/* <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item> */}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+                      <div className="form-row frow">
+                        <div className="name">Price in Rs:</div>
+                        <div className="value">
+                          <div className="input-group">
                             <input
-                              class="input--style-6"
+                              className="input--style-6"
                               type="email"
                               name="email"
                               placeholder=""
@@ -52,12 +89,12 @@ export default class addItems extends Component {
                           </div>
                         </div>
                       </div>
-                      <div class="form-row frow">
-                        <div class="name">Quantity:</div>
-                        <div class="value">
-                          <div class="input-group">
+                      <div className="form-row frow">
+                        <div className="name">Quantity:</div>
+                        <div className="value">
+                          <div className="input-group">
                             <input
-                              class="input--style-6"
+                              className="input--style-6"
                               type="email"
                               name="email"
                               placeholder=""
@@ -65,22 +102,26 @@ export default class addItems extends Component {
                           </div>
                         </div>
                       </div>
-                      <div class="form-row frow">
-                        <div class="name">Upload Images:</div>
-                        <div class="value">
-                          <div class="input-group js-input-file">
+                      <div className="form-row frow">
+                        <div className="name">Upload Images:</div>
+                        <div className="value">
+                          <div className="input-group js-input-file">
                             <input
-                              class="input-file"
+                              className="input-file"
                               type="file"
                               name="file_doc"
                               id="file"
+                              multiple
                             />
-                            <label class="label--file" for="file">
+
+                            <label className="label-file" for="file">
                               Choose file
                             </label>
-                            <span class="input-file__info">No file chosen</span>
+                            <span className="input-file__info">
+                              No file chosen
+                            </span>
                           </div>
-                          <div class="label--desc">
+                          <div className="label--desc">
                             Upload your Document/Id proff or any other relevant
                             file. Max file size 50 MB
                           </div>
@@ -88,8 +129,11 @@ export default class addItems extends Component {
                       </div>
                     </form>
                   </div>
-                  <div class="card-footer">
-                    <button class="btn btn--radius-2 btn-primary" type="submit">
+                  <div className="card-footer">
+                    <button
+                      className="btn btn-radius-2 btn-primary"
+                      type="submit"
+                    >
                       Add
                     </button>
                   </div>
