@@ -139,7 +139,7 @@ exports.vendorsPhotoUpload = asyncHandler(async (req, res, next) => {
   if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
-        `User ${req.params.vendorId} is not authorized to update this bootcamp`,
+        `User ${req.params.vendorId} is not authorized to update this product`,
         401
       )
     );

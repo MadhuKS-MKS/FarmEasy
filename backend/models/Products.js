@@ -23,12 +23,11 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please add in stock"],
   },
-  photo: [
-    {
-      type: String,
-      default: "no-photo.jpg",
-    },
-  ],
+  photo: {
+    type: String,
+    default: "no-photo.jpg",
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,
