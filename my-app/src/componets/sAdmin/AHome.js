@@ -167,7 +167,7 @@ export default class AHome extends Component {
                     render={(props) => (
                       <Category
                         {...props}
-                        getcategory={this.getCategory}
+                        getCategory={this.getCategory}
                         category={this.state.category}
                         // user={this.state.user}
                       />

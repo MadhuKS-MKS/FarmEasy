@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, Fragment } from "react";
 import "./CSS/App.css";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
@@ -8,11 +8,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.getUser = this.getUser;
+    // this.getUser = this.getUser;
     this.state = {
       email: "",
       password: "",
       type: "",
+      isAuth: false,
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -42,10 +43,15 @@ class Login extends Component {
         }
         console.log(res.body.token);
         sessionStorage.setItem("token", res.body.token);
+        this.setState({
+          isAuth: true,
+        });
       });
   };
   isAuthenticated() {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
+    console.log(token);
+
     return token && token.length > 10;
   }
   render() {
@@ -60,6 +66,7 @@ class Login extends Component {
       social = "#49b5e7";
       signup = <a href={`/fsignup`}>Sign Up</a>;
     }
+
     // if (type === "user") {
     //   if (this.state.email == "") {
     //     social = "#ffc312";
@@ -71,123 +78,130 @@ class Login extends Component {
     //     social = "#49b5e7";
     //   }
     // }
+    const isAuthenticated = this.isAuthenticated();
+    console.log(type);
 
     return (
-      <div className="container logintop ">
-        {/* {this.isAuthenticated ? (
-          <Redirect
-            to={{
-              pathname: "/admin",
-            }}
-          />
-        ) : ( */}
-        <div className="">
-          {/* <div className="jumbotron col-md-6 col-sm-5 " id="login-first"></div> */}
-          <div className="jumbotron " id="login-second">
-            <div className="container">
-              <div className="d-flex justify-content-center">
-                <div className="area">
-                  <ul className="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                  </ul>
-                </div>
-                <div className="card animated bounce" id="login-card">
-                  <div className="card-header">
-                    <h3 className="mt-5">Sign In As {type.type}</h3>
-                    <div
-                      className="d-flex justify-content-end"
-                      id="social_icon"
-                    >
-                      <span style={{ color: social }}>
-                        <i className="fa fa-facebook-square"></i>
-                      </span>
-                      <span style={{ color: social }}>
-                        <i className="fa fa-google-plus-square"></i>
-                      </span>
-                      <span style={{ color: social }}>
-                        <i className="fa fa-twitter-square"></i>
-                      </span>
+      <Fragment>
+        {isAuthenticated ? (
+          type.type == "user" ? (
+            <Redirect to="/" />
+          ) : type.type == "vendor" ? (
+            <Redirect to="/vendor/Home" />
+          ) : (
+            <Redirect to="/admin" />
+          )
+        ) : (
+          <div className="container logintop ">
+            <div className="">
+              {/* <div className="jumbotron col-md-6 col-sm-5 " id="login-first"></div> */}
+              <div className="jumbotron " id="login-second">
+                <div className="container">
+                  <div className="d-flex justify-content-center">
+                    <div className="area">
+                      <ul className="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                      </ul>
                     </div>
-                  </div>
-                  <div className="card-body">
-                    <form onSubmit={this.onSubmit}>
-                      <div className="input-group form-group">
-                        <div className="input-group-prepend">
-                          <span
-                            className="input-group-text"
-                            style={{ background: social }}
-                          >
-                            <i className="fa fa-user"></i>
-                          </span>
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control"
-                          name="email"
-                          placeholder="Email"
-                          value={this.state.email}
-                          onChange={this.onChange}
-                        />
-                      </div>
-                      <div className="input-group form-group">
-                        <div className="input-group-prepend">
-                          <span
-                            className="input-group-text"
-                            style={{ background: social }}
-                          >
-                            <i className="fa fa-key"></i>
-                          </span>
-                        </div>
-                        <input
-                          type="password"
-                          id="password"
-                          name="password"
-                          className="form-control"
-                          placeholder="password"
-                          value={this.state.password}
-                          onChange={this.onChange}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <button
-                          type="submit"
-                          value="Login"
-                          name="submit"
-                          className="btn float-right login_btn btn-block "
-                          style={{
-                            backgroundColor: social,
-                          }}
+                    <div className="card animated bounce" id="login-card">
+                      <div className="card-header">
+                        <h3 className="mt-5">Sign In As {type.type}</h3>
+                        <div
+                          className="d-flex justify-content-end"
+                          id="social_icon"
                         >
-                          Login
-                        </button>
+                          <span style={{ color: social }}>
+                            <i className="fa fa-facebook-square"></i>
+                          </span>
+                          <span style={{ color: social }}>
+                            <i className="fa fa-google-plus-square"></i>
+                          </span>
+                          <span style={{ color: social }}>
+                            <i className="fa fa-twitter-square"></i>
+                          </span>
+                        </div>
                       </div>
-                    </form>
-                  </div>
-                  <div className="card-footer">
-                    <div className="d-flex justify-content-center links">
-                      Don't have an account?
-                      {signup}
-                    </div>
-                    <div className="d-flex justify-content-center">
-                      <a href="/reset">Forgot your password?</a>
+                      <div className="card-body">
+                        <form onSubmit={this.onSubmit}>
+                          <div className="input-group form-group">
+                            <div className="input-group-prepend">
+                              <span
+                                className="input-group-text"
+                                style={{ background: social }}
+                              >
+                                <i className="fa fa-user"></i>
+                              </span>
+                            </div>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="email"
+                              placeholder="Email"
+                              value={this.state.email}
+                              onChange={this.onChange}
+                            />
+                          </div>
+                          <div className="input-group form-group">
+                            <div className="input-group-prepend">
+                              <span
+                                className="input-group-text"
+                                style={{ background: social }}
+                              >
+                                <i className="fa fa-key"></i>
+                              </span>
+                            </div>
+                            <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              className="form-control"
+                              placeholder="password"
+                              value={this.state.password}
+                              onChange={this.onChange}
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <button
+                              type="submit"
+                              value="Login"
+                              name="submit"
+                              className="btn float-right login_btn btn-block "
+                              style={{
+                                backgroundColor: social,
+                              }}
+                            >
+                              Login
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                      <div className="card-footer">
+                        <div className="d-flex justify-content-center links">
+                          Don't have an account?
+                          {signup}
+                        </div>
+                        <div className="d-flex justify-content-center">
+                          <a href="/reset">Forgot your password?</a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        )}
+      </Fragment>
     );
   }
 }

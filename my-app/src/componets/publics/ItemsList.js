@@ -2,12 +2,6 @@ import React from "react";
 import Showitems from "./Showitems";
 
 class itemList extends React.Component {
-  // state = {
-  //   product: [],
-  // };
-  // constructor() {
-  //   super();
-  // }
   componentDidMount = (async) => {
     this.props.getCategory();
     this.props.getproducts(this.props.match.params);
@@ -28,21 +22,12 @@ class itemList extends React.Component {
               <div className="row">
                 <div className="col-lg-12">
                   <ul id="portfolio-flters">
-                    <li
-                      data-filter=".filter-app, .filter-card, .filter-logo, .filter-web"
-                      className="filter-active"
-                    >
-                      All
-                    </li>
+                    {/* List all Category */}
                     {this.props.category.map((category) => (
                       <li data-filter=".filter-app" key={category._id}>
                         {category.catname}
                       </li>
                     ))}
-                    <li data-filter=".filter-app">Sweets</li>
-                    {/* <li data-filter=".filter-card">Juice</li>
-                    <li data-filter=".filter-logo">Spices</li>
-                    <li data-filter=".filter-web">Other HomeMade</li> */}
                   </ul>
                 </div>
               </div>
@@ -51,6 +36,7 @@ class itemList extends React.Component {
                 id="portfolio-wrapper"
                 style={{ opacity: 1 }}
               >
+                {/* listing of products */}
                 {this.props.products.map((product) => (
                   <Showitems product={product} key={product._id}></Showitems>
                 ))}
@@ -62,9 +48,5 @@ class itemList extends React.Component {
     );
   }
 }
-// const userStyle = {
-//   display: "grid",
-//   gridTemplateColumns: "repeat(3,1fr)",
-//   gridGap: "1rem",
-// };
+
 export default itemList;

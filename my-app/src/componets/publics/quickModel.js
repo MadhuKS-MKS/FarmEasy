@@ -11,13 +11,15 @@ export default class quickModel extends Component {
   };
   render() {
     const {
+      photo,
       title,
       description,
       stock,
+      category,
 
       rate,
     } = this.state.product;
-    console.log(this.state.product.category);
+    console.log(this.state.product);
     return (
       <div className="modal show product-view" id="quickModel" role="dialog">
         <div className="modal-dialog">
@@ -30,14 +32,14 @@ export default class quickModel extends Component {
             <div className="modal-body">
               <div className="modal-dialog product-big-img">
                 <img
-                  src="https://recipes.timesofindia.com/recipes/homemade-chocolate/photo/54407737.cms"
+                  src={`/myProject/backend/uploads/items/${photo}`}
                   className=" mt-2"
                 />
               </div>
               <div className="product-big-desc">
                 <h2>{title}</h2>
                 <h5>Product stock :{stock} </h5>
-                <h5>Category : </h5>
+                {/* <h5>Category :{category.catname} </h5> */}
                 <h5>Description :{description} </h5>
 
                 <h6>

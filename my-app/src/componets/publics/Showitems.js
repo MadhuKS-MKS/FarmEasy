@@ -10,13 +10,13 @@ export default class Showitems extends Component {
     this.setState({ product: this.props.product });
   };
   render() {
-    console.log(this.state.product.title);
+    console.log(this.state.product.photo);
     const { photo, title, rate } = this.state.product;
     return (
       <Fragment>
         <div className="card col-lg-2 col-md-2 col-sm-2  animated fadeInUp wow animated m-2">
           <div className="product-tops">
-            <img src={photo} className="img1 mt-2" alt="" />
+            <img src={`${photo}`} className="img1 mt-2" alt="" />
 
             <div className="overlays">
               <button

@@ -91,7 +91,7 @@ export default class All extends Component {
             {/* <Route path={"/Showitems"} component={Showitems} /> */}
             <Route
               exact
-              path={"/Showitems"}
+              path={"/showitems"}
               render={(props) => (
                 <ItemsList
                   {...props}

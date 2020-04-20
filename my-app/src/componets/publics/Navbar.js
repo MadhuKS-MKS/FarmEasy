@@ -1,10 +1,41 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
 import logo from "../../assets/logo.png";
 
 export default class Navbar extends Component {
+  constructor(props) {
+    super(props);
+
+    // this.getUser = this.getUser;
+    this.state = {
+      email: "",
+      password: "",
+      type: "",
+      isAuth: false,
+    };
+    this.onLogout = this.onLogout.bind(this);
+  }
   state = {
     loggedIn: true,
+  };
+  onLogout = async (e) => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/v1/auth/logout",
+        config
+      );
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+    sessionStorage.clear("token");
   };
   render() {
     let cart;
@@ -44,38 +75,7 @@ export default class Navbar extends Component {
                   </span>
                 </span>
               </li>
-              <li>
-                <span className="item">
-                  <span className="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span className="item-info">
-                      <span>Item name</span>
-                      <span>23$</span>
-                    </span>
-                  </span>
-                  <span className="item-right">
-                    <button className="btn btn-xs btn-danger pull-right">
-                      x
-                    </button>
-                  </span>
-                </span>
-              </li>
-              <li>
-                <span className="item">
-                  <span className="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span className="item-info">
-                      <span>Item name</span>
-                      <span>23$</span>
-                    </span>
-                  </span>
-                  <span className="item-right">
-                    <button className="btn btn-xs btn-danger pull-right">
-                      x
-                    </button>
-                  </span>
-                </span>
-              </li>
+
               <li>
                 <span className="item">
                   <span className="item-left">
@@ -124,18 +124,10 @@ export default class Navbar extends Component {
                 aria-hidden="true"
               ></span>
             </a>
-            <div
-              className="dropdown-menu"
-              // aria-labelledby="navbarDropdown"
-            >
+            <div className="dropdown-menu">
               <a
                 className=" "
                 href="/user/userprofile"
-                // id="navbarDropdown"
-                // role="button"
-                // data-toggle="dropdown"
-                // aria-haspopup="true"
-                // aria-expanded="false"
                 style={{ textDecoration: "none" }}
               >
                 <img
@@ -157,7 +149,7 @@ export default class Navbar extends Component {
                 <a className="dropdown-item" href="/user/editprofile">
                   Edit Profile
                 </a>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" onClick={this.onLogout}>
                   <span
                     className="fa fa-sign-out fa-2x"
                     style={{ color: "#f2f2f3  " }}
@@ -205,6 +197,7 @@ export default class Navbar extends Component {
             className="navbar-collapse collapse justify-content-center"
             id="navbarDefault"
           >
+            {/* NavBar Links  */}
             <ul className="navbar-nav">
               <li className="nav-item">
                 <a className="nav-link " href="/">
@@ -217,15 +210,10 @@ export default class Navbar extends Component {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/Showitems">
+                <a className="nav-link" href="/showitems">
                   Products
                 </a>
               </li>
-              {/* <li className="nav-item">
-                <a className="nav-link" href="blog-grid.html">
-                  Blog
-                </a>
-              </li> */}
 
               <li className="nav-item ">
                 <a className="nav-link" href="/Contact">
@@ -258,26 +246,6 @@ export default class Navbar extends Component {
           </div>
 
           {profile}
-          {/* <button
-            type="button"
-            className="btn btn-b-n navbar-toggle-box-collapse d-none d-md-block"
-            data-toggle="collapse"
-            data-target="#navbarTogglerDemo01"
-            aria-expanded="false"
-          >
-            <span className="fa fa-search" aria-hidden="true"></span>
-          </button> */}
-          {/* <a
-            type="button"
-            className="btn navbar-toggle-box-collapse d-none d-md-block "
-            data-toggle="collapse"
-            data-target="#navbarTogglerDemo01"
-            aria-expanded="false"
-            href="/cart"
-            title="Cart"
-          >
-          
-          </a> */}
         </div>
       </nav>
     );

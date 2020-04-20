@@ -142,7 +142,7 @@ export default class Dashboard extends Component {
         </div>
         {/* End of Vendor List */}
         {/* User List */}
-        <div className="row" id="vendor">
+        <div className="row mt-5" id="vendor">
           <div className="col-12 grid-margin">
             <div className="card">
               <div className="card-body">
@@ -276,9 +276,35 @@ export default class Dashboard extends Component {
               <div className="card-body">
                 <h4 className="card-title">Category</h4>{" "}
                 <div className="pull-right mb-2">
-                  <Link to="/category" className="btn btn-danger btn-sm">
+                  {/* <Link
+                    to="/category"
+                    className="btn btn-danger btn-sm"
+                    title="Quick Shop"
+                    data-toggle="modal"
+                    data-target="#quickModel"
+                  >
                     <i className="fa fa-plus fa-1x">Add Category</i>
-                  </Link>
+                  </Link> */}
+
+                  <div className="text-center">
+                    <a
+                      href=""
+                      className="btn btn-danger btn-rounded mb-4"
+                      data-toggle="modal"
+                      data-target="#modalLoginForm"
+                    >
+                      <i className="fa fa-plus fa-1x">Add Category</i>
+                    </a>
+                  </div>
+                  {/* <button
+                    type="button"
+                    className="btn  m-1"
+                    title="Quick Shop"
+                    data-toggle="modal"
+                    data-target="#quickModel"
+                  >
+                    <i className="fa fa-eye "></i>
+                  </button> */}
                 </div>
                 <div className="table-responsive ">
                   <table className="table">
@@ -308,6 +334,7 @@ export default class Dashboard extends Component {
                   </table>
                 </div>
               </div>
+              <Category />
             </div>
           </div>
         </div>
