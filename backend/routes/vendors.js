@@ -26,19 +26,17 @@ router.use("/:vendorId/reviews", reviewRouter);
 
 // router.route("/radius/:zipcode/:distance").get(getVendorsInRadius);
 
-router
-  .route("/:vendorId/photo")
-  .put(protect, authorize("vendor", "admin"), vendorsPhotoUpload);
+router.route("/:vendorId/photo").put(protect, vendorsPhotoUpload);
 
 router
   .route("/")
   .get(advancedResults(Vendor, "Products"), getVendors)
-  .post(protect, authorize("vendor", "admin"), createVendor);
+  .post(protect, createVendor);
 
 router
   .route("/:vendorId")
   .get(getVendor)
-  .put(protect, authorize("vendor", "admin"), updateVendor)
-  .delete(protect, authorize("vendor", "admin"), deleteVendor);
+  .put(protect, updateVendor)
+  .delete(protect, deleteVendor);
 
 module.exports = router;

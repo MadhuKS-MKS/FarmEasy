@@ -169,7 +169,7 @@ export default class Navbar extends Component {
                   <a className="dropdown-item" href="/vendor/addItems">
                     Add
                   </a>
-                  <a className="dropdown-item" href="/vendor/ShowI">
+                  <a className="dropdown-item" href="/vendor/showItems">
                     Show
                   </a>
                 </div>

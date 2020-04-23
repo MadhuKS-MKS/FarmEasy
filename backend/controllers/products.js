@@ -54,30 +54,59 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
   // req.body.vendor = req.params.vendorId;
   req.body.user = req.user.id;
 
-  const vendor = await Vendor.findOne({ user: req.user.id });
+  // const vendor = await Vendor.findOne({ user: req.user.id });
 
-  if (!vendor) {
-    return next(
-      new ErrorResponse(`No vendor with the id of ${req.params.vendorId}`),
-      404
-    );
-  }
+  // if (!vendor) {
+  //   return next(new ErrorResponse(`No vendor `), 404);
+  // }
 
   // Make sure user is product owner
-  if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
-        401
-      )
-    );
-  }
+  // if (vendor.user.toString() !== req.user.id && req.user.role !== "admin") {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.user.id} is not authorized to add a product by ${vendor._id}`,
+  //       401
+  //     )
+  //   );
+  // }
 
-  const category = await Category.findById(req.body.category);
-  req.body.vendor = vendor.id;
-  req.body.catname = category.catname;
+  // const category = await Category.findById(req.body.category);
+  // req.body.vendor = vendor.id;
+  // req.body.catname = category.catname;
+
+  // if (!req.files) {
+  //   return next(new ErrorResponse(`Please upload a file`, 400));
+  // }
+
+  // const file = req.files.file;
+
+  // Make sure the image is a photo
+  // if (!file.mimetype.startsWith("image")) {
+  //   return next(new ErrorResponse(`Please upload an image file`, 400));
+  // }
+
+  // Check filesize
+  // if (file.size > process.env.MAX_FILE_UPLOAD) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+  //       400
+  //     )
+  //   );
+  // }
+
+  // // Create custom filename
+  // file.name = `photo_${req.body.title}${path.parse(file.name).ext}`;
+
+  // file.mv(`${process.env.FILE_UPLOAD_PATH_ITEMS}/${file.name}`, async (err) => {
+  // if (err) {
+  //   console.error(err);
+  //   return next(new ErrorResponse(`Problem with file upload`, 500));
+  // }
+
+  // });
+  req.body.photo = req.body.photo;
   const product = await Products.create(req.body);
-
   res.status(200).json({
     success: true,
     data: product,
@@ -88,7 +117,7 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/vendors/:vendorsId/products/:productId
 // @access    Private
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  let product = await await Products.findById(req.params.productId);
+  let product = await Products.findById(req.params.productId);
 
   if (!product) {
     return next(
@@ -153,26 +182,26 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/vendors/:vendorsId/products/:productId/photo
 // @access    Private
 exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
-  const product = await Products.findById(req.params.productId);
+  // const product = await Products.findById(req.params.productId);
 
-  if (!product) {
-    return next(
-      new ErrorResponse(
-        `Product not found with id of ${req.params.productId}`,
-        404
-      )
-    );
-  }
+  // if (!product) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `Product not found with id of ${req.params.productId}`,
+  //       404
+  //     )
+  //   );
+  // }
 
   // Make sure user is vendor owner
-  if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
-    return next(
-      new ErrorResponse(
-        `User ${req.params.productId} is not authorized to update this product`,
-        401
-      )
-    );
-  }
+  // if (product.user.toString() !== req.user.id && req.user.role !== "admin") {
+  //   return next(
+  //     new ErrorResponse(
+  //       `User ${req.params.productId} is not authorized to update this product`,
+  //       401
+  //     )
+  //   );
+  // }
 
   if (!req.files) {
     return next(new ErrorResponse(`Please upload a file`, 400));
@@ -196,21 +225,21 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
   }
 
   // Create custom filename
-  file.name = `photo_${product._id}${path.parse(file.name).ext}`;
+  // file.name = `photo_${file}}${path.parse(file.name).ext}`;
 
   file.mv(`${process.env.FILE_UPLOAD_PATH_ITEMS}/${file.name}`, async (err) => {
     if (err) {
       console.error(err);
       return next(new ErrorResponse(`Problem with file upload`, 500));
     }
-
-    await Products.findByIdAndUpdate(req.params.productId, {
-      photo: file.name,
-    });
+    const product = `${process.env.FILE_UPLOAD_PATH_ITEMS}/${file.name}`;
+    // await Products.findByIdAndUpdate(req.params.productId, {
+    //   photo: file.name,
+    // });
 
     res.status(200).json({
       success: true,
-      data: file.name,
+      data: product,
     });
   });
 });

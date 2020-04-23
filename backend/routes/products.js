@@ -16,12 +16,10 @@ const Product = require("../models/Products");
 const router = express.Router({ mergeParams: true });
 
 const advancedResults = require("../middleware/advancedResults");
-const { protect, authorize } = require("../middleware/auth");
+const { protect } = require("../middleware/auth");
 router.use("/:productId/reviews", reviewRouter);
 
-router
-  .route("/:productId/photo")
-  .put(protect, authorize("vendor", "admin"), productPhotoUpload);
+router.route("/photo").post(protect, productPhotoUpload);
 
 router
   .route("/")
@@ -32,12 +30,12 @@ router
     }),
     getProducts
   )
-  .post(protect, authorize("vendor", "admin"), addProduct);
+  .post(protect, addProduct);
 
 router
   .route("/:productId")
   .get(getProduct)
-  .put(protect, authorize("vendor", "admin"), updateProduct)
-  .delete(protect, authorize("vendor", "admin"), deleteProduct);
+  .put(protect, updateProduct)
+  .delete(protect, deleteProduct);
 
 module.exports = router;

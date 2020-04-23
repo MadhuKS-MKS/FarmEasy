@@ -10,7 +10,7 @@ export default class Showitems extends Component {
     this.setState({ product: this.props.product });
   };
   render() {
-    console.log(this.state.product.photo);
+    // console.log(this.state.product.photo);
     const { photo, title, rate } = this.state.product;
     return (
       <Fragment>

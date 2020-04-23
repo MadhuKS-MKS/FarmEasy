@@ -19,7 +19,7 @@ export default class quickModel extends Component {
 
       rate,
     } = this.state.product;
-    console.log(this.state.product);
+    // console.log(category);
     return (
       <div className="modal show product-view" id="quickModel" role="dialog">
         <div className="modal-dialog">
@@ -58,7 +58,10 @@ export default class quickModel extends Component {
                     {/* <abbr>99 shipping</abbr> */}
                   </h4>
                 </div>
-                <button className="btn btn-warning buybutton">
+                <button
+                  onClick={this.onSubmit}
+                  className="btn btn-warning buybutton"
+                >
                   Click to Buy
                 </button>
 

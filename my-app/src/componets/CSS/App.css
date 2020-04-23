@@ -166,6 +166,10 @@ body {
   color: #000;
 }
 
+.container {
+  max-width: inherit;
+}
+
 .proftop h2,
 legend {
   color: 1e4d92 !important;

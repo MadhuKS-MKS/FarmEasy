@@ -39,7 +39,7 @@ export default class AllF extends React.Component {
     }
   };
 
-  getproducts = async (catid) => {
+  getproducts = async () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,23 @@ export default class AllF extends React.Component {
                 />
               )}
             />
-            <Route path={"/vendor/showI"} component={showI} />
+            <Route
+              path={"/vendor/showItems"}
+              getproducts={this.getproducts}
+              products={this.state.products}
+              component={showI}
+            />
+            {/* <Route
+              path={"/vendor/showItems"}
+              render={(props) => (
+                <showI
+                  getproducts={this.getproducts}
+                  // getCategory={this.getCategory}
+                  products={this.state.products}
+                  // category={this.state.category}
+                />
+              )}
+            /> */}
             <Route path={"/vendor/Profile"} component={Prof} />
             <Route path={"/vendor/editProfile"} component={editProf} />
             <Route path={"/vendor/orders"} component={orders} />

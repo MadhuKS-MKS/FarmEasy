@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+
 import axios from "axios";
 
 import logo from "../../assets/logo.png";
@@ -13,34 +13,56 @@ export default class Navbar extends Component {
       email: "",
       password: "",
       type: "",
-      isAuth: false,
+      user: "",
+      isAuth: null,
     };
     this.onLogout = this.onLogout.bind(this);
   }
-  state = {
-    loggedIn: true,
+  componentDidMount = async () => {
+    this.setState({
+      isAuth: sessionStorage.getItem("isAuth"),
+    });
+    // getting user
+    const token = sessionStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.get(`http://localhost:5000/api/v1/auth/me`, config);
+    this.setState({
+      user: res.data.data.name,
+    });
+    console.log(this.state.user);
   };
   onLogout = async (e) => {
     e.preventDefault();
+    const token = sessionStorage.getItem("token");
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/v1/auth/logout",
-        config
-      );
+      await axios.get("http://localhost:5000/api/v1/auth/logout", config);
+      sessionStorage.removeItem("token", "isAuth");
+      alert("Logged Out");
+      this.setState({
+        isAuth: false,
+      });
     } catch (err) {
       console.log("Can't load the items");
     }
-    sessionStorage.clear("token");
+    sessionStorage.clear();
   };
   render() {
+    console.log(this.state.isAuth);
     let cart;
     let profile;
-    if (this.state.loggedIn === true) {
+    if (this.state.isAuth === "true") {
       cart = (
         <ul className="nav navbar-nav navbar-left">
           <li className="dropdown">
@@ -106,7 +128,7 @@ export default class Navbar extends Component {
         </ul>
       );
       profile = (
-        <ul className="navbar-nav">
+        <ul className="navbar-nav ml-5">
           {" "}
           <li className="nav-item dropdown">
             <a
@@ -135,8 +157,8 @@ export default class Navbar extends Component {
                   width="50"
                   height="50"
                   className="rounded-circle content-center"
-                />{" "}
-                username
+                />
+                {this.state.user}
               </a>
 
               <div
@@ -146,10 +168,13 @@ export default class Navbar extends Component {
                 {/* <a className="dropdown-item" href="/farmer/Prof">
                   Profile
                 </a> */}
-                <a className="dropdown-item" href="/user/editprofile">
-                  Edit Profile
-                </a>
-                <a className="dropdown-item" onClick={this.onLogout}>
+
+                <a
+                  type="submit"
+                  className="dropdown-item"
+                  poiter="cursor"
+                  onClick={this.onLogout}
+                >
                   <span
                     className="fa fa-sign-out fa-2x"
                     style={{ color: "#f2f2f3  " }}
@@ -243,9 +268,8 @@ export default class Navbar extends Component {
               </li>
             </ul>
             {cart}
+            {profile}
           </div>
-
-          {profile}
         </div>
       </nav>
     );

@@ -26,21 +26,17 @@ router
     }),
     getOrders
   )
-  .post(protect, authorize("user", "admin"), addCart);
+  .post(protect, addCart);
 
 router.route("/orders").get(getPlacedOrders);
-router
-  .route("/pending")
-  .get(protect, authorize("user", "admin"), getPendingOrders);
+router.route("/pending").get(protect, getPendingOrders);
 
-router
-  .route("/orders/:orderId")
-  .put(protect, authorize("user", "admin"), placeOrder);
+router.route("/orders/:orderId").put(protect, placeOrder);
 
 router
   .route("/:orderId")
   // .post(protect, authorize("public", "admin"), addOrder)
   // .put(protect, authorize("public", "admin"), updateOrder)
-  .delete(protect, authorize("user", "admin"), deleteCart);
+  .delete(protect, deleteCart);
 
 module.exports = router;

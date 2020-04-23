@@ -26,19 +26,17 @@ router.use("/cart", cartRouter);
 
 // router.route("/radius/:zipcode/:distance").get(getVendorsInRadius);
 
-router
-  .route("/:publicId/photo")
-  .put(protect, authorize("user", "admin"), publicPhotoUpload);
+router.route("/:publicId/photo").put(protect, publicPhotoUpload);
 
 router
   .route("/")
   .get(advancedResults(Public), getPublics)
-  .post(protect, authorize("user", "admin"), createPublic);
+  .post(protect, createPublic);
 
 router
   .route("/:publicId")
-  .get(getPublic)
-  .put(protect, authorize("user", "admin"), updatePublic)
-  .delete(protect, authorize("user", "admin"), deletePublic);
+  .get(protect, getPublic)
+  .put(protect, updatePublic)
+  .delete(protect, deletePublic);
 
 module.exports = router;

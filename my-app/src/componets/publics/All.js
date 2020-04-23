@@ -18,6 +18,8 @@ import Registration from "./Registration";
 import cart from "./cart";
 import editProf from "../publics/editProf";
 import fRegistration from "../vendor/Registration";
+import PrivateRoute from "../utils/PrivateRoute";
+
 // import quickModel from "./quickModel";
 import ItemsList from "./ItemsList";
 
@@ -104,9 +106,24 @@ export default class All extends Component {
               )}
             />
 
-            <Route path={"/cart"} component={cart} />
-            <Route path={"/user/userprofile"} component={UserProf} />
-            <Route path={"/user/editprofile"} component={editProf} />
+            <PrivateRoute role="user" path={"/cart"} component={cart} />
+            <PrivateRoute
+              role="user"
+              path={"/user/userprofile"}
+              component={UserProf}
+            />
+            <PrivateRoute
+              role="user"
+              path={"/user/editprofile/:id"}
+              component={editProf}
+            />
+            {/* <PrivateRoute
+              role="user"
+              path={"/user/editprofile/:id"}
+              component={() => (
+                <editProf getUser={this.getUser} user={this.state.user} />
+              )}
+            /> */}
           </Switch>
         </div>
 

@@ -32,11 +32,11 @@ const ProductSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  vendor: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Vendor",
-    required: true,
-  },
+  // vendor: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "Vendor",
+  //   required: true,
+  // },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
@@ -45,36 +45,36 @@ const ProductSchema = new mongoose.Schema({
 });
 
 // Static method to get avg of course tuitions
-ProductSchema.statics.getAverageCost = async function (vendorId) {
-  const obj = await this.aggregate([
-    {
-      $match: { vendor: vendorId },
-    },
-    {
-      $group: {
-        _id: "$vendor",
-        averageCost: { $avg: "$tuition" },
-      },
-    },
-  ]);
+// ProductSchema.statics.getAverageCost = async function (vendorId) {
+//   const obj = await this.aggregate([
+//     {
+//       $match: { vendor: vendorId },
+//     },
+//     {
+//       $group: {
+//         _id: "$vendor",
+//         averageCost: { $avg: "$tuition" },
+//       },
+//     },
+//   ]);
 
-  try {
-    await this.model("Vendor").findByIdAndUpdate(vendorId, {
-      averageCost: Math.ceil(obj[0].averageCost / 10) * 10,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
+//   try {
+//     await this.model("Vendor").findByIdAndUpdate(vendorId, {
+//       averageCost: Math.ceil(obj[0].averageCost / 10) * 10,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
 
 // Call getAverageCost after save
-ProductSchema.post("save", function () {
-  this.constructor.getAverageCost(this.vendor);
-});
+// ProductSchema.post("save", function () {
+//   this.constructor.getAverageCost(this.vendor);
+// });
 
 // Call getAverageCost before remove
-ProductSchema.pre("remove", function () {
-  this.constructor.getAverageCost(this.vendor);
-});
+// ProductSchema.pre("remove", function () {
+//   this.constructor.getAverageCost(this.vendor);
+// });
 
 module.exports = mongoose.model("Product", ProductSchema);

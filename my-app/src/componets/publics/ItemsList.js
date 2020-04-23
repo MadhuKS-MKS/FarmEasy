@@ -2,9 +2,21 @@ import React from "react";
 import Showitems from "./Showitems";
 
 class itemList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      category: "",
+    };
+    this.onClickHandler = this.onClickHandler.bind(this);
+  }
+
   componentDidMount = (async) => {
     this.props.getCategory();
     this.props.getproducts(this.props.match.params);
+  };
+  onClickHandler = (e) => {
+    // this.setState({ category: e.target.value });
+    console.log(e.target.name);
   };
 
   render() {
@@ -24,7 +36,13 @@ class itemList extends React.Component {
                   <ul id="portfolio-flters">
                     {/* List all Category */}
                     {this.props.category.map((category) => (
-                      <li data-filter=".filter-app" key={category._id}>
+                      <li
+                        data-filter=".filter-app"
+                        onClick={this.onClickHandler}
+                        key={category._id}
+                        name={category._id}
+                        value={category._id}
+                      >
                         {category.catname}
                       </li>
                     ))}

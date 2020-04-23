@@ -15,7 +15,7 @@ exports.getPublics = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/public/:id
 // @access    Public
 exports.getPublic = asyncHandler(async (req, res, next) => {
-  const public = await Public.findById(req.params.publicId);
+  const public = await Public.find({ user: req.user.id });
 
   if (!public) {
     return next(
@@ -120,38 +120,11 @@ exports.deletePublic = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: {} });
 });
 
-// @desc      Get public within a radius
-// @route     GET DELETE /api/v1/public/radius/:zipcode/:distance
-// @access    Private
-exports.getPublicInRadius = asyncHandler(async (req, res, next) => {
-  const { zipcode, distance } = req.params;
-
-  // Get lat/lng from geocoder
-  const loc = await geocoder.geocode(zipcode);
-  const lat = loc[0].latitude;
-  const lng = loc[0].longitude;
-
-  // Calc radius using radians
-  // Divide dist by radius of Earth
-  // Earth Radius = 3,963 mi / 6,378 km
-  const radius = distance / 3963;
-
-  const public = await Public.find({
-    location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
-  });
-
-  res.status(200).json({
-    success: true,
-    count: public.length,
-    data: public,
-  });
-});
-
 // @desc      Upload photo for public
 // @route     PUT /api/v1/public/:publicId/photo
 // @access    Private
 exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
-  const public = await Public.findById(req.params.id);
+  const public = await Public.findById(req.params.publicId);
 
   if (!public) {
     return next(

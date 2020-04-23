@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png";
 import "../CSS/farm.css";
 
 class FHome extends Component {
+  componentDidMount() {}
   render() {
     return (
       <Fragment>
@@ -12,12 +13,12 @@ class FHome extends Component {
           <div className="row container-fluid m-5 ">
             <div className="col-md-3">
               <div className="card p-3">
-                <div class="card text-center">
-                  <img class="card-img-top" src={logo} alt="" /> 
+                <div className="card text-center">
+                  <img className="card-img-top" src={logo} alt="" /> 
                   <i className="fa fa-book fa-5x "></i>
-                  <div class="card-body">
-                    <h4 class="card-title">Products</h4>
-                    <p class="card-text">lists</p>
+                  <div className="card-body">
+                    <h4 className="card-title">Products</h4>
+                    <p className="card-text">lists</p>
                   </div>
                 </div>
               </div>
@@ -25,16 +26,16 @@ class FHome extends Component {
           </div>
         </section>  */}
 
-        <section class="counts section-bg mt-5">
-          <div class="container mt-5">
-            <div class="row">
+        <section className="counts section-bg mt-5">
+          <div className="container mt-5">
+            <div className="row">
               <div
-                class="col-lg-3 col-md-6 text-center  animated fadeInUp wow animated"
+                className="col-lg-3 col-md-6 text-center  animated fadeInUp wow animated"
                 data-aos="fade-up"
               >
-                <div class="count-box">
+                <div className="count-box">
                   <i
-                    class="fa fa-smile-o fa-5x"
+                    className="fa fa-smile-o fa-5x"
                     style={{ color: "#20b38e" }}
                   ></i>
                   <p>
@@ -45,13 +46,13 @@ class FHome extends Component {
               </div>
 
               <div
-                class="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
+                className="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
                 data-aos="fade-up"
                 data-aos-delay="200"
               >
-                <div class="count-box">
+                <div className="count-box">
                   <i
-                    class="fa fa-folder-open fa-5x"
+                    className="fa fa-folder-open fa-5x"
                     style={{ color: "#c042ff" }}
                   ></i>
                   <p>
@@ -62,13 +63,13 @@ class FHome extends Component {
               </div>
 
               <div
-                class="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
+                className="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
                 data-aos="fade-up"
                 data-aos-delay="400"
               >
-                <div class="count-box">
+                <div className="count-box">
                   <i
-                    class="fa fa-comments fa-5x"
+                    className="fa fa-comments fa-5x"
                     style={{ color: "#46d1ff" }}
                   ></i>
                   <p>
@@ -81,12 +82,15 @@ class FHome extends Component {
               </div>
 
               <div
-                class="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
+                className="col-lg-3 col-md-6 text-center animated fadeInUp wow animated"
                 data-aos="fade-up"
                 data-aos-delay="600"
               >
-                <div class="count-box">
-                  <i class="fa fa-users fa-5x" style={{ color: "#ffb459" }}></i>
+                <div className="count-box">
+                  <i
+                    className="fa fa-users fa-5x"
+                    style={{ color: "#ffb459" }}
+                  ></i>
                   <p>
                     {" "}
                     <span className="counter-up animated swing">15</span>

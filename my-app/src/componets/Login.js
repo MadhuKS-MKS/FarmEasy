@@ -2,7 +2,6 @@ import React, { Component, useState, Fragment } from "react";
 import "./CSS/App.css";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
-const superagent = require("superagent");
 
 class Login extends Component {
   constructor(props) {
@@ -20,43 +19,54 @@ class Login extends Component {
 
   componentDidMount() {
     this.setState({
-      type: this.props.match.params,
+      type: this.props.match.params.type,
     });
-    // this.props.getuser();
   }
+
   // Input on change
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
-  // Login
-  onSubmit = (e) => {
-    e.preventDefault();
-    superagent
-      .post("http://localhost:5000/api/v1/auth/login")
-      .send({ email: this.state.email, password: this.state.password })
-      .end((err, res) => {
-        if (err) {
-          this.setState({ errorMessage: "Authenticstion Failed" });
-          return;
-        }
-        console.log(res.body.token);
-        sessionStorage.setItem("token", res.body.token);
-        this.setState({
-          isAuth: true,
-        });
-      });
-  };
-  isAuthenticated() {
-    const token = sessionStorage.getItem("token");
-    console.log(token);
 
-    return token && token.length > 10;
-  }
+  // Login
+  onSubmit = async (e) => {
+    e.preventDefault();
+
+    const login = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    const body = JSON.stringify(login);
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // console.log(body);
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/auth/login`,
+        body,
+        config
+      );
+      console.log(res.data.token);
+      sessionStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("isAuth", true);
+      console.log(sessionStorage);
+      this.setState({
+        isAuth: true,
+      });
+    } catch (error) {
+      alert("Error Login!!");
+    }
+  };
+
   render() {
     const type = this.state.type;
-    console.log(type.type);
+    // console.log(type);
     let social = {};
     let signup, login;
     if (type === "user") {
@@ -66,30 +76,20 @@ class Login extends Component {
       social = "#49b5e7";
       signup = <a href={`/fsignup`}>Sign Up</a>;
     }
-
-    // if (type === "user") {
-    //   if (this.state.email == "") {
-    //     social = "#ffc312";
-    //   } else {
-    //     console.log("err");
-    //   }
-    // } else {
-    //   if (this.state.email == "") {
-    //     social = "#49b5e7";
-    //   }
-    // }
-    const isAuthenticated = this.isAuthenticated();
     console.log(type);
 
+    // console.log(isAuthenticated());
     return (
       <Fragment>
-        {isAuthenticated ? (
-          type.type == "user" ? (
-            <Redirect to="/" />
-          ) : type.type == "vendor" ? (
-            <Redirect to="/vendor/Home" />
+        {this.state.isAuth ? (
+          type == "user" ? (
+            <Redirect isAuth={this.state.isAuth} to="/user/userprofile" />
+          ) : type == "vendor" ? (
+            <Redirect isAuth={this.state.isAuth} to="/vendor/Home" />
+          ) : type == "admin" ? (
+            <Redirect isAuth={this.state.isAuth} to="/admin" />
           ) : (
-            <Redirect to="/admin" />
+            <Redirect isAuth={this.state.isAuth} to="/" />
           )
         ) : (
           <div className="container logintop ">
@@ -114,7 +114,7 @@ class Login extends Component {
                     </div>
                     <div className="card animated bounce" id="login-card">
                       <div className="card-header">
-                        <h3 className="mt-5">Sign In As {type.type}</h3>
+                        <h3 className="mt-5">Sign In {type}</h3>
                         <div
                           className="d-flex justify-content-end"
                           id="social_icon"
