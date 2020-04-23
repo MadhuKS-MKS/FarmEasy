@@ -32,11 +32,7 @@ const ProductSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // vendor: {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: "Vendor",
-  //   required: true,
-  // },
+
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

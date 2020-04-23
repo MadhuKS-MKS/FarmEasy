@@ -43,49 +43,6 @@ export default class AHome extends Component {
     }
   };
 
-  getproducts = async (catid) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/category/${catid}/products`,
-        config
-      );
-      this.setState({
-        products: res.data.data,
-      });
-    } catch (err) {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/products`,
-        config
-      );
-      this.setState({
-        products: res.data.data,
-      });
-      // console.log("Can't load the items");
-    }
-  };
-  getusers = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/users`,
-        config
-      );
-      this.setState({
-        orders: res.data.data,
-      });
-    } catch (err) {
-      console.log("Can't load the items");
-    }
-  };
   getpublic = async () => {
     const config = {
       headers: {

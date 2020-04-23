@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 
@@ -33,9 +34,25 @@ export default class Navbar extends Component {
     };
     const res = await axios.get(`http://localhost:5000/api/v1/auth/me`, config);
     this.setState({
-      user: res.data.data.name,
+      user: res.data.data,
     });
-    console.log(this.state.user);
+    // console.log(this.state.user);
+    
+    // try {
+    //   const result = await axios.get(
+    //     `http://localhost:5000/api/v1/public/${this.props.location.state.user}/cart`,
+    //     config
+    //   );
+    //   this.setState({
+    //     items: result.data.data,
+    //   });
+      console.log(
+        this.state.items
+       
+      );
+    // } catch (err) {
+    //   console.log("Can't load the items");
+    // }
   };
   onLogout = async (e) => {
     e.preventDefault();
@@ -59,7 +76,7 @@ export default class Navbar extends Component {
     sessionStorage.clear();
   };
   render() {
-    console.log(this.state.isAuth);
+    // console.log(this.state.isAuth);
     let cart;
     let profile;
     if (this.state.isAuth === "true") {
@@ -116,12 +133,17 @@ export default class Navbar extends Component {
               </li>
               <li className="divider"></li>
               <li>
-                <a
+                <Link
                   className="btn btn-success text-center pull-right mt-3 mr-3"
-                  href="/cart"
+                  to={{
+                    pathname: "/cart",
+                    state: {
+                      user: this.state.user._id,
+                    },
+                  }}
                 >
                   View Cart
-                </a>
+                </Link>
               </li>
             </ul>
           </li>
@@ -158,7 +180,7 @@ export default class Navbar extends Component {
                   height="50"
                   className="rounded-circle content-center"
                 />
-                {this.state.user}
+                {this.state.user.name}
               </a>
 
               <div

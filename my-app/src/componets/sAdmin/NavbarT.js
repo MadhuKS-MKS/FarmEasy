@@ -1,7 +1,60 @@
 import React, { Component } from "react";
 import logo from "../../assets/logo.png";
+import axios from "axios";
 
 export default class NavbarT extends Component {
+  constructor(props) {
+    super(props);
+
+    // this.getUser = this.getUser;
+    this.state = {
+      type: "",
+      user: "",
+      isAuth: null,
+    };
+    this.onLogout = this.onLogout.bind(this);
+  }
+  componentDidMount = async () => {
+    this.setState({
+      isAuth: sessionStorage.getItem("isAuth"),
+    });
+    // getting user
+    const token = sessionStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.get(`http://localhost:5000/api/v1/auth/me`, config);
+    this.setState({
+      user: res.data.data,
+    });
+
+    console.log(this.state.items);
+  };
+  onLogout = async (e) => {
+    e.preventDefault();
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      await axios.get("http://localhost:5000/api/v1/auth/logout", config);
+      sessionStorage.removeItem("token", "isAuth");
+      alert("Logged Out");
+      this.setState({
+        isAuth: false,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+    sessionStorage.clear();
+  };
   render() {
     return (
       <nav className="navbar default-layout-navbar bg-gradient-success col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
@@ -47,17 +100,26 @@ export default class NavbarT extends Component {
                   <span className="availability-status online"></span>
                 </div>
                 <div className="nav-profile-text">
-                  <p className="mb-0 ml-2 text-black">Maddy</p>
+                  <p className="mb-0 ml-2 text-black">
+                    {" "}
+                    {this.state.user.name}
+                  </p>
                 </div>
               </a>
               <div className="dropdown-menu " aria-labelledby="profileDropdown">
-                <a className="dropdown-item" href="#">
-                  <i className="mdi mdi-cached mr-2 text-success"></i> Activity
-                  Log{" "}
-                </a>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#">
-                  <i className="mdi mdi-logout mr-2 text-primary"></i> Signout{" "}
+                <a
+                  type="submit"
+                  className="dropdown-item"
+                  poiter="cursor"
+                  onClick={this.onLogout}
+                >
+                  <span
+                    className="fa fa-sign-out fa-2x"
+                    style={{ color: "#f2f2f3  " }}
+                    aria-hidden="true"
+                  ></span>
+                  Log Out
                 </a>
               </div>
             </li>

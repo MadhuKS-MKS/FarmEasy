@@ -10,7 +10,9 @@ export default class Dashboard extends Component {
     this.props.getCategory();
     this.props.getusers();
   }
-
+  onClickHandler = (e) => {
+    e.preventDefault();
+  };
   render() {
     const orders = this.props.orders;
     const vendors = this.props.vendors;
@@ -101,7 +103,7 @@ export default class Dashboard extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.vendors.map((vendor) => (
+                      {this.props.user.map((vendors) => (
                         <tr key={vendor._id}>
                           <td>
                             <img
@@ -124,10 +126,14 @@ export default class Dashboard extends Component {
 
                           <td> {vendor.address} </td>
                           <td className="actions" data-th="">
-                            <button className="btn btn-info btn-sm">
+                            {/* <button className="btn btn-info btn-sm">
                               <i className="fa fa-edit"></i>
-                            </button>
-                            <button className="btn btn-danger btn-sm">
+                            </button> */}
+                            <button
+                              className="btn btn-danger btn-sm"
+                              value={vendor._id}
+                              onClick={this.onClickHandler}
+                            >
                               <i className="fa fa-trash-o"></i>
                             </button>
                           </td>

@@ -11,7 +11,10 @@ const Public = require("../models/Public");
 // @access    Public
 exports.getOrders = asyncHandler(async (req, res, next) => {
   if (req.params.publicId) {
-    const orders = await Orders.find({ public: req.params.publicId });
+    const orders = await Orders.find({
+      user: req.params.publicId,
+      status: "pending",
+    });
     if (orders.status == "pending") {
       return res.status(200).json({
         success: true,

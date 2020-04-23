@@ -1,37 +1,77 @@
 import React, { Component } from "react";
 import "../CSS/App.css";
+import axios from "axios";
 
 export default class cart extends Component {
+  constructor(props) {
+    super(props);
+
+    // this.getUser = this.getUser;
+    this.state = {
+      email: "",
+      password: "",
+      items: [],
+      user: "",
+      isAuth: null,
+    };
+    // this.onLogout = this.onLogout.bind(this);
+  }
+  componentDidMount = async () => {
+    this.setState({ user: this.props.location.state.user });
+    // getting cart
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const result = await axios.get(
+        `http://localhost:5000/api/v1/public/${this.props.location.state.user}/cart`,
+        config
+      );
+      this.setState({
+        items: result.data.data,
+      });
+      console.log(
+        this.state.items
+        //   .map((item) => {
+        //   item;
+        // })
+      );
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
+
   render() {
+    console.log(this.state.user);
+
     return (
-      <div class="container cartop">
-        <table id="cart" class="table table-hover table-condensed">
+      <div className="container cartop">
+        <table id="cart" className="table table-hover table-condensed">
           <thead>
             <tr>
               <th style={{ width: 50 + "%" }}>Product</th>
               <th style={{ width: 10 + "%" }}>Price</th>
               <th style={{ width: 8 + "%" }}>Quantity</th>
-              <th style={{ width: 22 + "%" }} class="text-center">
+              <th style={{ width: 22 + "%" }} className="text-center">
                 Subtotal
               </th>
               <th style={{ width: 10 + "%" }}></th>
             </tr>
           </thead>
           <tbody>
+            {/* {this.state.items.map((item) => ( */}
             <tr>
               <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-2 hidden-xs">
-                    <img
-                      src="http://placehold.it/100x100"
-                      alt="..."
-                      class="img-responsive"
-                    />
+                <div className="row">
+                  <div className="col-sm-2 hidden-xs">
+                    <img src="" alt="..." className="img-responsive" />
                   </div>
-                  <div class="col-md-9 " style={{ paddingLeft: 30 + "px" }}>
-                    <h4 class="nomargin " style={{}}>
-                      Product 1
-                    </h4>
+                  <div className="col-md-9 " style={{ paddingLeft: 30 + "px" }}>
+                    <h4 className="nomargin ">{}</h4>
                     <p>
                       Quis aute iure reprehenderit in voluptate velit esse
                       cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor
@@ -44,42 +84,43 @@ export default class cart extends Component {
               <td data-th="Quantity">
                 <input
                   type="number"
-                  class="form-control text-center"
+                  className="form-control text-center"
                   value="1"
                 />
               </td>
-              <td data-th="Subtotal" class="text-center">
-                1.99
+              <td data-th="Subtotal" className="text-center">
+                {}
               </td>
-              <td class="actions" data-th="">
-                <button class="btn btn-info btn-sm">
-                  <i class="fa fa-refresh"></i>
+              <td className="actions" data-th="">
+                <button className="btn btn-info btn-sm">
+                  <i className="fa fa-refresh"></i>
                 </button>
-                <button class="btn btn-danger btn-sm">
-                  <i class="fa fa-trash-o"></i>
+                <button className="btn btn-danger btn-sm">
+                  <i className="fa fa-trash-o"></i>
                 </button>
               </td>
             </tr>
+            {/* ))} */}
           </tbody>
           <tfoot>
-            <tr class="visible-xs">
-              <td class="text-center">
+            <tr className="visible-xs">
+              <td className="text-center">
                 <strong>Total 1.99</strong>
               </td>
             </tr>
             <tr>
               <td>
-                <a href="#" class="btn btn-warning">
-                  <i class="fa fa-angle-left"></i> Continue Shopping
+                <a href="#" className="btn btn-warning">
+                  <i className="fa fa-angle-left"></i> Continue Shopping
                 </a>
               </td>
-              <td colspan="2" class="hidden-xs"></td>
-              <td class="hidden-xs text-center">
+              <td colSpan="2" className="hidden-xs"></td>
+              <td className="hidden-xs text-center">
                 <strong>Total $1.99</strong>
               </td>
               <td>
-                <a href="#" class="btn btn-success btn-block">
-                  Checkout <i class="fa fa-angle-right"></i>
+                <a href="#" className="btn btn-success btn-block">
+                  Checkout <i className="fa fa-angle-right"></i>
                 </a>
               </td>
             </tr>
