@@ -19,9 +19,9 @@ dotenv.config({ path: "./config/config.env" });
 
 //connect to database
 connectDB();
-
+// app.use('/uploads')
 //Route files
-const vendors = require("./routes/vendors");
+// const vendors = require("./routes/vendors");
 const products = require("./routes/products");
 const auth = require("./routes/auth");
 const users = require("./routes/users");
@@ -70,7 +70,7 @@ app.use(hpp());
 app.use(cors());
 
 //Mount routers
-app.use("/api/v1/vendors", vendors);
+app.use("/api/v1/vendors/products", products);
 app.use("/api/v1/products", products);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);

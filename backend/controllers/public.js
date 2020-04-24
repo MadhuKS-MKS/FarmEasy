@@ -94,7 +94,7 @@ exports.updatePublic = asyncHandler(async (req, res, next) => {
 // @route     DELETE /api/v1/public/:publicId
 // @access    Private
 exports.deletePublic = asyncHandler(async (req, res, next) => {
-  const public = await Vendor.findById(req.params.publicId);
+  const public = await Vendor.find({ user: req.params.publicId });
 
   if (!public) {
     return next(

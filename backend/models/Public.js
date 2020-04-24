@@ -29,6 +29,10 @@ const PublicSchema = new mongoose.Schema(
       required: [true, "Please add an address"],
     },
 
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: "User",

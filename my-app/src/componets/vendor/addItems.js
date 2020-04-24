@@ -82,9 +82,6 @@ export default class addItems extends Component {
       );
       console.log(result.data.data);
       alert(`Product Addred ${result.data.data.title}`);
-      // this.setState({
-      //   products: res.data.data,
-      // });
     } catch (err) {
       // console.log("Can't load the items");
     }

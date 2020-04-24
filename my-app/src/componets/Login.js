@@ -55,7 +55,7 @@ class Login extends Component {
       console.log(res.data.token);
       sessionStorage.setItem("token", res.data.token);
       sessionStorage.setItem("isAuth", true);
-      console.log(sessionStorage);
+      // console.log(sessionStorage);
       this.setState({
         isAuth: true,
       });

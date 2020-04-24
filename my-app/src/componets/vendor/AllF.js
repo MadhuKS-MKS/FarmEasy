@@ -40,8 +40,10 @@ export default class AllF extends React.Component {
   };
 
   getproducts = async () => {
+    const token = sessionStorage.getItem("token");
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
@@ -57,6 +59,7 @@ export default class AllF extends React.Component {
       // console.log("Can't load the items");
     }
   };
+
   render() {
     return (
       <Router>

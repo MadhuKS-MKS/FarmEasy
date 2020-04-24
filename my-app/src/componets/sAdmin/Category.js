@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../CSS/farm.css";
 import axios from "axios";
 
-import Dropdown from "react-bootstrap/Dropdown";
+// import Dropdown from "react-bootstrap/Dropdown";
 
 export default class Category extends Component {
   constructor(props) {
@@ -17,16 +17,23 @@ export default class Category extends Component {
   };
   onSubmit = async (e) => {
     e.preventDefault();
+    const data = { catname: this.state.catname };
+    const body = JSON.stringify(data);
     const token = sessionStorage.getItem("token");
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
+    console.log(body);
     try {
-      await axios.post("http://localhost:5000/api/v1/category/", config);
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/category/`,
+        body,
+        config
+      );
+      alert("Added");
     } catch (err) {
       console.log("Can't load the items");
     }

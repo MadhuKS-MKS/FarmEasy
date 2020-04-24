@@ -42,10 +42,10 @@ export default class quickModel extends Component {
                 {/* <h5>Category :{category.catname} </h5> */}
                 <h5>Description :{description} </h5>
 
-                <h6>
+                {/* <h6>
                   <a href="#">1 review</a>
                   <a href="#">View all review</a>
-                </h6>
+                </h6> */}
                 <div className="price">
                   {/* <h4 className="oldprice">
                 <del>Rs. 3444</del>

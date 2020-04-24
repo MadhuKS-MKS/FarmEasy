@@ -1,24 +1,87 @@
-import React, { Component } from "react";
+import React, { Component, useReducer } from "react";
 import Category from "./Category";
+import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 
 export default class Dashboard extends Component {
   componentDidMount() {
     this.props.getorders();
     this.props.getvendors();
-    this.props.getpublic();
+    // this.props.getpublic();
     this.props.getCategory();
     this.props.getusers();
   }
-  onClickHandler = (e) => {
+  // onDeleteVendor = (vendor, e) => {
+  //   e.preventDefault();
+  //   console.log(vendor);
+  // };
+  onDeleteUser = async (user, e) => {
     e.preventDefault();
+    // console.log(user);
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      await axios.delete(`http://localhost:5000/api/v1/users/${user}`, config);
+      await axios.delete(`http://localhost:5000/api/v1/public/${user}`, config);
+      alert("User Deleted");
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
+  onDeleteCategory = async (category, e) => {
+    e.preventDefault();
+    // console.log(user);
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/v1/category/${category}`,
+        config
+      );
+
+      alert("Category Deleted");
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
+  onDeleteUser = async (user, e) => {
+    e.preventDefault();
+    // console.log(user);
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      await axios.delete(`http://localhost:5000/api/v1/users/${user}`, config);
+      await axios.delete(`http://localhost:5000/api/v1/public/${user}`, config);
+      alert("User Deleted");
+    } catch (err) {
+      console.log("Can't load the items");
+    }
   };
   render() {
     const orders = this.props.orders;
     const vendors = this.props.vendors;
-    const publics = this.props.publics;
+    const users = this.props.users;
+    // const publics = this.props.publics;
 
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div className="content-wrapper ">
         <div className="row d-none" id="proBanner"></div>
@@ -77,7 +140,7 @@ export default class Dashboard extends Component {
                   Total Public Users
                   <i className="mdi mdi-diamond mdi-24px float-right"></i>
                 </h4>
-                <h2 className="mb-5">{publics.length}</h2>
+                <h2 className="mb-5">{users.length}</h2>
                 <h6 className="card-text"></h6>
               </div>
             </div>
@@ -95,15 +158,15 @@ export default class Dashboard extends Component {
                     <thead>
                       <tr>
                         <th> Name </th>
-                        <th> Phone </th>
+                        {/* <th> Phone </th> */}
                         <th> email </th>
 
-                        <th> Address </th>
+                        {/* <th> Address </th> */}
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.user.map((vendors) => (
+                      {this.props.vendors.map((vendor) => (
                         <tr key={vendor._id}>
                           <td>
                             <img
@@ -114,7 +177,7 @@ export default class Dashboard extends Component {
                             />{" "}
                             {vendor.name}
                           </td>
-                          <td>{vendor.phone} </td>
+                          {/* <td>{vendor.phone} </td> */}
                           <td>
                             <label
                               className="badge text-bg"
@@ -124,7 +187,7 @@ export default class Dashboard extends Component {
                             </label>
                           </td>
 
-                          <td> {vendor.address} </td>
+                          {/* <td> {vendor.address} </td> */}
                           <td className="actions" data-th="">
                             {/* <button className="btn btn-info btn-sm">
                               <i className="fa fa-edit"></i>
@@ -132,7 +195,7 @@ export default class Dashboard extends Component {
                             <button
                               className="btn btn-danger btn-sm"
                               value={vendor._id}
-                              onClick={this.onClickHandler}
+                              onClick={(e) => this.onDeleteUser(vendor._id, e)}
                             >
                               <i className="fa fa-trash-o"></i>
                             </button>
@@ -148,7 +211,7 @@ export default class Dashboard extends Component {
         </div>
         {/* End of Vendor List */}
         {/* User List */}
-        <div className="row mt-5" id="vendor">
+        <div className="row mt-5" id="users">
           <div className="col-12 grid-margin">
             <div className="card">
               <div className="card-body">
@@ -159,15 +222,15 @@ export default class Dashboard extends Component {
                     <thead>
                       <tr>
                         <th> Name </th>
-                        <th> Phone </th>
+                        {/* <th> Phone </th> */}
                         <th> email </th>
 
-                        <th> Address </th>
+                        {/* <th> Address </th> */}
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.vendors.map((user) => (
+                      {this.props.users.map((user) => (
                         <tr key={user._id}>
                           <td>
                             <img
@@ -178,7 +241,7 @@ export default class Dashboard extends Component {
                             />{" "}
                             {user.name}
                           </td>
-                          <td>{user.phone} </td>
+                          {/* <td>{user.phone} </td> */}
                           <td>
                             <label
                               className="badge text-bg"
@@ -188,12 +251,16 @@ export default class Dashboard extends Component {
                             </label>
                           </td>
 
-                          <td> {user.address} </td>
+                          {/* <td> {user.address} </td> */}
                           <td className="actions" data-th="">
-                            <button className="btn btn-info btn-sm">
+                            {/* <button className="btn btn-info btn-sm">
                               <i className="fa fa-edit"></i>
-                            </button>
-                            <button className="btn btn-danger btn-sm">
+                            </button> */}
+                            <button
+                              className="btn btn-danger btn-sm"
+                              value={user.id}
+                              onClick={(e) => this.onDeleteUser(user._id, e)}
+                            >
                               <i className="fa fa-trash-o"></i>
                             </button>
                           </td>
@@ -258,9 +325,9 @@ export default class Dashboard extends Component {
                             </div>
                           </td>
                           <td className="actions" data-th="">
-                            <button className="btn btn-info btn-sm ">
+                            {/* <button className="btn btn-info btn-sm ">
                               <i className="fa fa-edit"></i>
-                            </button>
+                            </button> */}
                             <button className="btn btn-danger btn-sm ml-4">
                               <i className="fa fa-trash-o"></i>
                             </button>
@@ -327,10 +394,15 @@ export default class Dashboard extends Component {
                           <td>{category.catname} </td>
 
                           <td className="actions" data-th="">
-                            <button className="btn btn-info btn-sm mr-4">
+                            {/* <button className="btn btn-info btn-sm mr-4">
                               <i className="fa fa-edit"></i>
-                            </button>
-                            <button className="btn btn-danger btn-sm">
+                            </button> */}
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={(e) =>
+                                this.onDeleteCategory(category._id, e)
+                              }
+                            >
                               <i className="fa fa-trash-o"></i>
                             </button>
                           </td>

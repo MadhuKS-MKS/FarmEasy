@@ -29,6 +29,7 @@ router
   .post(protect, addCart);
 
 router.route("/orders").get(getPlacedOrders);
+router.route("/orders/:id").get(getOrderdOrders);
 router.route("/pending").get(protect, getPendingOrders);
 
 router.route("/orders/:orderId").put(protect, placeOrder);

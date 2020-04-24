@@ -24,35 +24,37 @@ export default class Navbar extends Component {
       isAuth: sessionStorage.getItem("isAuth"),
     });
     // getting user
-    const token = sessionStorage.getItem("token");
+    if (this.state.isAuth) {
+      const token = sessionStorage.getItem("token");
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const res = await axios.get(`http://localhost:5000/api/v1/auth/me`, config);
-    this.setState({
-      user: res.data.data,
-    });
-    // console.log(this.state.user);
-    
-    // try {
-    //   const result = await axios.get(
-    //     `http://localhost:5000/api/v1/public/${this.props.location.state.user}/cart`,
-    //     config
-    //   );
-    //   this.setState({
-    //     items: result.data.data,
-    //   });
-      console.log(
-        this.state.items
-       
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.get(
+        `http://localhost:5000/api/v1/auth/me`,
+        config
       );
-    // } catch (err) {
-    //   console.log("Can't load the items");
-    // }
+      this.setState({
+        user: res.data.data,
+      });
+      // console.log(this.state.user);
+
+      // try {
+      //   const result = await axios.get(
+      //     `http://localhost:5000/api/v1/public/${this.props.location.state.user}/cart`,
+      //     config
+      //   );
+      //   this.setState({
+      //     items: result.data.data,
+      //   });
+      console.log(this.state.items);
+      // } catch (err) {
+      //   console.log("Can't load the items");
+      // }
+    }
   };
   onLogout = async (e) => {
     e.preventDefault();

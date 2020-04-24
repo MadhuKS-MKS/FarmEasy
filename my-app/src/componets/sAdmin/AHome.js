@@ -21,7 +21,7 @@ export default class AHome extends Component {
     category: [],
     orders: [],
     vendors: [],
-    publics: [],
+    // publics: [],
   };
 
   getCategory = async () => {
@@ -43,34 +43,37 @@ export default class AHome extends Component {
     }
   };
 
-  getpublic = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/public`,
-        config
-      );
-      this.setState({
-        publics: res.data.data,
-      });
-      console.log(res.data.data);
-    } catch (err) {
-      console.log("Can't load the items");
-    }
-  };
+  // getpublic = async () => {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   try {
+  //     const res = await axios.get(
+  //       ` http://localhost:5000/api/v1/public`,
+  //       config
+  //     );
+  //     this.setState({
+  //       publics: res.data.data,
+  //     });
+  //     console.log(res.data.data);
+  //   } catch (err) {
+  //     console.log("Can't load the items");
+  //   }
+  // };
   getvendors = async () => {
+    const token = sessionStorage.getItem("token");
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
+
     try {
       const res = await axios.get(
-        ` http://localhost:5000/api/v1/vendors`,
+        `http://localhost:5000/api/v1/users/vendor`,
         config
       );
       this.setState({
@@ -80,29 +83,46 @@ export default class AHome extends Component {
       console.log("Can't load the items");
     }
   };
-  getorders = async () => {
+  getusers = async () => {
+    const token = sessionStorage.getItem("token");
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
+
+    try {
+      const res1 = await axios.get(
+        `http://localhost:5000/api/v1/users/user`,
+        config
+      );
+      this.setState({
+        users: res1.data.data,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
+  getorders = async () => {
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
+
     try {
       const res = await axios.get(
-        ` http://localhost:5000/api/v1/public/cart/orders/`,
+        `http://localhost:5000/api/v1/orders/pending`,
         config
       );
       this.setState({
         orders: res.data.data,
       });
     } catch (err) {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/products`,
-        config
-      );
-      this.setState({
-        products: res.data.data,
-      });
-      // console.log("Can't load the items");
+      console.log("Can't load the items");
     }
   };
   render() {
@@ -143,7 +163,7 @@ export default class AHome extends Component {
                         getvendors={this.getvendors}
                         publics={this.state.publics}
                         category={this.state.category}
-                        users={this.state.user}
+                        users={this.state.users}
                         orders={this.state.orders}
                         vendors={this.state.vendors}
                       />

@@ -2,12 +2,12 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/Users");
 
-// @desc      Get all users
-// @route     GET /api/v1/auth/users
-// @access    Private/Admin
-exports.getUsers = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
-});
+// // @desc      Get all users
+// // @route     GET /api/v1/auth/users
+// // @access    Private/Admin
+// exports.getUsers = asyncHandler(async (req, res, next) => {
+//   res.status(200).json(res.advancedResults);
+// });
 
 // @desc      Get single user
 // @route     GET /api/v1/auth/users/:id
@@ -21,6 +21,28 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Get  user
+// @route     GET /api/v1/auth/users/vendors
+// @access    Private/Admin
+exports.getVendor = asyncHandler(async (req, res, next) => {
+  const user = await User.find({ role: "vendor" });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+// @desc      Get  user
+// @route     GET /api/v1/auth/users/user
+// @access    Private/Admin
+exports.getAllUser = asyncHandler(async (req, res, next) => {
+  const user = await User.find({ role: "user" });
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
 // @desc      Create user
 // @route     POST /api/v1/auth/users
 // @access    Private/Admin
