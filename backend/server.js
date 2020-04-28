@@ -74,7 +74,7 @@ app.use("/api/v1/vendors/products", products);
 app.use("/api/v1/products", products);
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", users);
-app.use("/api/v1/reviews", reviews);
+// app.use("/api/v1/reviews", reviews);
 app.use("/api/v1/public", public);
 app.use("/api/v1/orders", orderlist);
 app.use("/api/v1/category", category);

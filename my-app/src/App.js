@@ -19,33 +19,6 @@ import PrivateRoute from "./componets/utils/PrivateRoute";
 // import PublicRoutes from "./componets/util/PublicRoute";
 
 class App extends React.Component {
-  state = {
-    role: "",
-  };
-  // isAuthenticated = this.isAuthenticated();
-
-  getUsers = async (body) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    // const body = {};
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/login",
-        body,
-        config
-      );
-      this.setState({
-        users: res.data.data,
-      });
-      console.log(res.data.data);
-    } catch (err) {
-      console.log("Can't load the items");
-    }
-  };
-
   render() {
     return (
       <Router>
@@ -54,9 +27,10 @@ class App extends React.Component {
           <Navbar /> */}
           {/* <div className="jumbotron" style={{ marginBottom: 0 + "px" }}></div> */}
           <Switch>
-            <Route exact path={"/Login/:type"} component={Login} />
+            {" "}
+            <Route exact path={"/Login/:type"} component={Login} />{" "}
           </Switch>
-          <FNavbar />
+          {/* <FNavbar /> */}
           <Switch>
             <PrivateRoute role="vendor" path={"/vendor/"} component={AllF} />
 
@@ -66,6 +40,7 @@ class App extends React.Component {
               path={"/admin"}
               component={AHome}
             />
+
             {/* <PrivateRoute role="user" path={"/"} component={All} /> */}
 
             <All></All>

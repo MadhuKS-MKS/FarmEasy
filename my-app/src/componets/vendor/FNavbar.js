@@ -118,9 +118,20 @@ export default class Navbar extends Component {
                   <a className="dropdown-item" href="/vendor/addItems">
                     Add
                   </a>
-                  <a className="dropdown-item" href="/vendor/showItems">
+                  <Link
+                    className="dropdown-item "
+                    to={{
+                      pathname: "/vendor/showItems",
+                      state: {
+                        user: this.state.user._id,
+                      },
+                    }}
+                  >
                     Show
-                  </a>
+                  </Link>
+                  {/* <a className="dropdown-item" href="/vendor/showItems">
+                    Show
+                  </a> */}
                 </div>
               </li>
             </ul>

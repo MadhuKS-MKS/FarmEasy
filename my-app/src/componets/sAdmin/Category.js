@@ -86,7 +86,9 @@ export default class Category extends Component {
                 </div>
               </div>
               <div className="modal-footer d-flex justify-content-center">
-                <button className="btn btn-primary">Add</button>
+                <button className="btn btn-primary" onSubmit={this.onSubmit}>
+                  Add
+                </button>
               </div>
             </form>
           </div>

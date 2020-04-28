@@ -38,6 +38,11 @@ const ProductSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  vendor: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Order", ProductSchema);

@@ -69,13 +69,10 @@ class Login extends Component {
     // console.log(type);
     let social = {};
     let signup, login;
-    if (type === "user") {
-      social = "#ffc312";
-      signup = <a href={`/signup`}>Sign Up</a>;
-    } else {
-      social = "#49b5e7";
-      signup = <a href={`/fsignup`}>Sign Up</a>;
-    }
+    // if (type === "user") {
+    social = "#ffc312";
+    signup = <a href={`/signup/${type}`}>Sign Up</a>;
+
     console.log(type);
 
     // console.log(isAuthenticated());

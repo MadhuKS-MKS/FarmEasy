@@ -148,7 +148,7 @@ class Home extends Component {
               </div> 
             </div>*/}
             {/*  */}
-            <div className="col-lg-3 col-md-3 col-sm-3   animated fadeInUp wow animated">
+            {/* <div className="col-lg-3 col-md-3 col-sm-3   animated fadeInUp wow animated">
               <div className="product-top">
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
@@ -182,11 +182,11 @@ class Home extends Component {
                 <h3>Product 1</h3>
                 <h5>₹300.00</h5>
               </div>
-            </div>
+            </div> */}
             {/*  */}
 
             {/*  */}
-            <div className="col-lg-3 col-md-3 col-sm-3  animated fadeInUp wow animated">
+            {/* <div className="col-lg-3 col-md-3 col-sm-3  animated fadeInUp wow animated">
               <div className="product-top">
                 <img
                   src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
@@ -212,60 +212,26 @@ class Home extends Component {
                     <i className="fa fa-shopping-cart"></i>
                   </button>
                 </div>
-              </div>
-              <div className="product-bottom text-center">
+              </div> */}
+            {/* <div className="product-bottom text-center">
                 <i className="fa fa-star"></i>
                 <i className="fa fa-star-half-o"></i>
                 <i className="fa fa-star-o"></i>
                 <h3>Product 1</h3>
                 <h5>₹300.00</h5>
               </div>
-            </div>
+            </div> */}
             {/*  */}
-            <div className="col-lg-3 col-md-3 col-sm-3  animated fadeInUp wow animated">
-              <div className="product-top">
-                <img
-                  src="https://cdn.shopify.com/s/files/1/1087/0872/products/Kerala_Prawn_Pickle_product_1_1525852674359_grande.jpg?v=1571607439"
-                  className="img1"
-                  alt=""
-                />
-                <div className="overlay">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    title="Quick Shop"
-                    data-toggle="modal"
-                    data-target="#quickModel"
-                  >
-                    <i className="fa fa-eye"></i>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    title="Add to Cart"
-                  >
-                    <i className="fa fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div className="product-bottom text-center">
-                <i className="fa fa-star"></i>
-                <i className="fa fa-star-half-o"></i>
-                <i className="fa fa-star-o"></i>
-                <h3>Product 1</h3>
-                <h5>₹300.00</h5>
-              </div>
-            </div>
-          </div>
-        </div>
+            {/*            
         <div className="container align-center">
           <a className="btn shop text-center mx-auto block" href={"/Showitems"}>
             Start Shopping
           </a>
+        </div> */}
+            {/*  */}
+            {/*  */}
+          </div>
         </div>
-        {/*  */}
-        {/*  */}
       </Fragment>
     );
   }

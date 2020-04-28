@@ -34,7 +34,7 @@ export default class UserProf extends Component {
       this.setState({
         profile: res.data.data[0],
       });
-      console.log(this.state.profile.location.city);
+      console.log(this.state.profile);
     } catch (err) {
       console.log("Can't load the items");
     }
@@ -56,7 +56,7 @@ export default class UserProf extends Component {
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     };
     try {
@@ -76,7 +76,7 @@ export default class UserProf extends Component {
   };
   render() {
     const {
-      id,
+      user,
       name,
       email,
       dob,
@@ -84,7 +84,7 @@ export default class UserProf extends Component {
 
       phone,
     } = this.state.profile;
-
+    console.log(photo);
     return (
       <div>
         <div className=" mt-5 pt-5 profile">
@@ -102,7 +102,7 @@ export default class UserProf extends Component {
                     >
                       <div className="well form">
                         <img
-                          src={photo}
+                          src={`${photo}`}
                           className="img-responsive"
                           id="profile-image1"
                         />
@@ -220,7 +220,7 @@ export default class UserProf extends Component {
                   name="Edit"
                   className="btn btn-warning "
                   style={{ width: 10 + "%" }}
-                  href={`/user/editprofile/${id}`}
+                  href={`/user/editprofile/${user}`}
                 >
                   Edit
                 </a>

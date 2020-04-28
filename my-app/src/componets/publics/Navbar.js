@@ -15,11 +15,12 @@ export default class Navbar extends Component {
       password: "",
       type: "",
       user: "",
-      isAuth: null,
+      items: [],
+      isAuth: false,
     };
     this.onLogout = this.onLogout.bind(this);
   }
-  componentDidMount = async () => {
+  componentWillMount = async () => {
     this.setState({
       isAuth: sessionStorage.getItem("isAuth"),
     });
@@ -40,20 +41,14 @@ export default class Navbar extends Component {
       this.setState({
         user: res.data.data,
       });
-      // console.log(this.state.user);
-
-      // try {
-      //   const result = await axios.get(
-      //     `http://localhost:5000/api/v1/public/${this.props.location.state.user}/cart`,
-      //     config
-      //   );
-      //   this.setState({
-      //     items: result.data.data,
-      //   });
+      const result = await axios.get(
+        `http://localhost:5000/api/v1/public/cart`,
+        config
+      );
+      this.setState({
+        items: result.data.data,
+      });
       console.log(this.state.items);
-      // } catch (err) {
-      //   console.log("Can't load the items");
-      // }
     }
   };
   onLogout = async (e) => {
@@ -100,22 +95,24 @@ export default class Navbar extends Component {
               ></span>{" "}
             </a>
             <ul className="dropdown-menu dropdown-cart" role="menu">
-              <li>
-                <span className="item">
-                  <span className="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span className="item-info">
-                      <span>Item name</span>
-                      <span>23$</span>
+              {this.state.items.map((item) => (
+                <li key={item._id}>
+                  <span className="item">
+                    <span className="item-left">
+                      {/* <img src="http://lorempixel.com/50/50/" alt="" /> */}
+                      <span className="item-info">
+                        <span>{item.title}</span>
+                        <span>{item.rate}</span>
+                      </span>
+                    </span>
+                    <span className="item-right">
+                      <button className="btn btn-xs btn-danger pull-right">
+                        x
+                      </button>
                     </span>
                   </span>
-                  <span className="item-right">
-                    <button className="btn btn-xs btn-danger pull-right">
-                      x
-                    </button>
-                  </span>
-                </span>
-              </li>
+                </li>
+              ))}
 
               <li>
                 <span className="item">

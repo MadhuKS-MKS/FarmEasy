@@ -28,7 +28,7 @@ export default class Dashboard extends Component {
 
     try {
       await axios.delete(`http://localhost:5000/api/v1/users/${user}`, config);
-      await axios.delete(`http://localhost:5000/api/v1/public/${user}`, config);
+      // await axios.delete(`http://localhost:5000/api/v1/public/${user}`, config);
       alert("User Deleted");
     } catch (err) {
       console.log("Can't load the items");

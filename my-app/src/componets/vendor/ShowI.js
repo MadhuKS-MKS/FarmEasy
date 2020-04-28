@@ -8,7 +8,7 @@ export default class ShowI extends Component {
   };
   componentDidMount = () => {
     this.getproducts();
-    console.log(this.props.params);
+    console.log(this.props.location.state.user);
   };
   getproducts = async () => {
     const token = sessionStorage.getItem("token");
@@ -21,7 +21,7 @@ export default class ShowI extends Component {
     };
     try {
       const res = await axios.get(
-        ` http://localhost:5000/api/v1/vendors/products`,
+        ` http://localhost:5000/api/v1/vendors/products/product/${this.props.location.state.user}`,
         config
       );
       this.setState({
@@ -32,7 +32,28 @@ export default class ShowI extends Component {
       // console.log("Can't load the items");
     }
   };
+  onDeleteUser = async (user, e) => {
+    e.preventDefault();
+    // console.log(user);
+    const token = sessionStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    };
 
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/v1/vendors/products/${user}`,
+        config
+      );
+
+      alert("User Deleted");
+    } catch (err) {
+      console.log("Can't load the items");
+    }
+  };
   render() {
     return (
       <div>
@@ -58,7 +79,7 @@ export default class ShowI extends Component {
                         <div className="col-md-6">
                           <div className="pull-right">
                             <a
-                              href="/farmer/addItems"
+                              href="/vendor/addItems"
                               className="btn btn-info btn-sm p-2"
                             >
                               Add Item
@@ -67,7 +88,10 @@ export default class ShowI extends Component {
                         </div>
 
                         <div className="pull-left">
-                          <a href="/FHome" className="btn btn-info btn-sm p-2">
+                          <a
+                            href="/vendor/Home"
+                            className="btn btn-info btn-sm p-2"
+                          >
                             Back to Home
                           </a>
                         </div>
@@ -104,7 +128,7 @@ export default class ShowI extends Component {
                             <tr key={product._id}>
                               <td className="tbld">
                                 <img
-                                  src="http://starkovtattoo.spb.ru/images/200/DSC100224440.png"
+                                  src={`${product.photo}`}
                                   alt=""
                                   width="150px"
                                   height="100px"
@@ -119,13 +143,17 @@ export default class ShowI extends Component {
                                   <a
                                     href=""
                                     className="btn btn-danger btn-md mr-5"
+                                    value={product._id}
+                                    onClick={(e) =>
+                                      this.onDeleteUser(product._id, e)
+                                    }
                                   >
                                     <i className="fa fa-trash-o"></i>
                                   </a>
 
-                                  <a href="" className="btn btn-info btn-md">
+                                  {/* <a href="" className="btn btn-info btn-md">
                                     <i className="fa fa-edit"></i>
-                                  </a>
+                                  </a> */}
                                 </div>
                               </td>
                             </tr>

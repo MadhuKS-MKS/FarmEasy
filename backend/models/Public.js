@@ -4,13 +4,17 @@ const PublicSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please add a name"],
+      // required: [true, "Please add a name"],
       maxlength: [50, "Name can not be more than 50 characters"],
     },
-
+    photo: {
+      type: String,
+      default: "/uploads/no-photo.jpg",
+    },
     phone: {
       type: String,
       maxlength: [20, "Phone number can not be longer than 20 characters"],
+      default: "",
     },
     email: {
       type: String,
@@ -22,11 +26,13 @@ const PublicSchema = new mongoose.Schema(
 
     dob: {
       type: String,
-      required: [true, "Please add Date of Birth"],
+      default: "",
+      // required: [true, "Please add Date of Birth"],
     },
     address: {
       type: String,
-      required: [true, "Please add an address"],
+      default: "",
+      // required: [true, "Please add an address"],
     },
 
     createdAt: {

@@ -5,7 +5,7 @@ class itemList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: "",
+      cat: "",
     };
     this.onClickHandler = this.onClickHandler.bind(this);
   }
@@ -15,7 +15,7 @@ class itemList extends React.Component {
     this.props.getproducts(this.props.match.params);
   };
   onClickHandler = (e) => {
-    // this.setState({ category: e.target.value });
+    this.setState({ cat: e.target.value });
     console.log(e.target.name);
   };
 
@@ -35,15 +35,15 @@ class itemList extends React.Component {
                 <div className="col-lg-12">
                   <ul id="portfolio-flters">
                     {/* List all Category */}
-                    {this.props.category.map((category) => (
+                    {this.props.category.map((cat) => (
                       <li
                         data-filter=".filter-app"
                         onClick={this.onClickHandler}
-                        key={category._id}
-                        name={category._id}
-                        value={category._id}
+                        key={cat._id}
+                        name={cat._id}
+                        value={cat._id}
                       >
-                        {category.catname}
+                        {cat.catname}
                       </li>
                     ))}
                   </ul>

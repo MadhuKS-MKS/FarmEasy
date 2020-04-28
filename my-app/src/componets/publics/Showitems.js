@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from "react";
 import QuickModel from "./QuickModel";
+import { Link } from "react-router-dom";
 
 export default class Showitems extends Component {
   state = {
     product: [],
+    catname: "",
   };
 
   componentDidMount = (async) => {
     this.setState({ product: this.props.product });
+    this.setState({ catname: this.props.product.category.catname });
   };
   render() {
-    // console.log(this.state.product.photo);
+    // console.log(this.props.product.category.catname);
     const { photo, title, rate } = this.state.product;
     return (
       <Fragment>
@@ -19,15 +22,20 @@ export default class Showitems extends Component {
             <img src={`${photo}`} className="img1 mt-2" alt="" />
 
             <div className="overlays">
-              <button
+              <Link
                 type="button"
-                className="btn  m-1"
+                className="btn btn-secondary"
                 title="Quick Shop"
-                data-toggle="modal"
-                data-target="#quickModel"
+                to={{
+                  pathname: "/user/Item",
+                  state: {
+                    product: this.state.product,
+                    cat: this.state.catname,
+                  },
+                }}
               >
-                <i className="fa fa-eye "></i>
-              </button>
+                <i className="fa fa-eye"></i>
+              </Link>
 
               <button type="button" className="btn" title="Add to Cart">
                 <i className="fa fa-shopping-cart"></i>
@@ -39,10 +47,10 @@ export default class Showitems extends Component {
             <h5>₹{rate}</h5>
           </div>
         </div>
-        <QuickModel
+        {/* <QuickModel
           product={this.state.product}
           key={this.state.product._id}
-        ></QuickModel>
+        ></QuickModel> */}
       </Fragment>
     );
   }

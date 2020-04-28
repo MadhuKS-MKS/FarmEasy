@@ -115,7 +115,7 @@ export default class AHome extends Component {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/orders/pending`,
+        `http://localhost:5000/api/v1/orders/orderd`,
         config
       );
       this.setState({

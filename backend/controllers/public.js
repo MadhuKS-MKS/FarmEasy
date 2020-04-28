@@ -132,7 +132,7 @@ exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Make sure user is public owner
+  // // Make sure user is public owner
   if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
       new ErrorResponse(
@@ -141,7 +141,6 @@ exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
       )
     );
   }
-
   if (!req.files) {
     return next(new ErrorResponse(`Please upload a file`, 400));
   }
@@ -163,20 +162,55 @@ exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Create custom filename
-  file.name = `photo_${public._id}${path.parse(file.name).ext}`;
+  file.mv(
+    `${__dirname}/../../my-app/public/uploads/profile/${file.name}`,
+    async (err) => {
+      if (err) {
+        console.error(err);
+        return next(new ErrorResponse(`Problem with file upload`, 500));
+      }
 
-  file.mv(`${process.env.FILE_UPLOAD_PATH_2}/${file.name}`, async (err) => {
-    if (err) {
-      console.error(err);
-      return next(new ErrorResponse(`Problem with file upload`, 500));
+      const files = `/uploads/profile/${file.name}`;
+      await Public.findByIdAndUpdate(req.params.id, { photo: files });
+      res.status(200).json({
+        success: true,
+        data: files,
+      });
     }
+  );
+  // if (!req.files) {
+  //   return next(new ErrorResponse(`Please upload a file`, 400));
+  // }
 
-    await Public.findByIdAndUpdate(req.params.id, { photo: file.name });
+  // const file = req.files.file;
 
-    res.status(200).json({
-      success: true,
-      data: file.name,
-    });
-  });
+  // // Make sure the image is a photo
+  // if (!file.mimetype.startsWith("image")) {
+  //   return next(new ErrorResponse(`Please upload an image file`, 400));
+  // }
+
+  // // Check filesize
+  // if (file.size > process.env.MAX_FILE_UPLOAD) {
+  //   return next(
+  //     new ErrorResponse(
+  //       `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
+  //       400
+  //     )
+  //   );
+  // }
+
+  // // Create custom filename
+  // file.name = `photo_${public._id}${path.parse(file.name).ext}`;
+
+  // file.mv(`${process.env.FILE_UPLOAD_PATH_2}/${file.name}`, async (err) => {
+  //   if (err) {
+  //     console.error(err);
+  //     return next(new ErrorResponse(`Problem with file upload`, 500));
+  //   }
+
+  //   res.status(200).json({
+  //     success: true,
+  //     data: file.name,
+  //   });
+  // });
 });

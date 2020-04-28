@@ -3,11 +3,13 @@ const express = require("express");
 const {
   getProducts,
   getProduct,
+  getProductsVendor,
   getCategoryProduct,
   addProduct,
   updateProduct,
   deleteProduct,
   productPhotoUpload,
+  getVendorOrders,
 } = require("../controllers/products");
 const reviewRouter = require("./reviews");
 
@@ -32,10 +34,11 @@ router
   )
   .post(protect, addProduct);
 
+router.route("/product/:id").get(protect, getProductsVendor);
 router
   .route("/:productId")
   .get(getProduct)
   .put(protect, updateProduct)
   .delete(protect, deleteProduct);
-
+// router.route("/order").get(protect, getVendorOrders);
 module.exports = router;

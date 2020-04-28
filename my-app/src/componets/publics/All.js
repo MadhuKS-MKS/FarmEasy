@@ -17,11 +17,12 @@ import Forgotpasswrd from "../Forgotpsswrd";
 import Registration from "./Registration";
 import cart from "./cart";
 import editProf from "../publics/editProf";
-import fRegistration from "../vendor/Registration";
+import QuickModel from "./QuickModel";
 import PrivateRoute from "../utils/PrivateRoute";
 
 // import quickModel from "./quickModel";
 import ItemsList from "./ItemsList";
+import quickModel from "./QuickModel";
 
 export default class All extends Component {
   state = {
@@ -77,14 +78,14 @@ export default class All extends Component {
   render() {
     return (
       <Router>
+        <Navbar />
         <div className="">
           <Switch>
             {" "}
             {/* <Route exact path={"/Login/:type"} component={Login} /> */}
             {/* <Route path={"/farmer/fsignup"} component={fRegistration} /> */}
             <Route path={"/reset"} component={Forgotpasswrd} />
-            <Route path={"/signup/"} component={Registration} />
-            <Route path={"/fsignup"} component={fRegistration} />
+            <Route path={"/signup/:role"} component={Registration} />
           </Switch>
           <Navbar />
           <Switch>
@@ -117,6 +118,8 @@ export default class All extends Component {
               path={"/user/editprofile/:id"}
               component={editProf}
             />
+            <Route path={"/user/Item"} component={QuickModel} />
+            {/* <PrivateRoute role="user" component={quickModel} /> */}
             {/* <PrivateRoute
               role="user"
               path={"/user/editprofile/:id"}

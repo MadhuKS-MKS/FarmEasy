@@ -40,37 +40,4 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-// Static method to get avg of course tuitions
-// ProductSchema.statics.getAverageCost = async function (vendorId) {
-//   const obj = await this.aggregate([
-//     {
-//       $match: { vendor: vendorId },
-//     },
-//     {
-//       $group: {
-//         _id: "$vendor",
-//         averageCost: { $avg: "$tuition" },
-//       },
-//     },
-//   ]);
-
-//   try {
-//     await this.model("Vendor").findByIdAndUpdate(vendorId, {
-//       averageCost: Math.ceil(obj[0].averageCost / 10) * 10,
-//     });
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
-
-// Call getAverageCost after save
-// ProductSchema.post("save", function () {
-//   this.constructor.getAverageCost(this.vendor);
-// });
-
-// Call getAverageCost before remove
-// ProductSchema.pre("remove", function () {
-//   this.constructor.getAverageCost(this.vendor);
-// });
-
 module.exports = mongoose.model("Product", ProductSchema);

@@ -62,7 +62,7 @@ exports.getPlacedOrders = asyncHandler(async (req, res, next) => {
 exports.getPendingOrders = asyncHandler(async (req, res, next) => {
   const order = await Orders.find({ status: "pending" }).populate({
     path: "public",
-    select: "name location email phone ",
+    select: "name email ",
   });
 
   if (order.status == "pending") {
@@ -80,26 +80,26 @@ exports.getPendingOrders = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc      Get orderd list
-// @route     /api/v1/orders/orders/:id
-// @access    Public
-exports.getOrderdOrders = asyncHandler(async (req, res, next) => {
-  const order = await Orders.find({
-    status: "ordered",
-    user: req.params.id,
-  }).populate({
-    path: "public",
-    select: "name address email phone ",
-  });
+// // @desc      Get orderd list
+// // @route     /api/v1/orders/orders/:id
+// // @access    Public
+// exports.getOrderdOrders = asyncHandler(async (req, res, next) => {
+//   const order = await Orders.find({
+//     status: "ordered",
+//     user: req.params.id,
+//   }).populate({
+//     path: "public",
+//     select: "name address email phone ",
+//   });
 
-  return res.status(200).json({
-    success: true,
-    count: order.length,
-    data: order,
-  });
-});
+//   return res.status(200).json({
+//     success: true,
+//     count: order.length,
+//     data: order,
+//   });
+// });
 // @desc      Add Cart
-// @route     POST /api/v1/public/:publicId/cart
+// @route     POST /api/v1/public/cart
 // @access    Private
 exports.addCart = asyncHandler(async (req, res, next) => {
   // req.params
@@ -114,7 +114,7 @@ exports.addCart = asyncHandler(async (req, res, next) => {
     );
   }
   const product = await Products.findById(req.body._id);
-  const { photo, title, rate, stock } = product;
+  const { photo, title, rate, stock, user } = product;
   const public = publics.id;
 
   // Make sure user is public owner
@@ -135,6 +135,7 @@ exports.addCart = asyncHandler(async (req, res, next) => {
       status: "pending",
       public,
       user: publics.user,
+      vendor: user,
     };
     const orders = await Orders.create(cart);
     res.status(200).json({
@@ -149,7 +150,7 @@ exports.addCart = asyncHandler(async (req, res, next) => {
 // @desc      Update order
 // @route     PUT /api/v1/public/cart/orders/:orderId
 // @access    Private
-exports.placeOrder = asyncHandler(async (req, res, next) => {
+exports.placeOrderSingle = asyncHandler(async (req, res, next) => {
   let order = await Orders.findById(req.params.orderId);
 
   if (!order) {
@@ -184,6 +185,43 @@ exports.placeOrder = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc      Update order
+// @route     PUT /api/v1/public/cart/orders/order
+// @access    Private
+exports.placeOrder = asyncHandler(async (req, res, next) => {
+  // let order = await Orders.findById(req.params.orderId);
+
+  // if (!order) {
+  //   return next(
+  //     new ErrorResponse(`No Product with the id of ${req.params.id}`),
+  //     404
+  //   );
+  // }
+
+  // Make sure user is product owner
+  if (order.user.toString() !== req.user.id && req.user.role !== "admin") {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to update product ${order._id}`,
+        401
+      )
+    );
+  }
+
+  order = await Orders.findAndUpdate(
+    req.params.orderId,
+    { status: "orderd" },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    success: true,
+    data: order,
+  });
+});
 // @desc      Delete cart
 // @route     DELETE /api/v1/cart/orders/:orderId
 // @access    Private
@@ -213,4 +251,24 @@ exports.deleteCart = asyncHandler(async (req, res, next) => {
     success: true,
     data: {},
   });
+});
+
+// @desc      Get orderd list
+// @route     /api/v1/public/cart/vendor/
+// @access    Public
+exports.getVendorOrders = asyncHandler(async (req, res, next) => {
+  const order = await Orders.find({
+    // status: "orderd",
+    vendor: req.user.id,
+  }).populate({
+    path: "public",
+    select: "name email ",
+  });
+
+  return res.status(200).json({
+    success: true,
+    count: order.length,
+    data: order,
+  });
+  // }
 });
