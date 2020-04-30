@@ -40,24 +40,24 @@ export default class addItems extends Component {
   };
   onSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    data.append("file", this.state.file, this.state.file.name);
+    // const data = new FormData();
+    // data.append("file", this.state.file, this.state.file.name);
 
-    console.log(data);
+    // console.log(data);
     const token = sessionStorage.getItem("token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    };
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/v1/vendors/products/photo`,
-        data,
-        config
-      );
-      console.log(res.data.data);
+      // const res = await axios.post(
+      //   `http://localhost:5000/api/v1/vendors/products/photo`,
+      //   data,
+      //   config
+      // );
+      // console.log(res.data.data);
 
       const products = {
         title: this.state.title,
@@ -65,7 +65,7 @@ export default class addItems extends Component {
         category: this.state.category,
         rate: this.state.rate,
         stock: this.state.stock,
-        photo: res.data.data,
+        // photo: res.data.data,
       };
       const body = JSON.stringify(products);
       console.log(body);

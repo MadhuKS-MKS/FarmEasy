@@ -7,27 +7,19 @@ const Products = require("../models/Products");
 const Public = require("../models/Public");
 
 // @desc      Get pending list
-// @route     GET /api/v1/public/:publicid/orderlist
+// @route     GET /api/v1/public/cart
 // @access    Public
 exports.getOrders = asyncHandler(async (req, res, next) => {
-  if (req.params.publicId) {
+  if (req.user.id) {
     const orders = await Orders.find({
-      user: req.params.publicId,
-      status: "pending",
+      user: req.user.id,
     });
-    if (orders.status == "pending") {
-      return res.status(200).json({
-        success: true,
-        count: orders.length,
-        data: orders,
-      });
-    } else {
-      return res.status(200).json({
-        success: false,
-        count: orders.length,
-        data: orders,
-      });
-    }
+
+    return res.status(200).json({
+      success: false,
+      count: orders.length,
+      data: orders,
+    });
   } else {
     res.status(200).json(res.advancedResults);
   }
@@ -80,24 +72,6 @@ exports.getPendingOrders = asyncHandler(async (req, res, next) => {
   }
 });
 
-// // @desc      Get orderd list
-// // @route     /api/v1/orders/orders/:id
-// // @access    Public
-// exports.getOrderdOrders = asyncHandler(async (req, res, next) => {
-//   const order = await Orders.find({
-//     status: "ordered",
-//     user: req.params.id,
-//   }).populate({
-//     path: "public",
-//     select: "name address email phone ",
-//   });
-
-//   return res.status(200).json({
-//     success: true,
-//     count: order.length,
-//     data: order,
-//   });
-// });
 // @desc      Add Cart
 // @route     POST /api/v1/public/cart
 // @access    Private

@@ -11,8 +11,9 @@ class Registration extends Component {
       name: "",
       email: "",
       password: "",
-
       role: null,
+      isAuth: false,
+      token: "",
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -35,7 +36,6 @@ class Registration extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-
       role: this.state.role,
     };
 
@@ -53,35 +53,39 @@ class Registration extends Component {
         body,
         config
       );
-      // console.log(res.data.token);
-      // sessionStorage.setItem("token", res.data.token);
-      // sessionStorage.setItem("isAuth", true);
-      const config1 = {
-        headers: {
-          Authorization: `Bearer ${res.data.token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      const res1 = await axios.post(
-        `http://localhost:5000/api/v1/public/`,
-        body,
 
-        config1
-      );
-      console.log(res1.data.data);
       this.setState({
         isAuth: true,
       });
+      if (this.state.role == user) {
+        this.setState({
+          isAuth: true,
+          token: res.data.token,
+        });
+      }
+      console.log(this.state.token);
     } catch (error) {
       alert("Error Login!!");
     }
   };
   render() {
-    console.log(this.state.role);
+    // console.log(this.state.token);
     return (
       <Fragment>
         {this.state.isAuth ? (
-          <Redirect isAuth={this.state.isAuth} to="/" />
+          this.state.role === "user" ? (
+            <Redirect
+              token={this.state.token}
+              to={{
+                pathname: "/profile",
+                state: {
+                  token: this.state.token,
+                },
+              }}
+            />
+          ) : (
+            <Redirect isAuth={this.state.isAuth} to="/" />
+          )
         ) : (
           <div className="container ">
             <div className="container mt-5  ">

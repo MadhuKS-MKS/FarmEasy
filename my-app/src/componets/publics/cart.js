@@ -95,10 +95,7 @@ export default class cart extends Component {
     };
 
     try {
-      await axios.put(
-        `http://localhost:5000/api/v1/public/cart/orders/${id}`,
-        config
-      );
+      await axios.put(`http://localhost:5000/api/v1/public/cart/${id}`, config);
 
       alert("Item Sent");
     } catch (err) {

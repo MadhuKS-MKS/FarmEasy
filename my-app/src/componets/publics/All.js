@@ -17,6 +17,8 @@ import Forgotpasswrd from "../Forgotpsswrd";
 import Registration from "./Registration";
 import cart from "./cart";
 import editProf from "../publics/editProf";
+import profile from "../publics/profile";
+
 import QuickModel from "./QuickModel";
 import PrivateRoute from "../utils/PrivateRoute";
 
@@ -118,6 +120,7 @@ export default class All extends Component {
               path={"/user/editprofile/:id"}
               component={editProf}
             />
+            <Route role="user" path={"/profile"} component={profile} />
             <Route path={"/user/Item"} component={QuickModel} />
             {/* <PrivateRoute role="user" component={quickModel} /> */}
             {/* <PrivateRoute

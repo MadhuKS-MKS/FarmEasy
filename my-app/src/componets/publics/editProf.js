@@ -238,27 +238,9 @@ export default class editProf extends Component {
                             className="form-control input-md"
                           />
                         </div>
-                        {/* <div className="input-group othertop m-1">
-                          <div className="input-group-addon">
-                            <i
-                              className="fa fa-mobile  ml-2 mr-2"
-                              style={{ fontSize: 30 + "px" }}
-                            ></i>
-                          </div>
-                          <input
-                            id="Phone number "
-                            name="Secondary Phone number "
-                            type="text"
-                            placeholder=" Secondary Phone number "
-                            className="form-control input-md"
-                          />
-                        </div> */}
                       </div>
                     </div>
                     <div className="form-group">
-                      {/* <label className=" control-label" for="Email Address">
-                        Email Address
-                      </label> */}
                       <div className="">
                         <div className="input-group">
                           <div className="input-group-addon">
@@ -276,44 +258,7 @@ export default class editProf extends Component {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="form-group">
-                      <label className=" control-label" for="Availability time">
-                        <h5>Availability time</h5>
-                      </label>
-                      <div className="">
-                        <div className="input-group">
-                          <div className="input-group-addon">
-                            <i className=" fa fa-clock-o fa-2x p-1"></i>
-                          </div>
-                          <input
-                            id="Availability time"
-                            name="Availability time"
-                            type="text"
-                            placeholder="Availability time"
-                            className="form-control input-md"
-                          />
-                        </div>
-                      </div>
-                    </div> */}
 
-                    {/* <div className="form-group">
-                      <label
-                        className=" control-label"
-                        for="Overview (max 200 words)"
-                      >
-                        <h5> Overview (max 200 words)</h5>
-                      </label>
-                      <div className="">
-                        <textarea
-                          className="form-control"
-                          rows="10"
-                          id="Overview (max 200 words)"
-                          name="Overview (max 200 words)"
-                        >
-                          Overview
-                        </textarea>
-                      </div>
-                    </div> */}
                     <div className="form-group row justify-content-center">
                       <div className="col-md-6 ">
                         <a href="#" className="btn btn-success" type="submit">
