@@ -81,7 +81,7 @@ export default class UserProf extends Component {
       email,
       dob,
       photo,
-
+      address,
       phone,
     } = this.state.profile;
     console.log(photo);
@@ -156,9 +156,9 @@ export default class UserProf extends Component {
                     <div className="col-md-3">
                       <h4 className="card-title ">Address</h4>
                       <div className="col-md-4">
-                        <label name="city">{}</label>
+                        <label name="city">{address}</label>
                       </div>
-                      <div className="col-md-4">
+                      {/* <div className="col-md-4">
                         <label name="country"></label>
                       </div>
                       <div className="col-md-4">
@@ -169,7 +169,7 @@ export default class UserProf extends Component {
                       </div>
                       <div className="col-md-4">
                         <label name="country">Country</label>
-                      </div>
+                      </div> */}
                     </div>
                     <hr></hr>
 

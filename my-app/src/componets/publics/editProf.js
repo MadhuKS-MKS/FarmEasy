@@ -190,7 +190,7 @@ export default class editProf extends Component {
                             id="Permanent Address"
                             name="address"
                             type="text"
-                            placeholder={profile.city}
+                            placeholder={profile.address}
                             value={this.state.address}
                             onChange={this.onChange}
                             className="form-control input-md "

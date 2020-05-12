@@ -17,7 +17,7 @@ exports.getProducts = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get products
-// @route     GET /api/v1/vendors/products/product
+// @route     GET /api/v1/vendors/products/product/:id
 // @access    Private
 exports.getProductsVendor = asyncHandler(async (req, res, next) => {
   if (req.params.id) {

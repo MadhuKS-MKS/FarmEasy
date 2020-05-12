@@ -56,14 +56,11 @@ class Registration extends Component {
 
       this.setState({
         isAuth: true,
+        token: res.data.token,
       });
-      if (this.state.role == user) {
-        this.setState({
-          isAuth: true,
-          token: res.data.token,
-        });
-      }
+
       console.log(this.state.token);
+      console.log(this.state.role);
     } catch (error) {
       alert("Error Login!!");
     }
@@ -75,7 +72,6 @@ class Registration extends Component {
         {this.state.isAuth ? (
           this.state.role === "user" ? (
             <Redirect
-              token={this.state.token}
               to={{
                 pathname: "/profile",
                 state: {

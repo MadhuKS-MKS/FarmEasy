@@ -11,11 +11,11 @@ import Footer from "../publics/Footer";
 import Contact from "../publics/Contact";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Showitems from "../publics/Showitems";
+
 import UserProf from "../publics/UserProf";
 import Forgotpasswrd from "../Forgotpsswrd";
 import Registration from "./Registration";
-import cart from "./cart";
+import Cart from "./Cart";
 import editProf from "../publics/editProf";
 import profile from "../publics/profile";
 
@@ -24,13 +24,13 @@ import PrivateRoute from "../utils/PrivateRoute";
 
 // import quickModel from "./quickModel";
 import ItemsList from "./ItemsList";
-import quickModel from "./QuickModel";
 
 export default class All extends Component {
   state = {
     users: [],
     products: [],
     category: [],
+    items: [],
   };
 
   getCategory = async () => {
@@ -51,30 +51,27 @@ export default class All extends Component {
       console.log("Can't load the items");
     }
   };
-
-  getproducts = async (catid) => {
+  getCart = async () => {
+    this.setState({ user: this.props.location.state.user });
+    // getting cart
+    const token = sessionStorage.getItem("token");
     const config = {
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
     try {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/category/${catid}/products`,
+      const result = await axios.get(
+        `http://localhost:5000/api/v1/public/cart`,
         config
       );
       this.setState({
-        products: res.data.data,
+        items: result.data.data,
       });
+      console.log(this.state.items);
     } catch (err) {
-      const res = await axios.get(
-        ` http://localhost:5000/api/v1/products`,
-        config
-      );
-      this.setState({
-        products: res.data.data,
-      });
-      // console.log("Can't load the items");
+      console.log("Can't load the items");
     }
   };
   render() {
@@ -101,15 +98,21 @@ export default class All extends Component {
                 <ItemsList
                   {...props}
                   user={this.state.user}
-                  getproducts={this.getproducts}
+                  // getproducts={this.getproducts}
                   getCategory={this.getCategory}
-                  products={this.state.products}
+                  // products={this.state.products}
                   category={this.state.category}
                 />
               )}
             />
 
-            <PrivateRoute role="user" path={"/cart"} component={cart} />
+            <PrivateRoute
+              role="user"
+              path={"/cart"}
+              // getCart={this.getCart}
+              // items={this.state.items}
+              component={Cart}
+            />
             <PrivateRoute
               role="user"
               path={"/user/userprofile"}

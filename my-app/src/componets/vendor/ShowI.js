@@ -49,7 +49,7 @@ export default class ShowI extends Component {
         config
       );
 
-      alert("User Deleted");
+      alert("Product Deleted");
     } catch (err) {
       console.log("Can't load the items");
     }

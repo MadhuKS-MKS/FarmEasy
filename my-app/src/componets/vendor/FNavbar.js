@@ -9,6 +9,7 @@ export default class Navbar extends Component {
     super(props);
     this.state = {
       user: "",
+      isAuth: false,
     };
   }
   componentDidMount = async () => {
@@ -25,7 +26,7 @@ export default class Navbar extends Component {
     this.setState({
       user: res.data.data,
     });
-    console.log(this.state.user.name);
+    // console.log(this.state.user.name);
   };
   onLogout = async (e) => {
     e.preventDefault();

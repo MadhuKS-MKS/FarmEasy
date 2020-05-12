@@ -20,35 +20,37 @@ export default class Navbar extends Component {
     };
     this.onLogout = this.onLogout.bind(this);
   }
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     this.setState({
       isAuth: sessionStorage.getItem("isAuth"),
     });
     // getting user
     if (this.state.isAuth) {
-      const token = sessionStorage.getItem("token");
+      try {
+        const token = sessionStorage.getItem("token");
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      };
-      const res = await axios.get(
-        `http://localhost:5000/api/v1/auth/me`,
-        config
-      );
-      this.setState({
-        user: res.data.data,
-      });
-      const result = await axios.get(
-        `http://localhost:5000/api/v1/public/cart`,
-        config
-      );
-      this.setState({
-        items: result.data.data,
-      });
-      console.log(this.state.items);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const res = await axios.get(
+          `http://localhost:5000/api/v1/auth/me`,
+          config
+        );
+        this.setState({
+          user: res.data.data,
+        });
+        const result = await axios.get(
+          `http://localhost:5000/api/v1/public/cart`,
+          config
+        );
+        this.setState({
+          items: result.data.count,
+        });
+        console.log(result);
+      } catch (err) {}
     }
   };
   onLogout = async (e) => {
@@ -75,12 +77,13 @@ export default class Navbar extends Component {
   render() {
     // console.log(this.state.isAuth);
     let cart;
-    let profile;
+    let profile, login;
     if (this.state.isAuth === "true") {
       cart = (
-        <ul className="nav navbar-nav navbar-left">
-          <li className="dropdown">
-            <a
+        <ul className="nav navbar-nav navbar-right ml-5 mr-5 ">
+          {/* <li className="dropdown"> */}
+          {this.state.items}
+          {/* <a
               href="#"
               className="dropdown-toggle"
               data-toggle="dropdown"
@@ -92,14 +95,14 @@ export default class Navbar extends Component {
                 className="fa fa-shopping-cart fa-2x "
                 aria-hidden="true"
                 style={{ color: "#f2f2f3  " }}
-              ></span>{" "}
-            </a>
-            <ul className="dropdown-menu dropdown-cart" role="menu">
-              {this.state.items.map((item) => (
+              ></span> */}
+          {/* </a> */}
+          {/* <ul className="dropdown-menu dropdown-cart" role="menu"> */}
+          {/* {this.state.items.map((item) => (
                 <li key={item._id}>
                   <span className="item">
                     <span className="item-left">
-                      {/* <img src="http://lorempixel.com/50/50/" alt="" /> */}
+                      {/* <img src="http://lorempixel.com/50/50/" alt="" /> 
                       <span className="item-info">
                         <span>{item.title}</span>
                         <span>{item.rate}</span>
@@ -112,44 +115,45 @@ export default class Navbar extends Component {
                     </span>
                   </span>
                 </li>
-              ))}
+              ))} */}
 
-              <li>
-                <span className="item">
-                  <span className="item-left">
-                    <img src="http://lorempixel.com/50/50/" alt="" />
-                    <span className="item-info">
-                      <span>Item name</span>
-                      <span>23$</span>
-                    </span>
-                  </span>
-                  <span className="item-right">
-                    <button className="btn btn-xs btn-danger pull-right">
-                      x
-                    </button>
-                  </span>
-                </span>
-              </li>
-              <li className="divider"></li>
-              <li>
-                <Link
-                  className="btn btn-success text-center pull-right mt-3 mr-3"
-                  to={{
-                    pathname: "/cart",
-                    state: {
-                      user: this.state.user._id,
-                    },
-                  }}
-                >
-                  View Cart
-                </Link>
-              </li>
-            </ul>
+          {/* <li className="divider"></li> */}
+          <li>
+            {/* <Link
+              className="btn btn-success text-center pull-right mt-3 mr-3"
+              to={{
+                pathname: "/cart",
+                state: {
+                  user: this.state.user._id,
+                },
+              }}
+            >
+              View Cart
+            </Link> */}
+            <Link
+              className="dropdown text-center "
+              to={{
+                pathname: "/cart",
+                state: {
+                  user: this.state.user._id,
+                },
+              }}
+            >
+              {this.state.items.count}
+              <span
+                className="fa fa-shopping-cart fa-2x "
+                aria-hidden="true"
+                style={{ color: "#f2f2f3  " }}
+              ></span>
+              {this.state.items}
+            </Link>
           </li>
+          {/* </ul> */}
+          {/* </li> */}
         </ul>
       );
       profile = (
-        <ul className="navbar-nav ml-5">
+        <ul className="navbar-nav">
           {" "}
           <li className="nav-item dropdown">
             <a
@@ -208,6 +212,30 @@ export default class Navbar extends Component {
           </li>
         </ul>
       );
+    } else {
+      login = (
+        <li className="nav-item dropdown mr-5">
+          <a
+            className="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Login
+          </a>
+          <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a className="dropdown-item" href="/Login/user">
+              As User
+            </a>
+            <a className="dropdown-item" href="/Login/vendor">
+              As Farmer
+            </a>
+          </div>
+        </li>
+      );
     }
     return (
       <nav className="navbar navbar-default navbar-expand-md fixed-top navbar-trans">
@@ -227,8 +255,6 @@ export default class Navbar extends Component {
           </button>
           <a className="logo" href="/">
             <img src={logo} alt="" className=""></img>
-            {/* Farm
-            <span className="color-b">Easy</span> */}
           </a>
           <button
             type="button"
@@ -266,7 +292,8 @@ export default class Navbar extends Component {
                   Contact
                 </a>
               </li>
-              <li className="nav-item dropdown mr-5">
+              {login}
+              {/* <li className="nav-item dropdown mr-5">
                 <a
                   className="nav-link dropdown-toggle"
                   href="#"
@@ -286,8 +313,9 @@ export default class Navbar extends Component {
                     As Farmer
                   </a>
                 </div>
-              </li>
+              </li> */}
             </ul>
+
             {cart}
             {profile}
           </div>

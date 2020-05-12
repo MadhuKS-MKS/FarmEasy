@@ -1,26 +1,60 @@
 import React from "react";
 import Showitems from "./Showitems";
+import axios from "axios";
 
 class itemList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cat: "",
+      products: [],
     };
     this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  componentDidMount = (async) => {
+  componentDidMount = async () => {
     this.props.getCategory();
-    this.props.getproducts(this.props.match.params);
+    // this.props.getproducts();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.get(
+        ` http://localhost:5000/api/v1/products`,
+        config
+      );
+      this.setState({
+        products: res.data.data,
+      });
+      console.log(this.state.products);
+    } catch (err) {
+      console.log("Can't load the items");
+    }
   };
-  onClickHandler = (e) => {
-    this.setState({ cat: e.target.value });
-    console.log(e.target.name);
+  onClickHandler = async (cat, e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const res = await axios.get(
+        ` http://localhost:5000/api/v1/category/${cat}/products`,
+        config
+      );
+      this.setState({
+        products: res.data.data,
+      });
+    } catch (err) {
+      console.log("Can't load the items");
+    }
   };
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div>
         <section>
@@ -38,10 +72,11 @@ class itemList extends React.Component {
                     {this.props.category.map((cat) => (
                       <li
                         data-filter=".filter-app"
-                        onClick={this.onClickHandler}
+                        onClick={(e) => this.onClickHandler(cat._id, e)}
                         key={cat._id}
                         name={cat._id}
-                        value={cat._id}
+                        value={cat.id}
+                        // onChange={this.onChange}
                       >
                         {cat.catname}
                       </li>
@@ -55,7 +90,7 @@ class itemList extends React.Component {
                 style={{ opacity: 1 }}
               >
                 {/* listing of products */}
-                {this.props.products.map((product) => (
+                {this.state.products.map((product) => (
                   <Showitems product={product} key={product._id}></Showitems>
                 ))}
               </div>

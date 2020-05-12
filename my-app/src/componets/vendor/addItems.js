@@ -13,7 +13,7 @@ export default class addItems extends Component {
       description: "",
       stock: "",
       rate: "",
-      category: "",
+      cat: "",
       file: null,
     };
     this.onChange = this.onChange.bind(this);
@@ -30,7 +30,7 @@ export default class addItems extends Component {
   }
   // Dropdown change
   handleDropdownChange(e) {
-    this.setState({ category: e.target.value });
+    this.setState({ cat: e.target.value });
   }
   // fileupload
   onChangeHandler = (e) => {
@@ -40,32 +40,32 @@ export default class addItems extends Component {
   };
   onSubmit = async (e) => {
     e.preventDefault();
-    // const data = new FormData();
-    // data.append("file", this.state.file, this.state.file.name);
+    const data = new FormData();
+    data.append("file", this.state.file, this.state.file.name);
 
     // console.log(data);
     const token = sessionStorage.getItem("token");
-    // const config = {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    };
     try {
-      // const res = await axios.post(
-      //   `http://localhost:5000/api/v1/vendors/products/photo`,
-      //   data,
-      //   config
-      // );
-      // console.log(res.data.data);
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/vendors/products/photo`,
+        data,
+        config
+      );
+      console.log(res.data.data);
 
       const products = {
         title: this.state.title,
         description: this.state.description,
-        category: this.state.category,
+        category: this.state.cat,
         rate: this.state.rate,
         stock: this.state.stock,
-        // photo: res.data.data,
+        photo: res.data.data,
       };
       const body = JSON.stringify(products);
       console.log(body);
@@ -81,7 +81,7 @@ export default class addItems extends Component {
         config1
       );
       console.log(result.data.data);
-      alert(`Product Addred ${result.data.data.title}`);
+      alert(`Product Added ${result.data.data.title}`);
     } catch (err) {
       // console.log("Can't load the items");
     }
@@ -89,7 +89,7 @@ export default class addItems extends Component {
   render() {
     return (
       <div className="container itmtop">
-        {console.log(this.state)}
+        {/* {console.log(this.state)} */}
         <div className="">
           {/* <div className="jumbotron col-md-6 col-sm-5 " id="login-first"></div> */}
           <div className="jumbotron" id="login-second">
@@ -133,38 +133,18 @@ export default class addItems extends Component {
                       </div>
                       <div className="form-row frow">
                         <div className="name">Select Category:</div>
-                        {/* <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            Category
-                          </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            {this.props.category.map((category) => (
-                              <Dropdown.Item key={category._id}>
-                                {category.catname}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown> */}
                         <select
                           id="dropdown "
                           className="btn bg-success"
                           onChange={this.handleDropdownChange}
                         >
                           <option value="no cat">None</option>
-                          {this.props.category.map((category) => (
-                            <option key={category._id} value={category._id}>
-                              {category.catname}
+                          {this.props.category.map((cate) => (
+                            <option key={cate._id} value={cate._id}>
+                              {cate.catname}
                             </option>
                           ))}
-                          {/* <option value="N/A">N/A</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option> */}
                         </select>
                       </div>
                       <div className="form-row frow">
@@ -202,11 +182,12 @@ export default class addItems extends Component {
                         <div className="value">
                           <div className="input-group js-input-file">
                             <input
-                              className="input-file"
-                              type="file"
                               name="file"
+                              type="file"
+                              placeholder=""
                               id="file"
                               onChange={this.onChangeHandler}
+                              className="form-control-file input-md"
                             />
                             <label className="label-file" htmlFor="file">
                               Choose file

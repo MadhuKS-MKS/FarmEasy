@@ -13,6 +13,7 @@ export default class cart extends Component {
       items: [],
       user: "",
       isAuth: null,
+      count: 0,
     };
     // this.onLogout = this.onLogout.bind(this);
   }
@@ -34,7 +35,7 @@ export default class cart extends Component {
       this.setState({
         items: result.data.data,
       });
-      console.log(this.state.items);
+      console.log(result.data.count);
     } catch (err) {
       console.log("Can't load the items");
     }
@@ -149,6 +150,7 @@ export default class cart extends Component {
                     </div>
                   </td>
                   <td data-th="Price">${item.rate}</td>
+
                   <td data-th="Quantity">
                     <input
                       type="text"
@@ -183,7 +185,7 @@ export default class cart extends Component {
             <tfoot>
               <tr className="visible-xs">
                 <td className="text-center">
-                  <strong>Total 1.99</strong>
+                  <strong>Total:{this.state.count}</strong>
                 </td>
               </tr>
               <tr>
@@ -194,7 +196,7 @@ export default class cart extends Component {
                 </td>
                 <td colSpan="2" className="hidden-xs"></td>
                 <td className="hidden-xs text-center">
-                  <strong>Total $1.99</strong>
+                  <strong>Total {this.state.count}</strong>
                 </td>
                 <td>
                   <a

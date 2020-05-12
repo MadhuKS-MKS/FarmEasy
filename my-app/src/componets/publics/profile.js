@@ -21,7 +21,7 @@ export default class editProf extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(this.props.location);
+    console.log(this.props.location.state.token);
   };
 
   // Input on change
@@ -30,38 +30,61 @@ export default class editProf extends Component {
       [e.target.name]: e.target.value,
     });
   };
-
+  // fileupload
+  onChangeHandler = (e) => {
+    this.setState({
+      file: e.target.files[0],
+    });
+  };
   // update details
   onSubmitDeatils = async (e) => {
     e.preventDefault();
-
+    const data = new FormData();
+    data.append("file", this.state.file, this.state.file.name);
     const token = this.props.location.state.token;
-    const details = {
-      name: this.state.name,
-      address: this.state.address,
-      phone: this.state.phone,
-      dob: this.state.dob,
-    };
-    console.log(token);
-    const body = JSON.stringify(details);
+    // console.log(data);
+    // const token = sessionStorage.getItem("token");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     };
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/v1/public/`,
-        body,
+        `http://localhost:5000/api/v1/public/photo`,
+        data,
         config
       );
-      console.log(res);
+
+      const details = {
+        name: this.state.name,
+        address: this.state.address,
+        phone: this.state.phone,
+        dob: this.state.dob,
+        email: this.state.email,
+        photo: res.data.data,
+      };
+      console.log(token);
+      const body = JSON.stringify(details);
+      const config1 = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      };
+
+      const res1 = await axios.post(
+        `http://localhost:5000/api/v1/public/`,
+        body,
+        config1
+      );
+      console.log(res1);
       alert("Profile Added");
       this.setState({
         auth: true,
       });
-      //   <Redirect to="/user/Home" />;
+      // <Redirect to="/user/Home" />;
     } catch (err) {
       console.log("Can't load the items");
     }
@@ -203,6 +226,23 @@ export default class editProf extends Component {
                                     value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control input-md"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="form-group">
+                              <div className="">
+                                <div className="input-group">
+                                  <div className="input-group-addon">
+                                    Photo Upload :
+                                  </div>
+                                  <input
+                                    name="file"
+                                    type="file"
+                                    placeholder=""
+                                    id="file"
+                                    onChange={this.onChangeHandler}
+                                    className="form-control-file input-md"
                                   />
                                 </div>
                               </div>

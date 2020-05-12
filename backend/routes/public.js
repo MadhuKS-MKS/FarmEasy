@@ -26,7 +26,7 @@ router.use("/cart", cartRouter);
 
 // router.route("/radius/:zipcode/:distance").get(getVendorsInRadius);
 
-router.route("/:publicId/photo").put(protect, publicPhotoUpload);
+router.route("/photo").post(protect, publicPhotoUpload);
 
 router
   .route("/")

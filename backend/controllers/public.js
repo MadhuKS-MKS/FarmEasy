@@ -121,30 +121,9 @@ exports.deletePublic = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Upload photo for public
-// @route     PUT /api/v1/public/:publicId/photo
+// @route     POST /api/v1/public/photo
 // @access    Private
 exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
-  const public = await Public.findById(req.params.publicId);
-
-  if (!public) {
-    return next(
-      new ErrorResponse(`public not found with id of ${req.params.id}`, 404)
-    );
-  }
-
-  // // Make sure user is public owner
-  if (public.user.toString() !== req.user.id && req.user.role !== "admin") {
-    return next(
-      new ErrorResponse(
-        `User ${req.params.id} is not authorized to update this public`,
-        401
-      )
-    );
-  }
-  if (!req.files) {
-    return next(new ErrorResponse(`Please upload a file`, 400));
-  }
-
   const file = req.files.file;
 
   // Make sure the image is a photo
@@ -171,46 +150,11 @@ exports.publicPhotoUpload = asyncHandler(async (req, res, next) => {
       }
 
       const files = `/uploads/profile/${file.name}`;
-      await Public.findByIdAndUpdate(req.params.id, { photo: files });
+      // await Public.findByIdAndUpdate(req.params.id, { photo: files });
       res.status(200).json({
         success: true,
         data: files,
       });
     }
   );
-  // if (!req.files) {
-  //   return next(new ErrorResponse(`Please upload a file`, 400));
-  // }
-
-  // const file = req.files.file;
-
-  // // Make sure the image is a photo
-  // if (!file.mimetype.startsWith("image")) {
-  //   return next(new ErrorResponse(`Please upload an image file`, 400));
-  // }
-
-  // // Check filesize
-  // if (file.size > process.env.MAX_FILE_UPLOAD) {
-  //   return next(
-  //     new ErrorResponse(
-  //       `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
-  //       400
-  //     )
-  //   );
-  // }
-
-  // // Create custom filename
-  // file.name = `photo_${public._id}${path.parse(file.name).ext}`;
-
-  // file.mv(`${process.env.FILE_UPLOAD_PATH_2}/${file.name}`, async (err) => {
-  //   if (err) {
-  //     console.error(err);
-  //     return next(new ErrorResponse(`Problem with file upload`, 500));
-  //   }
-
-  //   res.status(200).json({
-  //     success: true,
-  //     data: file.name,
-  //   });
-  // });
 });
